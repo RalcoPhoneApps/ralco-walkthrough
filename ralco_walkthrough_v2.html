@@ -5,19 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>RALCO Field Walkthrough</title>
 <style>
-:root {
-  --navy: #1A3A5C;
-  --gold: #FFAA00;
-  --red: #CC2229;
-  --bg: #0f1e2e;
-  --surface: #162840;
-  --surface2: #1e3550;
-  --border: #2a4a6a;
-  --text: #e8f0f8;
-  --muted: #7a9bbf;
-  --green: #2ecc71;
-  --font: 'Segoe UI', system-ui, sans-serif;
-}
+:root{--navy:#1A3A5C;--gold:#FFAA00;--red:#CC2229;--bg:#0f1e2e;--surface:#162840;--surface2:#1e3550;--border:#2a4a6a;--text:#e8f0f8;--muted:#7a9bbf;--green:#2ecc71;--font:'Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
@@ -29,8 +17,7 @@ header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 1
 .screen.active{display:block}
 .jobs-header{padding:16px;display:flex;justify-content:space-between;align-items:center}
 .jobs-header h2{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
-.job-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:0 16px 12px;padding:14px;transition:border-color 0.15s}
-.job-card:active{border-color:var(--gold)}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:0 16px 12px;padding:14px}
 .job-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
 .job-customer{font-size:16px;font-weight:700}
 .job-status{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px}
@@ -60,69 +47,74 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .btn-outline:active{background:var(--surface2)}
 .btn-green{background:var(--green);color:#0f1e2e}
 .btn-sm{padding:7px 11px;font-size:12px}
-.btn-full{width:100%}
-.room-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
-.room-item.active-room{border-color:var(--gold);background:rgba(255,170,0,0.04)}
-.room-name{font-weight:600;font-size:15px}
-.room-meta{font-size:11px;color:var(--muted);margin-top:2px}
-.room-qty-badge{font-size:20px;font-weight:800;color:var(--gold);min-width:32px;text-align:right}
-.eq-panel{background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:14px;margin-bottom:12px}
-.eq-panel-title{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px}
-.eq-group-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;padding-left:2px;border-top:1px solid var(--border);padding-top:10px}
-.eq-group-label:first-of-type{border-top:none;padding-top:0}
-.eq-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;gap:8px}
-.eq-sub{margin-left:12px;border-left:2px solid var(--border)}
-.eq-label{flex:1;min-width:0;cursor:pointer}
-.eq-label-text{font-size:13px;font-weight:500;line-height:1.3}
-.eq-label-abbr{font-size:10px;color:var(--muted);margin-top:1px}
-.eq-controls{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.counter{display:flex;align-items:center;border:1px solid var(--border);border-radius:7px;overflow:hidden}
-.counter-btn{width:38px;height:38px;border:none;background:var(--surface2);color:var(--text);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.counter-btn:active{background:var(--border)}
-.counter-input{width:48px;height:38px;text-align:center;font-size:16px;font-weight:800;color:var(--gold);background:var(--bg);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0;font-family:var(--font)}
-.counter-input:focus{outline:none;background:rgba(255,170,0,0.06)}
-.svc-badge{padding:4px 7px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid transparent;flex-shrink:0;letter-spacing:0.3px;min-width:4px}
-.svc-default{opacity:0;pointer-events:none;width:0;padding:0;border:none}
-.svc-basic{background:rgba(122,155,191,0.15);color:var(--muted);border-color:var(--border)}
-.svc-full{background:rgba(255,170,0,0.15);color:var(--gold);border-color:var(--gold)}
-.svc-den{background:rgba(204,34,41,0.15);color:#ff8888;border-color:var(--red)}
-.svc-ir{background:rgba(46,204,113,0.12);color:#7be0a8;border-color:#2ecc71}
-.svc-ut{background:rgba(100,180,255,0.15);color:#7ec8ff;border-color:#4ab0ff}
-.svc-af{background:rgba(180,100,255,0.15);color:#cc88ff;border-color:#9944ff}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:none;align-items:flex-end;justify-content:center}
-.modal-overlay.open{display:flex}
-.svc-picker{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px 16px 36px;width:100%;max-width:480px}
-.svc-picker-title{font-size:11px;color:var(--muted);text-align:center;margin-bottom:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.svc-picker-eq{font-size:15px;font-weight:700;text-align:center;margin-bottom:16px;line-height:1.3}
-.svc-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.svc-option{padding:14px 10px;border-radius:8px;border:2px solid var(--border);background:var(--bg);cursor:pointer;text-align:center;transition:all 0.15s}
-.svc-option.selected{border-color:var(--gold);background:rgba(255,170,0,0.08)}
-.svc-option-name{font-size:13px;font-weight:700}
-.svc-option-col{font-size:11px;color:var(--muted);margin-top:3px}
-.opt-basic.selected{border-color:var(--muted)}
-.opt-full.selected{border-color:var(--gold)}
-.opt-den.selected{border-color:var(--red)}
-.opt-ir.selected{border-color:#2ecc71}
-.opt-ut.selected{border-color:#4ab0ff}
-.opt-af.selected{border-color:#9944ff}
-.sum-table{width:100%;border-collapse:collapse;font-size:13px}
-.sum-table th{text-align:left;padding:7px 10px;background:var(--surface2);color:var(--muted);font-size:11px;letter-spacing:0.5px;text-transform:uppercase}
-.sum-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
-.sum-table .total-row td{font-weight:700;color:var(--gold);background:rgba(255,170,0,0.05)}
+.btn-full{width:100%;margin-top:10px}
 .row{display:flex;gap:10px}
 .row>*{flex:1}
 .mt{margin-top:10px}
-.section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .divider{border:none;border-top:1px solid var(--border);margin:14px 0}
+.section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .other-flag{background:rgba(204,34,41,0.1);border:1px solid var(--red);border-radius:6px;padding:8px 12px;font-size:12px;color:#ff8888}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#0f1e2e;padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap}
-.toast.show{opacity:1}
 .back-btn{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;padding:4px 0;margin-bottom:8px}
 .back-btn:active{color:var(--gold)}
 .tier-btn{width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;text-align:left;margin-bottom:8px;transition:all 0.15s}
 .tier-btn.selected{border-color:var(--gold);background:rgba(255,170,0,0.06)}
 .tier-name{font-weight:700;font-size:14px}
 .tier-desc{font-size:11px;color:var(--muted);margin-top:3px}
+/* BUILDINGS */
+.bldg-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:6px}
+.bldg-name{font-size:14px;font-weight:600}
+.bldg-select{background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--muted);font-size:11px;padding:4px 6px;width:auto;margin-top:4px}
+/* ROOMS */
+.room-item{display:flex;align-items:flex-start;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;gap:8px}
+.room-item.active-room{border-color:var(--gold);background:rgba(255,170,0,0.04)}
+.room-name{font-weight:600;font-size:15px}
+.room-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.room-qty-badge{font-size:20px;font-weight:800;color:var(--gold);min-width:32px;text-align:right;margin-top:2px}
+/* EQUIPMENT PANEL */
+.eq-panel{background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:14px;margin-bottom:12px}
+.eq-panel-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:12px}
+.eq-group-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;padding-top:10px;border-top:1px solid var(--border)}
+/* KEY FIX: equipment rows stack label on top, controls below */
+.eq-row{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:6px}
+.eq-sub{margin-left:10px;border-left:2px solid var(--border)}
+.eq-label-top{margin-bottom:8px}
+.eq-label-text{font-size:14px;font-weight:500;line-height:1.4;color:var(--text)}
+.eq-controls-row{display:flex;align-items:center;gap:8px}
+/* SERVICE PILL */
+.svc-pill{flex-shrink:0;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--muted);white-space:nowrap;transition:all 0.15s}
+.svc-pill.svc-override{border-color:var(--gold);color:var(--gold);background:rgba(255,170,0,0.1)}
+.svc-basic{color:var(--muted)}
+.svc-full{color:#7ec8ff;border-color:#4ab0ff;background:rgba(100,180,255,0.1)}
+.svc-full_af{color:#cc88ff;border-color:#9944ff;background:rgba(180,100,255,0.1)}
+.svc-full_den{color:#ff8888;border-color:var(--red);background:rgba(204,34,41,0.1)}
+.svc-full_all{color:#ffcc44;border-color:var(--gold);background:rgba(255,170,0,0.12)}
+.svc-ir{color:#7be0a8;border-color:#2ecc71;background:rgba(46,204,113,0.1)}
+.svc-ut{color:#7ec8ff;border-color:#4ab0ff;background:rgba(100,180,255,0.1)}
+/* COUNTER */
+.counter{display:flex;align-items:center;border:1px solid var(--border);border-radius:7px;overflow:hidden;flex:1}
+.counter-btn{width:42px;height:42px;border:none;background:var(--surface2);color:var(--text);font-size:22px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.counter-btn:active{background:var(--border)}
+.counter-input{flex:1;height:42px;text-align:center;font-size:18px;font-weight:800;color:var(--gold);background:var(--bg);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0;font-family:var(--font);min-width:0}
+.counter-input:focus{outline:none;background:rgba(255,170,0,0.06)}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.svc-picker{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px 16px 36px;width:100%;max-width:480px}
+.svc-picker-title{font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.svc-picker-default{font-size:11px;color:var(--muted);text-align:center;margin-bottom:12px}
+.svc-picker-eq{font-size:15px;font-weight:700;text-align:center;margin-bottom:16px;line-height:1.3}
+.svc-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.svc-option{padding:13px 10px;border-radius:8px;border:2px solid var(--border);background:var(--bg);cursor:pointer;text-align:center;transition:all 0.15s}
+.svc-option.selected{border-color:var(--gold);background:rgba(255,170,0,0.08)}
+.svc-option-name{font-size:13px;font-weight:700;line-height:1.3}
+/* SUMMARY */
+.sum-table{width:100%;border-collapse:collapse;font-size:13px}
+.sum-table th{text-align:left;padding:7px 10px;background:var(--surface2);color:var(--muted);font-size:11px;letter-spacing:0.5px;text-transform:uppercase}
+.sum-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.sum-table .total-row td{font-weight:700;color:var(--gold);background:rgba(255,170,0,0.05)}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#0f1e2e;padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
@@ -132,12 +124,12 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <div class="logo">RALCO</div>
     <div class="subtitle">Field Walkthrough</div>
   </div>
-  <div class="header-right" id="header-right" onclick="headerAction()">
+  <div class="header-right" onclick="headerAction()">
     <span id="header-label">Jobs</span>
   </div>
 </header>
 
-<!-- JOBS LIST SCREEN -->
+<!-- JOBS LIST -->
 <div id="screen-jobs" class="screen active">
   <div class="jobs-header">
     <h2>Jobs</h2>
@@ -160,7 +152,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <button class="nav-tab" onclick="showTab('summary')">Summary</button>
   </div>
 
-  <!-- SETUP -->
+  <!-- SETUP TAB -->
   <div id="tab-setup" class="tab-view active">
     <div class="back-btn" onclick="goJobs()">← Jobs List</div>
     <div class="card">
@@ -173,8 +165,6 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
         <div><label>Date</label><input type="text" id="f-date" placeholder="MM/DD/YYYY" oninput="saveField('date',this.value)"></div>
         <div><label>Sales Rep</label><input type="text" id="f-rep" placeholder="Name" oninput="saveField('rep',this.value)"></div>
       </div>
-      <div class="mt"><label>Building Name <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-      <input type="text" id="f-building" placeholder="Main Bldg." oninput="saveField('building',this.value)"></div>
       <div class="mt"><label>Site Notes</label>
       <textarea id="f-notes" rows="2" style="resize:none" placeholder="General observations..." oninput="saveField('notes',this.value)"></textarea></div>
     </div>
@@ -182,9 +172,17 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <div class="card-title">Default Service Tier</div>
       <div id="tier-list"></div>
     </div>
+    <div class="card">
+      <div class="card-title">Buildings</div>
+      <div class="row">
+        <input type="text" id="new-bldg-input" placeholder="Building name or #..." onkeydown="if(event.key==='Enter')addBuilding()">
+        <button class="btn btn-gold btn-sm" onclick="addBuilding()">+ Add</button>
+      </div>
+      <div id="building-list" class="mt"></div>
+    </div>
   </div>
 
-  <!-- ROOMS -->
+  <!-- ROOMS TAB -->
   <div id="tab-rooms" class="tab-view">
     <div class="card">
       <div class="card-title">Rooms / Areas <span id="room-count-badge" style="color:var(--muted);font-weight:400;font-size:11px"></span></div>
@@ -197,7 +195,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <div id="eq-panel" style="display:none"></div>
   </div>
 
-  <!-- LOG -->
+  <!-- LOG TAB -->
   <div id="tab-log" class="tab-view">
     <div class="card">
       <div class="card-title">Field Notes</div>
@@ -213,13 +211,13 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     </div>
   </div>
 
-  <!-- SUMMARY -->
+  <!-- SUMMARY TAB -->
   <div id="tab-summary" class="tab-view">
     <div class="card">
       <div class="card-title">Equipment Totals</div>
       <div id="sum-job-info" style="font-size:12px;color:var(--muted);margin-bottom:12px"></div>
       <table class="sum-table">
-        <thead><tr><th>Equipment</th><th style="text-align:right">Qty</th><th style="text-align:right">Service</th></tr></thead>
+        <thead><tr><th>Equipment</th><th style="text-align:right">Qty</th><th style="text-align:right">Svc</th></tr></thead>
         <tbody id="sum-body"></tbody>
       </table>
     </div>
@@ -235,8 +233,8 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <div class="card-title">Site Observations</div>
       <div id="sum-obs"></div>
     </div>
-    <button class="btn btn-outline btn-full mt" onclick="copyText()">📋 Copy as Text</button>
-    <button class="btn btn-green btn-full mt" onclick="exportJob()" style="margin-top:10px">📥 Export to Excel</button>
+    <button class="btn btn-outline btn-full" onclick="copyText()">📋 Copy as Text</button>
+    <button class="btn btn-green btn-full" onclick="exportJob()">📥 Export to Excel</button>
   </div>
 </div>
 
@@ -244,6 +242,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 <div class="modal-overlay" id="svc-modal" onclick="closeSvcModal(event)">
   <div class="svc-picker">
     <div class="svc-picker-title">Set Service Type</div>
+    <div class="svc-picker-default" id="svc-modal-default"></div>
     <div class="svc-picker-eq" id="svc-modal-eq-name"></div>
     <div class="svc-options" id="svc-options-grid"></div>
     <button class="btn btn-outline btn-full" onclick="closeSvcModalBtn()">Cancel</button>
@@ -257,7 +256,7 @@ const TEMPLATE_B64 = "UEsDBBQABgAIAAAAIQCa+WRnpAEAAIYMAAATAAgCW0NvbnRlbnRfVHlwZX
 </script>
 <script>
 // ═══════════════════════════════════════════════════════
-// DEFENSIVE LOCALSTORAGE
+// STORAGE
 // ═══════════════════════════════════════════════════════
 var _store = {};
 var _useLS = (function(){
@@ -310,22 +309,40 @@ const EQUIPMENT = [
   {id:'ups_lg',       label:'Uninterruptible Power Supply (UPS) > 50kVA',                     group:'UPS'},
 ];
 
+// Service types — AF always paired with Full EPM, never standalone
 const SVC_TYPES = [
-  {id:'basic', name:'Basic EPM',    col:'E', colIdx:4, cls:'opt-basic'},
-  {id:'full',  name:'Full EPM',     col:'F', colIdx:5, cls:'opt-full'},
-  {id:'den',   name:'De-Energized', col:'G', colIdx:6, cls:'opt-den'},
-  {id:'ir',    name:'IR Only',      col:'H', colIdx:7, cls:'opt-ir'},
-  {id:'ut',    name:'UT Only',      col:'I', colIdx:8, cls:'opt-ut'},
-  {id:'af',    name:'AF Collection',col:'J', colIdx:9, cls:'opt-af'},
+  {id:'basic',     name:'Basic EPM',                  short:'Basic',       colIdx:4},
+  {id:'full',      name:'Full EPM',                   short:'Full',        colIdx:5},
+  {id:'full_af',   name:'Full EPM + Arc Flash',       short:'Full+AF',     colIdx:5, afCol:true},
+  {id:'full_den',  name:'Full EPM + De-Energized',    short:'Full+De-En',  colIdx:5, denCol:true},
+  {id:'full_all',  name:'Full EPM + De-En + AF',      short:'Full+All',    colIdx:5, denCol:true, afCol:true},
+  {id:'ir',        name:'IR Only',                    short:'IR',          colIdx:7},
+  {id:'ut',        name:'UT Only',                    short:'UT',          colIdx:8},
 ];
 
+// Map svc id to which qty columns get populated
+// For export: basic=E, full variants=F, den also=G, af also=J, ir=H, ut=I
+function getSvcCols(svcId) {
+  const map = {
+    basic:    [4],
+    full:     [5],
+    full_af:  [5,9],
+    full_den: [5,6],
+    full_all: [5,6,9],
+    ir:       [7],
+    ut:       [8],
+  };
+  return map[svcId] || [4];
+}
+
 const TIERS = [
-  {id:'basic', name:'Basic EPM',               desc:'IR Thermography + Ultrasonic'},
-  {id:'full',  name:'Full EPM',                desc:'Full predictive maintenance suite'},
-  {id:'den',   name:'Full EPM + De-Energized', desc:'Full EPM + breaker/contact testing'},
-  {id:'ir',    name:'IR Only',                 desc:'Thermography only'},
-  {id:'ut',    name:'UT Only',                 desc:'Ultrasonic only'},
-  {id:'af',    name:'AF Collection',           desc:'Arc flash data collection'},
+  {id:'basic',    name:'Basic EPM',             desc:'IR Thermography + Ultrasonic'},
+  {id:'full',     name:'Full EPM',              desc:'Full predictive maintenance suite'},
+  {id:'full_af',  name:'Full EPM + Arc Flash',  desc:'Full EPM + arc flash data collection'},
+  {id:'full_den', name:'Full EPM + De-En',      desc:'Full EPM + de-energized testing'},
+  {id:'full_all', name:'Full EPM + De-En + AF', desc:'Complete scope'},
+  {id:'ir',       name:'IR Only',               desc:'Thermography only'},
+  {id:'ut',       name:'UT Only',               desc:'Ultrasonic only'},
 ];
 
 // ═══════════════════════════════════════════════════════
@@ -402,8 +419,8 @@ function newJob() {
   const id = 'job_' + Date.now();
   jobs.unshift({
     id, customer:'', address:'', date:'', rep:'',
-    building:'', notes:'', tier:'basic',
-    rooms:[], fieldNotes:'', observations:[]
+    notes:'', tier:'basic',
+    buildings:[], rooms:[], fieldNotes:'', observations:[]
   });
   saveAll();
   openJob(id);
@@ -416,6 +433,7 @@ function openJob(id) {
   document.getElementById('header-label').textContent = j.customer || 'New Job';
   restoreJobFields();
   renderTiers();
+  renderBuildingList();
   renderRoomList();
   renderObsList();
   showScreen('job');
@@ -425,8 +443,7 @@ function openJob(id) {
 function deleteJob(id) {
   if (!confirm('Delete this job? This cannot be undone.')) return;
   jobs = jobs.filter(j => j.id !== id);
-  saveAll();
-  renderJobsList();
+  saveAll(); renderJobsList();
 }
 
 function renameJob(id) {
@@ -434,8 +451,7 @@ function renameJob(id) {
   const name = prompt('Customer name:', j.customer || '');
   if (name === null) return;
   j.customer = name.trim();
-  saveAll();
-  renderJobsList();
+  saveAll(); renderJobsList();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -454,7 +470,6 @@ function restoreJobFields() {
   document.getElementById('f-address').value = j.address || '';
   document.getElementById('f-date').value = j.date || '';
   document.getElementById('f-rep').value = j.rep || '';
-  document.getElementById('f-building').value = j.building || '';
   document.getElementById('f-notes').value = j.notes || '';
   document.getElementById('f-fieldnotes').value = j.fieldNotes || '';
 }
@@ -479,6 +494,50 @@ function selectTier(id) {
 }
 
 // ═══════════════════════════════════════════════════════
+// BUILDINGS
+// ═══════════════════════════════════════════════════════
+function addBuilding() {
+  const j = getJob(); if (!j) return;
+  const inp = document.getElementById('new-bldg-input');
+  const name = inp.value.trim();
+  if (!name) return;
+  if (!j.buildings) j.buildings = [];
+  const id = 'bldg_' + Date.now();
+  j.buildings.push({id, name});
+  inp.value = '';
+  saveAll();
+  renderBuildingList();
+  // also refresh room list so building dropdowns update
+  if (activeRoomId) renderEqPanel();
+}
+
+function deleteBuilding(id) {
+  const j = getJob(); if (!j) return;
+  if (!confirm('Delete this building? Rooms assigned to it will be unassigned.')) return;
+  j.buildings = (j.buildings||[]).filter(b => b.id !== id);
+  // unassign rooms that were in this building
+  j.rooms.forEach(r => { if (r.buildingId === id) r.buildingId = null; });
+  saveAll();
+  renderBuildingList();
+  renderRoomList();
+}
+
+function renderBuildingList() {
+  const j = getJob(); if (!j) return;
+  const el = document.getElementById('building-list');
+  if (!j.buildings || !j.buildings.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 0">No buildings added — rooms will default to "Main Bldg."</div>';
+    return;
+  }
+  el.innerHTML = j.buildings.map(b => `
+    <div class="bldg-item">
+      <div class="bldg-name">${b.name}</div>
+      <button class="btn btn-red btn-sm" onclick="deleteBuilding('${b.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
 // ROOMS
 // ═══════════════════════════════════════════════════════
 function addRoom() {
@@ -488,7 +547,9 @@ function addRoom() {
   if (!name) return;
   if (j.rooms.length >= 30) { toast('Maximum 30 rooms reached'); return; }
   const id = 'rm_' + Date.now();
-  j.rooms.push({id, name, equipment:{}, overrides:{}, otherNotes:''});
+  // default to first building if exists
+  const buildingId = (j.buildings && j.buildings.length) ? j.buildings[0].id : null;
+  j.rooms.push({id, name, buildingId, equipment:{}, overrides:{}, otherNotes:''});
   inp.value = '';
   saveAll();
   renderRoomList();
@@ -516,7 +577,20 @@ function deleteRoom(id) {
   saveAll(); renderRoomList();
 }
 
+function setRoomBuilding(roomId, buildingId) {
+  const room = getRoom(roomId); if (!room) return;
+  room.buildingId = buildingId || null;
+  saveAll();
+  renderRoomList();
+}
+
 function roomTotal(room) { return Object.values(room.equipment||{}).reduce((a,b)=>a+b,0); }
+
+function getBuildingName(j, buildingId) {
+  if (!buildingId) return 'Main Bldg.';
+  const b = (j.buildings||[]).find(x => x.id === buildingId);
+  return b ? b.name : 'Main Bldg.';
+}
 
 function renderRoomList() {
   const j = getJob(); if (!j) return;
@@ -526,18 +600,24 @@ function renderRoomList() {
     el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">No rooms yet. Add one above.</div>';
     return;
   }
-  el.innerHTML = j.rooms.map(r => `
-    <div class="room-item ${activeRoomId===r.id?'active-room':''}" onclick="setActiveRoom('${r.id}')">
-      <div>
+  const hasBldgs = j.buildings && j.buildings.length > 0;
+  el.innerHTML = j.rooms.map(r => {
+    const bldgName = getBuildingName(j, r.buildingId);
+    return `<div class="room-item ${activeRoomId===r.id?'active-room':''}" onclick="setActiveRoom('${r.id}')">
+      <div style="flex:1;min-width:0">
         <div class="room-name">${r.name}</div>
-        <div class="room-meta">${roomTotal(r)} item${roomTotal(r)!==1?'s':''} counted</div>
+        <div class="room-meta">${hasBldgs ? bldgName + ' · ' : ''}${roomTotal(r)} item${roomTotal(r)!==1?'s':''} counted</div>
+        ${hasBldgs ? `<select class="bldg-select" onclick="event.stopPropagation()" onchange="setRoomBuilding('${r.id}',this.value)">
+          <option value="">Main Bldg.</option>
+          ${(j.buildings||[]).map(b => `<option value="${b.id}" ${r.buildingId===b.id?'selected':''}>${b.name}</option>`).join('')}
+        </select>` : ''}
       </div>
-      <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <div class="room-qty-badge">${roomTotal(r)||''}</div>
         <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteRoom('${r.id}')">✕</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -559,25 +639,26 @@ function renderEqPanel() {
   });
 
   const siteDefault = j.tier || 'basic';
-  let html = `<div class="eq-panel"><div class="eq-panel-title">📍 ${room.name}</div>`;
+  const bldgName = getBuildingName(j, room.buildingId);
+
+  let html = `<div class="eq-panel">
+    <div class="eq-panel-title">📍 ${room.name} <span style="font-size:11px;color:var(--muted);font-weight:400">${bldgName}</span></div>`;
 
   groups.forEach(g => {
     html += `<div class="eq-group-label">${g}</div>`;
     groupMap[g].forEach(eq => {
       const qty = room.equipment[eq.id] || 0;
-      const override = room.overrides && room.overrides[eq.id];
-      const showBadge = override && override !== siteDefault;
-      const svcInfo = SVC_TYPES.find(s => s.id === (override || siteDefault));
-      const badgeCls = showBadge ? 'svc-' + override : 'svc-default';
-      const badgeLabel = showBadge ? svcInfo.name : '';
+      const svc = (room.overrides && room.overrides[eq.id]) || siteDefault;
+      const svcInfo = SVC_TYPES.find(s => s.id === svc);
+      const isOverride = room.overrides && room.overrides[eq.id] && room.overrides[eq.id] !== siteDefault;
       const isSub = eq.label.startsWith('  ');
+
       html += `<div class="eq-row${isSub?' eq-sub':''}" id="eqrow_${eq.id}">
-        <div class="eq-label" onclick="openSvcModal('${room.id}','${eq.id}')">
+        <div class="eq-label-top">
           <div class="eq-label-text">${eq.label.trim()}</div>
-          ${isSub ? '<div class="eq-label-abbr">└ sub-item</div>' : ''}
         </div>
-        <div class="eq-controls">
-          <button class="svc-badge ${badgeCls}" onclick="openSvcModal('${room.id}','${eq.id}')">${badgeLabel}</button>
+        <div class="eq-controls-row">
+          <button class="svc-pill svc-${svc}${isOverride?' svc-override':''}" onclick="openSvcModal('${room.id}','${eq.id}')">${svcInfo?svcInfo.short:svc} ▾</button>
           <div class="counter">
             <button class="counter-btn" onclick="changeQty('${room.id}','${eq.id}',-1)">−</button>
             <input class="counter-input" type="number" min="0" value="${qty}" id="cinp_${eq.id}"
@@ -635,10 +716,10 @@ function openSvcModal(roomId, eqId) {
   const current = (room.overrides && room.overrides[eqId]) || j.tier;
   svcModalCtx = {roomId, eqId};
   document.getElementById('svc-modal-eq-name').textContent = eq.label.trim();
+  document.getElementById('svc-modal-default').textContent = 'Site default: ' + (TIERS.find(t=>t.id===j.tier)||{name:j.tier}).name;
   document.getElementById('svc-options-grid').innerHTML = SVC_TYPES.map(s =>
-    `<div class="svc-option ${s.cls} ${current===s.id?'selected':''}" onclick="selectSvc('${s.id}')">
+    `<div class="svc-option ${s.id===current?'selected':''}" onclick="selectSvc('${s.id}')">
       <div class="svc-option-name">${s.name}</div>
-      <div class="svc-option-col">Column ${s.col}</div>
     </div>`
   ).join('');
   document.getElementById('svc-modal').classList.add('open');
@@ -704,7 +785,7 @@ function renderSummary() {
   j.rooms.forEach(room => {
     Object.entries(room.equipment||{}).forEach(([k,v]) => totals[k] = (totals[k]||0)+v);
     Object.entries(room.overrides||{}).forEach(([k,svc]) => {
-      if ((room.equipment||{})[k] > 0) {
+      if ((room.equipment||{})[k] > 0 && svc !== j.tier) {
         const eq = EQUIPMENT.find(e => e.id === k);
         const s = SVC_TYPES.find(x => x.id === svc);
         if (eq && s) overridesList.push(`${eq.label.trim()} (${room.name}) → ${s.name}`);
@@ -714,13 +795,13 @@ function renderSummary() {
 
   const entries = EQUIPMENT.filter(e => totals[e.id]);
   const grandTotal = Object.values(totals).reduce((a,b)=>a+b,0);
+  const s = SVC_TYPES.find(x => x.id === j.tier);
   const tbody = document.getElementById('sum-body');
   if (!entries.length) {
     tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:20px">No equipment counted yet</td></tr>';
   } else {
-    const s = SVC_TYPES.find(x => x.id === j.tier);
     tbody.innerHTML = entries.map(e =>
-      `<tr><td>${e.label.trim()}</td><td style="text-align:right;font-weight:700">${totals[e.id]}</td><td style="text-align:right;font-size:11px;color:var(--muted)">${s?s.name:''}</td></tr>`
+      `<tr><td>${e.label.trim()}</td><td style="text-align:right;font-weight:700">${totals[e.id]}</td><td style="text-align:right;font-size:11px;color:var(--muted)">${s?s.short:''}</td></tr>`
     ).join('') + `<tr class="total-row"><td>TOTAL</td><td style="text-align:right">${grandTotal}</td><td></td></tr>`;
   }
 
@@ -769,7 +850,7 @@ function copyText() {
 
   const overrides = [];
   j.rooms.forEach(r => Object.entries(r.overrides||{}).forEach(([k,svc]) => {
-    if ((r.equipment||{})[k] > 0) {
+    if ((r.equipment||{})[k] > 0 && svc !== j.tier) {
       const eq = EQUIPMENT.find(e => e.id === k);
       const s = SVC_TYPES.find(x => x.id === svc);
       if (eq && s) overrides.push(eq.label.trim() + ' (' + r.name + ') → ' + s.name);
@@ -786,7 +867,7 @@ function copyText() {
 }
 
 // ═══════════════════════════════════════════════════════
-// EXPORT TO EXCEL
+// EXPORT (JSON for now — formatted Excel via Python backend later)
 // ═══════════════════════════════════════════════════════
 function exportJob() { exportJobById(currentJobId); }
 
@@ -794,12 +875,13 @@ function exportJobById(jobId) {
   const j = jobs.find(x => x.id === jobId);
   if (!j) return;
   if (!j.rooms || !j.rooms.length) { toast('No rooms to export'); return; }
+
   if (typeof XLSX === 'undefined') {
     toast('Loading export library...');
     var s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
     s.onload = function() { doExport(jobId); };
-    s.onerror = function() { toast('Export requires internet — try again on WiFi'); };
+    s.onerror = function() { toast('Export requires internet connection'); };
     document.head.appendChild(s);
     return;
   }
@@ -817,11 +899,11 @@ function doExport(jobId) {
 
     const wsBR = wb.Sheets['Bldgs & Rooms'];
     const wsC1 = wb.Sheets['Components Yr 1'];
-    const buildingName = (j.building && j.building.trim()) ? j.building.trim() : 'Main Bldg.';
 
     j.rooms.forEach((room, idx) => {
-      const r0 = idx + 1; // 0-indexed, row 2 = index 1
-      wsBR[XLSX.utils.encode_cell({r:r0, c:0})] = {t:'s', v: buildingName};
+      const r0 = idx + 1;
+      const bldgName = getBuildingName(j, room.buildingId);
+      wsBR[XLSX.utils.encode_cell({r:r0, c:0})] = {t:'s', v: bldgName};
       wsBR[XLSX.utils.encode_cell({r:r0, c:1})] = {t:'s', v: room.name};
     });
 
@@ -831,10 +913,11 @@ function doExport(jobId) {
         const qty = (room.equipment && room.equipment[eq.id]) || 0;
         if (!qty) return;
         const svc = (room.overrides && room.overrides[eq.id]) || j.tier || 'basic';
-        const svcInfo = SVC_TYPES.find(s => s.id === svc);
-        if (!svcInfo) return;
+        const cols = getSvcCols(svc);
         const rowIdx0 = (roomIdx * EQ_COUNT) + eqIdx + 1;
-        wsC1[XLSX.utils.encode_cell({r:rowIdx0, c:svcInfo.colIdx})] = {t:'n', v:qty};
+        cols.forEach(colIdx0 => {
+          wsC1[XLSX.utils.encode_cell({r:rowIdx0, c:colIdx0})] = {t:'n', v:qty};
+        });
       });
     });
 
