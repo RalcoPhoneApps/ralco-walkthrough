@@ -11,7 +11,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
 .logo{font-size:18px;font-weight:800;letter-spacing:2px;color:var(--gold)}
 .subtitle{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-.header-right{font-size:12px;color:var(--muted);text-align:right;cursor:pointer}
+.header-right{font-size:12px;color:var(--muted);text-align:right;cursor:pointer;user-select:none;-webkit-user-select:none}
 .header-right span{display:block;font-size:14px;color:var(--text);font-weight:600}
 .screen{display:none;min-height:calc(100vh - 60px)}
 .screen.active{display:block}
@@ -118,7 +118,10 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <div class="logo">RALCO</div>
     <div class="subtitle">Field Walkthrough</div>
   </div>
-  <div class="header-right" onclick="headerAction()">
+  <div id="header-right-btn" onclick="headerAction()" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer;user-select:none;-webkit-user-select:none;display:none">
+    <span style="font-size:13px;font-weight:700;color:var(--gold)">← Jobs</span>
+  </div>
+  <div id="header-device-label" style="font-size:13px;color:var(--muted);user-select:none">
     <span id="header-label">Jobs</span>
   </div>
 </header>
@@ -513,9 +516,17 @@ function goJobs() {
   showScreen('jobs');
   renderJobsList();
   document.getElementById('header-label').textContent = deviceName || 'Jobs';
+  showBackBtn(false);
 }
 
 function headerAction() { if (currentJobId) goJobs(); }
+
+function showBackBtn(show) {
+  const btn = document.getElementById('header-right-btn');
+  const lbl = document.getElementById('header-device-label');
+  if (btn) btn.style.display = show ? 'block' : 'none';
+  if (lbl) lbl.style.display = show ? 'none' : 'block';
+}
 
 // ═══════════════════════════════════════════════════════
 // JOBS LIST
@@ -584,6 +595,7 @@ function openJob(id) {
   renderObsList();
   showScreen('job');
   showTab('setup');
+  showBackBtn(true);
 }
 
 function deleteJob(id) {
