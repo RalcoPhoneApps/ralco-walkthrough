@@ -2,7 +2,7 @@
   "name": "RALCO Field Walkthrough",
   "short_name": "RALCO",
   "description": "RALCO Electric field sales walkthrough and equipment counting app",
-  "start_url": "/ralco-walkthrough/ralco_walkthrough_v5.html",
+  "start_url": "/ralco-walkthrough/ralco_walkthrough_v2.html",
   "display": "standalone",
   "background_color": "#0f1e2e",
   "theme_color": "#1A3A5C",
