@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>RALCO Field Walkthrough</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RALCO">
+<meta name="theme-color" content="#1A3A5C">
 <style>
 :root{--navy:#1A3A5C;--gold:#FFAA00;--red:#CC2229;--bg:#0f1e2e;--surface:#162840;--surface2:#1e3550;--border:#2a4a6a;--text:#e8f0f8;--muted:#7a9bbf;--green:#2ecc71;--font:'Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -1093,6 +1100,15 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 2800);
 }
 
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW failed:', err));
+  });
+}
 </script>
 </body>
 </html>
