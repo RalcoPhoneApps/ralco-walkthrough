@@ -3,10 +3,10 @@
 
 const CACHE_NAME = 'ralco-walkthrough-v5';
 const STATIC_ASSETS = [
-  '/ralco-walkthrough/ralco_walkthrough_v5.html',
-  '/ralco-walkthrough/manifest.json',
-  '/ralco-walkthrough/icon-192.png',
-  '/ralco-walkthrough/icon-512.png',
+  './ralco_walkthrough_v2.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
 ];
 
 // Install — cache static assets
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
       });
     }).catch(() => {
       // Offline fallback — return cached app
-      return caches.match('/ralco-walkthrough/ralco_walkthrough_v5.html');
+      return caches.match('./ralco_walkthrough_v2.html');
     })
   );
 });
