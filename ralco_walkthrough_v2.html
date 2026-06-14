@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>RALCO Field Walkthrough</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -109,6 +109,18 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .sum-table th{text-align:left;padding:7px 10px;background:var(--surface2);color:var(--muted);font-size:11px;letter-spacing:0.5px;text-transform:uppercase}
 .sum-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
 .sum-table .total-row td{font-weight:700;color:var(--gold);background:rgba(255,170,0,0.05)}
+
+/* FIELD TAB */
+.asset-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
+.asset-card:active{border-color:var(--gold)}
+.asset-editor-modal{background:var(--surface);border-radius:16px 16px 0 0;padding:0;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.asset-editor-header{background:var(--navy);padding:14px 16px;border-bottom:2px solid var(--gold);flex-shrink:0}
+.asset-editor-tabs{display:flex;background:var(--surface2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.asset-tab-btn{flex-shrink:0;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.asset-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.asset-editor-body{flex:1;overflow-y:auto;padding:16px}
+.ae-field{margin-bottom:12px}
+.ae-field label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#0f1e2e;padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap}
 .toast.show{opacity:1}
 /* Device setup modal */
@@ -166,6 +178,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <button class="nav-tab active" onclick="showTab('setup')">Setup</button>
     <button class="nav-tab" onclick="showTab('rooms')">Rooms</button>
     <button class="nav-tab" onclick="showTab('log')">Log</button>
+    <button class="nav-tab" onclick="showTab('field')">Field</button>
     <button class="nav-tab" onclick="showTab('summary')">Summary</button>
   </div>
 
@@ -225,6 +238,19 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     </div>
   </div>
 
+
+  <div id="tab-field" class="tab-view">
+    <div class="card">
+      <div class="card-title">Field Assets <span id="field-asset-count" style="color:var(--muted);font-weight:400;font-size:11px"></span></div>
+      <div class="row" style="margin-bottom:8px">
+        <button class="btn btn-gold btn-sm" onclick="portFromWalkthrough()" style="flex:1">⬇ Port from Walkthrough</button>
+        <button class="btn btn-outline btn-sm" onclick="addNewAsset()" style="flex:1">+ Add Asset</button>
+      </div>
+      <div id="field-asset-list"></div>
+    </div>
+    <button class="btn btn-green btn-full" onclick="exportEPM()">📥 Export EPM Master</button>
+  </div>
+
   <div id="tab-summary" class="tab-view">
     <div class="card">
       <div class="card-title">Equipment Totals</div>
@@ -247,7 +273,23 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <div id="sum-obs"></div>
     </div>
     <button class="btn btn-outline btn-full" onclick="copyText()">📋 Copy as Text</button>
-    <button class="btn btn-green btn-full" onclick="exportJob()">📥 Export to Excel</button>
+    <button class="btn btn-green btn-full" onclick="exportJob()">📥 Export Sales Builder</button>
+    <button class="btn btn-outline btn-full" onclick="exportEPM()" style="margin-top:8px;border-color:var(--gold);color:var(--gold)">📥 Export EPM Master</button>
+  </div>
+</div>
+
+
+<!-- ASSET EDITOR MODAL -->
+<div class="modal-overlay" id="asset-editor-modal" style="align-items:flex-end" onclick="if(event.target===this)closeAssetEditor()">
+  <div class="asset-editor-modal">
+    <div class="asset-editor-header">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div id="asset-editor-title" style="font-size:15px;font-weight:700;color:var(--gold)">Asset</div>
+        <button class="btn btn-sm btn-outline" onclick="closeAssetEditor()">Done ✓</button>
+      </div>
+    </div>
+    <div class="asset-editor-tabs" id="asset-editor-tabs"></div>
+    <div class="asset-editor-body" id="asset-editor-body"></div>
   </div>
 </div>
 
@@ -514,7 +556,7 @@ function showTab(name) {
   document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  const tabs = ['setup','rooms','log','summary'];
+  const tabs = ['setup','rooms','log','field','summary'];
   document.querySelectorAll('.nav-tab')[tabs.indexOf(name)].classList.add('active');
   if (name === 'summary') renderSummary();
 }
@@ -603,6 +645,7 @@ function openJob(id) {
   showScreen('job');
   showTab('setup');
   showBackBtn(true);
+  renderFieldTab();
 }
 
 function deleteJob(id) {
@@ -1091,24 +1134,808 @@ function doRestore(e) {
 }
 
 // ═══════════════════════════════════════════════════════
-// TOAST
+// FIELD DATA — EPM Master asset collection
 // ═══════════════════════════════════════════════════════
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2800);
+
+const EPM_EQ_TYPES = [
+  '480V Primary Transformer - Oil Filled <5000kVA',
+  '480V/208V/120V Transformer - Dry <250 kva',
+  '480V/208V/120V Transformer - Dry >=250 kva',
+  'Auto Transfer Switch <=400A',
+  'Auto Transfer Switch >400A',
+  'Branch Circuit Panel <=400A',
+  'Bus Duct - Vertical or Horizontal (Per 10ft)',
+  'Compressed Air Equipment',
+  'Distribution Panel Single Front >=600A',
+  'Distribution Switchboard Multi Cover (Per Section)',
+  'HVAC Equipment',
+  'Individual Combination Motor Starter',
+  'Individual Disconnect Switch',
+  'Individual Molded Case Breaker >=600A',
+  'Individual Motor Starter',
+  'Lighting Contactor <=50 hp',
+  'MCC: Combination Motor Starters',
+  'MCC: Individual Disconnect Switch',
+  'MCC: Molded Case Breaker',
+  'MCC: Motor Starters',
+  'Motor Control Center (Per vertical section)',
+  'Motor Control Panel (MCP)',
+  'Motors <50hp',
+  'Motors 51-200hp',
+  'Motors 201-500hp',
+  'Switchboard Molded Case Breakers >=600A',
+  'Switchgear - Incoming Main Service (Per Section)',
+  'Switchgear Safety Disconnects',
+  'Uninterruptible Power Supply (UPS) <50kVA',
+  'Uninterruptible Power Supply (UPS) >=50kVA',
+  'Variable Frequency Drives <=50hp',
+  'Variable Frequency Drives 51-200hp',
+  'VFD Motor Control Panel (VFD-MCP)',
+  'Wire Trough/Large Junction Boxes',
+];
+
+const EPM_CRITICALITY = [
+  'Production Critical (High)',
+  'Life Safety (High)',
+  'Support/Utility (Med)',
+  'General/Comfort (Low)',
+  'Unknown',
+];
+
+const EPM_MAINT_STATUS = [
+  'Critical (>2 Cycles/Unknown)',
+  'Overdue (<2 Cycles)',
+  'Verified (Current)',
+];
+
+const EPM_IR_COMPONENTS = [
+  'Breaker (Line)', 'Breaker (Load)', 'Bus Joint', 'Cable Term',
+  'Fuse Clip', 'Lug/Term', 'Switchgear/Bus', 'Transformer', 'VFD',
+];
+
+const EPM_IR_FAILURE_MODES = [
+  'Arcing', 'Tracking', 'Corona', 'Vibration', 'Mech Loose', 'Motor Bearing',
+];
+
+const EPM_PHASES = ['A-Phase', 'B-Phase', 'C-Phase', 'Neutral', 'Multi-Phase', 'Ground'];
+const EPM_PHASE_TYPES = ['Single Phase', 'Three Phase', 'DC'];
+const EPM_WIRE_TYPES = ['2-Wire', '3-Wire', '4-Wire'];
+const EPM_RESULTS = ['PASS', 'FAIL', 'MONITOR', 'N/A'];
+
+const EPM_CODE_VIOLATIONS = [
+  {article:'Condition of Maintenance / AF Labeling and IR Loading', sev:'Critical (5pts)'},
+  {article:'NEC 110.16 & NFPA 70E 130.5(H) Arc Flash Labeling & Study Validation', sev:'Critical (5pts)'},
+  {article:'XFMR Cond. of Maint. / AF Labeling and IR Loading', sev:'Critical (5pts)'},
+  {article:'Equipment Cleanliness and Maintenance Condition', sev:'Major (3pts)'},
+  {article:'VFD with Undefeatable Interlock Handle', sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) - (Screws/Clips) Listing and Labeling', sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) / 408.7 - Combined Hardware/KO Seal', sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Mechanical Execution of Work', sev:'Minor (1pt)'},
+  {article:'NEC 110.14(A) - Terminations', sev:'Major (3pts)'},
+  {article:'NEC 110.16(B) - Arc Flash Hazard Labeling (2026 Expansion)', sev:'Critical (5pts)'},
+  {article:'NEC 110.14(D) - Torque Requirements', sev:'Major (3pts)'},
+  {article:'NEC 110.21(B) - Labeling Methods & Durability', sev:'Minor (1pt)'},
+  {article:'NEC 110.22(A) - ID of Disconnecting Means', sev:'Minor (1pt)'},
+  {article:'NEC 110.24 - Available Fault Current Labeling', sev:'Major (3pts)'},
+  {article:'NEC 110.26 - Working Space', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(4) - Working Space & Egress (90-Degree Door)', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(E) Dedicated Electrical Equipment Space', sev:'Major (3pts)'},
+  {article:'NEC 110.26(C)(2),(3) - Elec Rm Panic Hardware', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(C)(2),(3) - Small Electric Room Egress', sev:'Major (3pts)'},
+  {article:'NFPA 70E 130.4 / NEC 110.27(A) - Exposed Live Parts', sev:'Critical (5pts)'},
+  {article:'NEC 240.4 / 240.6(A) - OCPD Sizing /Stand Ratings', sev:'Critical (5pts)'},
+  {article:'NEC 240.21(C) - Tap Rules (10-ft, 25-ft, Outside Taps)', sev:'Major (3pts)'},
+  {article:'NEC 250.6(A) - Objectionable Current on Ground', sev:'Major (3pts)'},
+  {article:'NEC 250.30(A)(1) - SDS/XFMR Bonding Jumper', sev:'Critical (5pts)'},
+  {article:'NEC 250.97 - Bonding for Over 250 Volts (Bushings)', sev:'Critical (5pts)'},
+  {article:'NEC 250.102(C) Bond Jumper Sz / Parallel Raceways', sev:'Major (3pts)'},
+  {article:'NEC 250.122 Equipment Grounding Conductor Sizing', sev:'Major (3pts)'},
+  {article:'NEC 300.4 Protect Phys Dmg (Bush/Sleeve/Edge)', sev:'Major (3pts)'},
+  {article:'NEC 300.5(D) - Underground Raceway / Cover Depth', sev:'Major (3pts)'},
+  {article:'NEC 300.11 Support Race & Cables / Ceiling Grid', sev:'Minor (1pt)'},
+  {article:'NEC 300.14 - Free Conductor Length', sev:'Minor (1pt)'},
+  {article:'NEC 312.5(C) - Cable Entry (NM/MC into Panels)', sev:'Major (3pts)'},
+  {article:'NEC 312.8 Panelboard Wire Fill / Splicing in Cabinets', sev:'Major (3pts)'},
+  {article:'NEC 348.30(A) - FMC Support and Securement', sev:'Minor (1pt)'},
+  {article:'NEC 350.30(A) - LFMC Support and Securement', sev:'Minor (1pt)'},
+  {article:'NEC 358.30(A) - EMT Support and Securement', sev:'Minor (1pt)'},
+  {article:'NEC 404.8 - Switch Mounting', sev:'Major (3pts)'},
+  {article:'NEC 406.5 - Receptacle Faceplate / Mounting', sev:'Minor (1pt)'},
+  {article:'NEC 408.4(A) - Circuit Identification', sev:'Minor (1pt)'},
+  {article:'NEC 408.7 - Unused Openings', sev:'Major (3pts)'},
+  {article:'NEC 408.43 Grounding and Bonding of Panelboards', sev:'Critical (5pts)'},
+  {article:'NEC 430.8 - Marking on Motor Controllers', sev:'Minor (1pt)'},
+  {article:'NEC 430.98 - Motor Control Center (MCC) Disconnect Marking', sev:'Minor (1pt)'},
+  {article:'NEC 430.102(B) Local Disco. Means for Motors', sev:'Critical (5pts)'},
+  {article:'NEC 430.250 / 430.52 Motor FLC & OCP Sizing', sev:'Major (3pts)'},
+  {article:'NEC 450.3(B) - Transformer OCPD Protection', sev:'Major (3pts)'},
+  {article:'NEC 700.7 - Emergency System Labeling', sev:'Major (3pts)'},
+  {article:'NEC 700.10(D) - Emergency System Wiring Separation', sev:'Critical (5pts)'},
+  {article:'NEC 701.10 - Legally Req. Standby Wiring Separation', sev:'Major (3pts)'},
+  {article:'NEC 708 - COPS', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 6.2 - Electrical Maintenance Program (EMP) Implementation', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.3.2 / NEC 310.15 - IR Thermography Phase Imbalance', sev:'Major (3pts)'},
+  {article:'NFPA 70E 130.5(B) - Condition of Maintenance Impact on Arc Flash', sev:'Critical (5pts)'},
+  {article:'NFPA 72 10.6.5.2 - Fire Alarm Disconnect Marking and Access', sev:'Critical (5pts)'},
+  {article:'NFPA 72 10.4.1 - Fire Alarm Device Physical Damage', sev:'Major (3pts)'},
+  {article:'NFPA 110 8.3.7 - Starting Battery Maintenance', sev:'Critical (5pts)'},
+  {article:'NFPA 110 8.3.4 - Maint./Test of Life Safety Equipment', sev:'Critical (5pts)'},
+  {article:'NFPA 70E Article 120.2/OSHA 1910.333(b)(2): LOTO', sev:'Critical (5pts)'},
+  {article:'OSHA 1910.303(b)(2) - Approval/Listing of Equip', sev:'Major (3pts)'},
+  {article:'OSHA 1910.305(G) - Flexible Cords Misuse', sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Damaged Enclosure / Structural Integrity', sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Cracked / Broken Insulation or Bushing', sev:'Critical (5pts)'},
+  {article:'NEC 230.62(B) - Damaged or Deteriorated Service Conductors', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.1.3 - Equipment Deterioration Requiring Immediate Action', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.3 - Evidence of Overheating / Discoloration (Thermal Damage)', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.3 - Corrosion on Bus / Connections Requiring Remediation', sev:'Major (3pts)'},
+  {article:'NFPA 70B 11.3 - Contamination / Carbon Tracking on Insulation', sev:'Major (3pts)'},
+  {article:'NEC 312.5(A) - Missing or Improper Enclosure Cover', sev:'Critical (5pts)'},
+  {article:'NEC 110.9 - Interrupting Rating (kAIC)', sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 240.7 - Wrong or Non-Listed Breaker Installed', sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 210.4(B) - Breaker Handle Tie Not Listed/Approved', sev:'Major (3pts)'},
+  {article:'NEC 110.15 / 200.6 / 200.7 / 210.5 / 215.12(C) - Conductor ID / Color Coding', sev:'Major (3pts)'},
+  {article:'NEC 240.60(B)(C) / 240.11 - Fuse Type Mismatch / Noninterchangeable', sev:'Major (3pts)'},
+  {article:'NEC 250.12 - Grounding / Bonding Surface Not Cleaned of Paint or Coatings', sev:'Major (3pts)'},
+  {article:'NEC 300.4(G) - Conduit Bushing / Conductor Protection at Fittings', sev:'Major (3pts)'},
+  {article:'NEC 314.15 - Covers for Damp or Wet Locations', sev:'Major (3pts)'},
+  {article:'NEC 110.21(A) / 450.11 - Missing or Damaged Equipment Nameplate', sev:'Minor (1pt)'},
+  {article:'NEC 110.13 / 450.9 / 450.21 - Transformer Ventilation Clearance', sev:'Major (3pts)'},
+  {article:'NFPA 70B 4.2.7 / 4.3 / 6.1-6.7 / 9.3 / 9.4 - EMP Administration Deficiencies', sev:'Critical (5pts)'},
+  {article:'NFPA 70E 110.3 / 110.4 / 105.3 / 130.7 - Electrical Safety Program, Training & PPE', sev:'Critical (5pts)'},
+  {article:'NEC 110.28 - Enclosure Not Suitable for Environment (NEMA Rating)', sev:'Major (3pts)'},
+  {article:'NEC 312.7 - Damp/Wet Location Enclosure / Drainage Provisions', sev:'Major (3pts)'},
+  {article:'NEC 110.3(B) - Unapproved Field Modification / Non-Listed Assembly', sev:'Major (3pts)'},
+  {article:'NEC 110.14(B) - Splices Not in Approved Junction / Pull Box', sev:'Major (3pts)'},
+  {article:'NEC 240.83 - Breaker Ampere Rating Illegibly Marked / Defaced', sev:'Minor (1pt)'},
+  {article:'NEC 408.36 - Unauthorized Back-Fed Breaker (No Retaining Clip)', sev:'Critical (5pts)'},
+  {article:'NEC 408.36 - Tandem / Double-Tap Breaker in Non-CTL Panel', sev:'Major (3pts)'},
+  {article:'NEC 230.71 - More Than 6 Service Disconnecting Means', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(1) - Insufficient Working Space Depth (< 3ft)', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(2) - Insufficient Working Space Width (< 30in)', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(3) - Insufficient Working Space Height (< 6.5ft)', sev:'Major (3pts)'},
+  {article:'NEC 110.26(B) - Working Space Obstructed / Used for Storage', sev:'Critical (5pts)'},
+  {article:'NEC 110.26(D) - Illumination Not Provided for Working Space', sev:'Minor (1pt)'},
+  {article:'NEC 110.26(F) - Dedicated Equipment Space Violation (Outdoor)', sev:'Major (3pts)'},
+  {article:'NEC 250.4(A)(1) - Grounding of Electrical System Not Maintained', sev:'Critical (5pts)'},
+  {article:'NEC 250.8 - Improper Connection of Grounding / Bonding Conductors', sev:'Major (3pts)'},
+  {article:'NEC 250.10 - Protection of Ground Clamps / Fittings', sev:'Minor (1pt)'},
+  {article:'NEC 250.28 - Main Bonding Jumper Missing or Undersized', sev:'Critical (5pts)'},
+  {article:'NEC 250.50 - Grounding Electrode System Incomplete', sev:'Critical (5pts)'},
+  {article:'NEC 250.53 - Grounding Electrode Conductor Installation', sev:'Major (3pts)'},
+  {article:'NEC 250.64 - Grounding Electrode Conductor Size / Protection', sev:'Major (3pts)'},
+  {article:'NEC 250.119 - EGC Not Identified / Green or Bare Required', sev:'Minor (1pt)'},
+  {article:'NEC 250.148 - EGC Continuity in Junction / Pull Box', sev:'Major (3pts)'},
+  {article:'NEC 240.4(B) - Small Conductor OCPD Oversized', sev:'Critical (5pts)'},
+  {article:'NEC 240.15(A) - Single-Pole Breaker on Multi-Wire Branch Circuit', sev:'Critical (5pts)'},
+  {article:'NEC 240.24(A) - OCPD Not Readily Accessible', sev:'Major (3pts)'},
+  {article:'NEC 240.24(B) - OCPD Near Easily Ignitable Material', sev:'Critical (5pts)'},
+  {article:'NEC 240.24(D) - OCPD Located in Bathroom', sev:'Critical (5pts)'},
+  {article:'NEC 240.60(B) - Cartridge Fuse Class / Rejection Feature Missing', sev:'Major (3pts)'},
+  {article:'NFPA 70B 5.2.1 - Water Intrusion / Moisture Damage Evidence', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.1 - Active Water / Condensation Inside Enclosure', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.2 - Pest / Rodent Intrusion and Nesting Evidence', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.3 - Excessive Dust / Debris Accumulation in Enclosure', sev:'Major (3pts)'},
+  {article:'NFPA 70B 5.2.3 - Chemical / Oil Contamination on Equipment', sev:'Major (3pts)'},
+  {article:'NEC 110.11 - Deteriorating Agents (Chemical / Environmental Exposure)', sev:'Major (3pts)'},
+  {article:'NEC 408.3(A) - Switchboard Not Accessible from Front Only', sev:'Major (3pts)'},
+  {article:'NEC 408.3(B) - Switchboard Installed in Damp / Wet Location', sev:'Major (3pts)'},
+  {article:'NEC 408.3(F) - Switchboard Overcurrent Protection Missing', sev:'Critical (5pts)'},
+  {article:'NEC 230.66 - Service Equipment Not Marked / Approved as Such', sev:'Major (3pts)'},
+  {article:'NEC 230.70(A) - Service Disconnect Not Readily Accessible', sev:'Critical (5pts)'},
+  {article:'NEC 450.9 - Transformer Ventilation Obstructed', sev:'Major (3pts)'},
+  {article:'NEC 450.11 - Transformer Marking Missing or Damaged', sev:'Minor (1pt)'},
+  {article:'NEC 450.13 - Transformer Not Accessible / Properly Guarded', sev:'Major (3pts)'},
+  {article:'NEC 450.21(A) - Dry-Type XFMR Clearance from Combustibles', sev:'Critical (5pts)'},
+  {article:'NEC 450.27 - Oil-Insulated XFMR Vault / Containment Required', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.9 - Transformer Oil Level / Condition (Oil-Filled)', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.9 - Transformer Oil Leak Evidence', sev:'Critical (5pts)'},
+  {article:'NEC 430.9(B) - Motor Control Devices Not Properly Marked', sev:'Minor (1pt)'},
+  {article:'NEC 430.14(A) - Motor Location / Ventilation Inadequate', sev:'Major (3pts)'},
+  {article:'NEC 430.51 - Motor Branch Circuit OCPD Type Not Suitable', sev:'Major (3pts)'},
+  {article:'NEC 430.109 - Motor Disconnect Type Not Suitable for Application', sev:'Major (3pts)'},
+  {article:'NEC 430.110 - Motor Disconnect Ampere Rating Insufficient', sev:'Major (3pts)'},
+  {article:'NEC 430.232 - Motor Not Protected Against Overload', sev:'Critical (5pts)'},
+  {article:'NFPA 110 7.2 - Generator Visual Inspection Deficiency', sev:'Major (3pts)'},
+  {article:'NFPA 110 7.3 - Generator Coolant / Fluid Level Issue', sev:'Major (3pts)'},
+  {article:'NFPA 110 7.9 - Generator Exercising / Load Test Not Current', sev:'Critical (5pts)'},
+  {article:'NFPA 110 8.4.2 - ATS Failure to Transfer (Functional Test)', sev:'Critical (5pts)'},
+  {article:'NEC 700.5(A) - Transfer Equipment Not Listed / Approved', sev:'Critical (5pts)'},
+  {article:'NEC 700.12 - Emergency Source Capacity Insufficient', sev:'Critical (5pts)'},
+  {article:'NEC 702.5 - Optional Standby OCPD Accessibility', sev:'Major (3pts)'},
+  {article:'NEC 430.122 - VFD Branch Circuit Conductor Sizing', sev:'Major (3pts)'},
+  {article:'NEC 430.131 - VFD Bypass Overcurrent Protection', sev:'Major (3pts)'},
+  {article:'NFPA 70B 17.2 - VFD Filter / Capacitor Condition', sev:'Major (3pts)'},
+  {article:'NFPA 70B 17.2 - VFD Cooling Fan Inoperable / Clogged', sev:'Major (3pts)'},
+  {article:'NEC 300.15 - Box / Fitting Required at Each Conductor Splice', sev:'Major (3pts)'},
+  {article:'NEC 300.17 - Raceway Overfill / Conductor Fill Exceeded', sev:'Major (3pts)'},
+  {article:'NEC 300.22 - Wiring in Ducts / Plenum Spaces Not Permitted', sev:'Critical (5pts)'},
+  {article:'NEC 310.15(B) - Conductor Ampacity Derate Required', sev:'Major (3pts)'},
+  {article:'NEC 358.10 - EMT Use Not Permitted in This Location', sev:'Major (3pts)'},
+  {article:'NEC 334.15 - NM Cable Not Protected / Exposed Run', sev:'Minor (1pt)'},
+  {article:'NEC 362.10 - ENT Use Not Permitted in This Location', sev:'Major (3pts)'},
+  {article:'NEC 460.8(A) - Capacitor Conductor Ampacity Insufficient', sev:'Major (3pts)'},
+  {article:'NEC 460.8(B) - Capacitor OCPD Rating Incorrect', sev:'Major (3pts)'},
+  {article:'NEC 460.9 - Capacitor Discharge Method Not Provided', sev:'Critical (5pts)'},
+  {article:'NEC 368.17 - Bus Duct Overcurrent Protection at Tap Points', sev:'Critical (5pts)'},
+  {article:'NEC 368.12 - Bus Duct Use Not Permitted in This Location', sev:'Major (3pts)'},
+  {article:'NFPA 70B 16.1 - UPS Battery Condition / Maintenance Overdue', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 16.1 - UPS Bypass / Transfer Issue', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.1.2 - Equipment Past Recommended Service Interval', sev:'Major (3pts)'},
+  {article:'NFPA 70B 9.2.1 - Loose Connection Found During Inspection', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.2.2 - Evidence of Arcing / Pitting on Contacts', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.3.1 - Contact / Insulation Resistance Below Minimum', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.7 - Circuit Breaker Trip Test Overdue / Failed', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.7 - Breaker Mechanism Binding / Inoperable', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 12.2 - Switchgear / Switchboard Interlock Defeated', sev:'Critical (5pts)'},
+  {article:'NFPA 70B 12.2 - Draw-Out Element Racking Mechanism Defective', sev:'Critical (5pts)'},
+  {article:'NEC 240.4 / 240.4(B) - Supply OCPD Exceeds Conductor Ampacity', sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 240.4(A) - OCPD Exceeds Equipment Nameplate Current Rating', sev:'Major (3pts)'},
+  {article:'NEC 110.3(B) / NFPA 70B 17.2 - VFD Operator Interface / Display Damaged or Inoperable', sev:'Major (3pts)'},
+  {article:'Field Observation - Mechanical / Pneumatic Deficiency Noted (Non-Electrical)', sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) / 110.12 - Door-Mounted Breaker Operating Rod Disconnected or Inoperable', sev:'Major (3pts)'},
+];
+
+// Asset tag counter — stored in cloud, loaded on init
+let assetTagCounter = null;
+
+function getNextAssetTag() {
+  const year = new Date().getFullYear();
+  if (!assetTagCounter || Math.floor(assetTagCounter / 10000) !== year) {
+    assetTagCounter = year * 10000 + 1;
+  }
+  const tag = assetTagCounter;
+  return String(tag);
 }
 
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('SW registered'))
-      .catch(err => console.log('SW failed:', err));
-  });
+function advanceTagCounter(usedTag) {
+  const num = parseInt(usedTag);
+  if (!isNaN(num) && num >= (assetTagCounter || 0)) {
+    assetTagCounter = num + 1;
+    lsSet('ralco_tag_counter', String(assetTagCounter));
+    // Sync counter to cloud
+    fetch(API + '/tag-counter', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({counter: assetTagCounter})
+    }).catch(()=>{});
+  }
 }
-</script>
-</body>
-</html>
+
+function loadTagCounter() {
+  const local = lsGet('ralco_tag_counter');
+  if (local) assetTagCounter = parseInt(local);
+  // Try to get from cloud (cloud wins if higher)
+  fetch(API + '/tag-counter')
+  .then(r => r.json())
+  .then(d => {
+    if (d.counter && d.counter > (assetTagCounter || 0)) {
+      assetTagCounter = d.counter;
+      lsSet('ralco_tag_counter', String(assetTagCounter));
+    }
+  })
+  .catch(()=>{});
+}
+
+// ── Asset editing state ──
+let currentAssetId = null;
+let assetEditorTab = 'info';
+let codeViolationSearch = '';
+let codeViolationCount = 1;
+
+function getAssets() {
+  const j = getJob(); if (!j) return [];
+  return j.assets || [];
+}
+
+function getAsset(id) {
+  return getAssets().find(a => a.id === id);
+}
+
+function saveAssets(assets) {
+  const j = getJob(); if (!j) return;
+  j.assets = assets;
+  j.updatedAt = new Date().toISOString();
+  saveAll();
+}
+
+// ── Port from Bert's walkthrough ──
+function portFromWalkthrough() {
+  const j = getJob(); if (!j) return;
+  const existing = j.assets || [];
+  const existingKeys = new Set(existing.map(a => a.portKey).filter(Boolean));
+
+  let added = 0;
+  (j.rooms || []).forEach(room => {
+    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
+      const eq = EQUIPMENT.find(e => e.id === eqId);
+      if (!eq) return;
+      // Map sales equipment label to EPM type
+      const epmType = mapToEpmType(eq.label.trim());
+      for (let i = 0; i < qty; i++) {
+        const portKey = `${room.id}_${eqId}_${i}`;
+        if (existingKeys.has(portKey)) continue;
+        const asset = {
+          id: 'asset_' + Date.now() + '_' + Math.random().toString(36).slice(2,5),
+          portKey,
+          tag: '',
+          name: '',
+          location: room.name,
+          eqType: epmType,
+          manufacturer: '',
+          model: '',
+          serial: '',
+          voltage: '',
+          criticality: 'Production Critical (High)',
+          maintStatus: 'Critical (>2 Cycles/Unknown)',
+          notes: '',
+          codeViolations: [],
+          ir: {result:'', phase:'', component:'', failureMode:'', notes:''},
+          ut: {result:'', component:'', failureMode:'', db:'', notes:''},
+          energized: {phase:'', wire:'', vab:'', vbc:'', vca:'', aa:'', ab:'', ac:'', ratedAmps:'', ocpd:'', analysis:'N/A', summary:'PASS'},
+          insulation: {testV:'', phPh:'', phG:'', pi:'', temp:'', result:'N/A', notes:''},
+          dlro: {phA:'', phB:'', phC:'', dev:'', result:'N/A', notes:''},
+          torque: {phase:'', connType:'', spec:'', verified:'', result:'N/A', notes:''},
+        };
+        existing.push(asset);
+        added++;
+      }
+    });
+  });
+
+  saveAssets(existing);
+  renderFieldTab();
+  if (added > 0) toast(`Ported ${added} asset${added!==1?'s':''} from walkthrough`);
+  else toast('All walkthrough assets already ported');
+}
+
+function mapToEpmType(salesLabel) {
+  // Map sales app labels to EPM Master equipment types
+  const map = {
+    'Switchgear - Incoming Main Service (Per Section)': 'Switchgear - Incoming Main Service (Per Section)',
+    'Switchgear Insulated Case Breakers (Bus Mounted)': 'Switchgear - Incoming Main Service (Per Section)',
+    'SwitchGear Drawout Breakers': 'Switchgear - Incoming Main Service (Per Section)',
+    'Distribution Switchboard Multi Cover (Per Section)': 'Distribution Switchboard Multi Cover (Per Section)',
+    'Switchboard Disconnects': 'Individual Disconnect Switch',
+    'Switchboard Molded Case Breakers': 'Switchboard Molded Case Breakers >=600A',
+    'Panelboard-Single Cover > 400A (Distribution Panel)': 'Distribution Panel Single Front >=600A',
+    'Panelboard-Single Cover < 400A (Branch Ckt Panel)': 'Branch Circuit Panel <=400A',
+    'Motor Control Center (MCC-Per Vertical Section)': 'Motor Control Center (Per vertical section)',
+    'MCC: Combination Motor Starters': 'MCC: Combination Motor Starters',
+    'MCC: Molded Case Breaker': 'MCC: Molded Case Breaker',
+    'MCC: Individual Disconnect Switch': 'MCC: Individual Disconnect Switch',
+    'Motor Control Panel (MCP)': 'Motor Control Panel (MCP)',
+    'VFD Motor Control Panel (VFD-MCP)': 'VFD Motor Control Panel (VFD-MCP)',
+    'Individual Disconnect Switch > 100A': 'Individual Disconnect Switch',
+    'Individual Molded Case Breaker > 100A': 'Individual Molded Case Breaker >=600A',
+    'Individual Combination Motor Starter > 100A': 'Individual Combination Motor Starter',
+    'Oil Filled Transformer - 5kV-15kV Primary - Any Size (Pad Mounted)': '480V Primary Transformer - Oil Filled <5000kVA',
+    'Oil Filled Transformer - > 15kV Primary (Substation Class)': '480V Primary Transformer - Oil Filled <5000kVA',
+    'Dry Type Transformer - < 480V Primary - Any Size kVA': '480V/208V/120V Transformer - Dry <250 kva',
+    'Power Factor Correction Capacitors': 'Individual Disconnect Switch',
+    'Lighting Contactor > 100A': 'Lighting Contactor <=50 hp',
+    'Power Distribution Unit (PDU)': 'Distribution Panel Single Front >=600A',
+    'Wire Trough, Gutter, or Large Junction Boxes': 'Wire Trough/Large Junction Boxes',
+    "Bus Duct - Vertical or Horizontal (Per 10' section)": 'Bus Duct - Vertical or Horizontal (Per 10ft)',
+    'Automatic Transfer Switch (ATS) > 100A': 'Auto Transfer Switch >400A',
+    'Manual Transfer Switch (MTS) > 100A': 'Auto Transfer Switch >400A',
+    'Variable Frequency Drives (VFD) < 50 HP': 'Variable Frequency Drives <=50hp',
+    'Variable Frequency Drives (VFD) 51-200 HP': 'Variable Frequency Drives 51-200hp',
+    'Motors < 50 HP': 'Motors <50hp',
+    'Motors 51-200 HP': 'Motors 51-200hp',
+    'Motors 201-500 HP': 'Motors 201-500hp',
+    'Compressed Air Equipment': 'Compressed Air Equipment',
+    'HVAC Equipment (Large)': 'HVAC Equipment',
+    'HVAC Equipment (Small)': 'HVAC Equipment',
+    'Uninterruptible Power Supply (UPS) < 50kVA': 'Uninterruptible Power Supply (UPS) <50kVA',
+    'Uninterruptible Power Supply (UPS) > 50kVA': 'Uninterruptible Power Supply (UPS) >=50kVA',
+  };
+  return map[salesLabel] || salesLabel;
+}
+
+// ── Field tab render ──
+function renderFieldTab() {
+  const j = getJob();
+  const assets = getAssets();
+  const el = document.getElementById('field-asset-list');
+  if (!el) return;
+
+  if (!assets.length) {
+    el.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);font-size:14px">
+      No assets yet.<br><br>
+      <button class="btn btn-gold" onclick="portFromWalkthrough()" style="margin-bottom:10px">⬇ Port from Walkthrough</button><br>
+      <button class="btn btn-outline" onclick="addNewAsset()" style="margin-top:8px">+ Add Asset Manually</button>
+    </div>`;
+    return;
+  }
+
+  // Group by location
+  const byLocation = {};
+  assets.forEach(a => {
+    const loc = a.location || 'Unassigned';
+    if (!byLocation[loc]) byLocation[loc] = [];
+    byLocation[loc].push(a);
+  });
+
+  let html = '';
+  Object.entries(byLocation).forEach(([loc, locAssets]) => {
+    html += `<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;padding-top:10px;border-top:1px solid var(--border)">${loc}</div>`;
+    locAssets.forEach(a => {
+      const irResult = a.ir && a.ir.result ? a.ir.result : '';
+      const utResult = a.ut && a.ut.result ? a.ut.result : '';
+      const codeCount = (a.codeViolations || []).filter(v => v.article).length;
+      const hasIssue = irResult === 'FAIL' || utResult === 'FAIL' || codeCount > 0;
+      const isComplete = irResult && utResult;
+      const statusColor = hasIssue ? 'var(--red)' : (isComplete ? 'var(--green)' : 'var(--muted)');
+      const statusDot = hasIssue ? '●' : (isComplete ? '✓' : '○');
+
+      html += `<div class="asset-card" onclick="openAssetEditor('${a.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--text)">${a.name || '(Unnamed)'}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${a.tag ? '#'+a.tag+' · ' : ''}${a.eqType || ''}</div>
+          </div>
+          <div style="color:${statusColor};font-size:16px;margin-left:8px;flex-shrink:0">${statusDot}</div>
+        </div>
+        ${codeCount > 0 ? `<div style="font-size:11px;color:var(--red);margin-top:4px">${codeCount} violation${codeCount!==1?'s':''}</div>` : ''}
+      </div>`;
+    });
+  });
+
+  el.innerHTML = html;
+  document.getElementById('field-asset-count').textContent = assets.length + ' asset' + (assets.length!==1?'s':'');
+}
+
+function addNewAsset() {
+  const j = getJob(); if (!j) return;
+  const assets = j.assets || [];
+  const suggestedTag = getNextAssetTag();
+  const asset = {
+    id: 'asset_' + Date.now(),
+    portKey: null,
+    tag: suggestedTag,
+    name: '',
+    location: (j.rooms && j.rooms.length) ? j.rooms[0].name : '',
+    eqType: '',
+    manufacturer: '',
+    model: '',
+    serial: '',
+    voltage: '',
+    criticality: 'Production Critical (High)',
+    maintStatus: 'Critical (>2 Cycles/Unknown)',
+    notes: '',
+    codeViolations: [{article:'', sev:'', corrected:'No'}],
+    ir: {result:'', phase:'', component:'', failureMode:'', notes:''},
+    ut: {result:'', component:'', failureMode:'', db:'', notes:''},
+    energized: {phase:'', wire:'', vab:'', vbc:'', vca:'', aa:'', ab:'', ac:'', ratedAmps:'', ocpd:'', analysis:'N/A', summary:'PASS'},
+    insulation: {testV:'', phPh:'', phG:'', pi:'', temp:'', result:'N/A', notes:''},
+    dlro: {phA:'', phB:'', phC:'', dev:'', result:'N/A', notes:''},
+    torque: {phase:'', connType:'', spec:'', verified:'', result:'N/A', notes:''},
+  };
+  assets.push(asset);
+  saveAssets(assets);
+  openAssetEditor(asset.id);
+}
+
+// ── Asset Editor Modal ──
+function openAssetEditor(assetId) {
+  currentAssetId = assetId;
+  assetEditorTab = 'info';
+  renderAssetEditor();
+  document.getElementById('asset-editor-modal').classList.add('open');
+}
+
+function closeAssetEditor() {
+  document.getElementById('asset-editor-modal').classList.remove('open');
+  currentAssetId = null;
+  renderFieldTab();
+}
+
+function switchAssetTab(tab) {
+  assetEditorTab = tab;
+  document.querySelectorAll('.asset-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.asset-tab-btn[data-tab="${tab}"]`).classList.add('active');
+  renderAssetEditorContent();
+}
+
+function renderAssetEditor() {
+  const a = getAsset(currentAssetId); if (!a) return;
+  const j = getJob();
+  const isDeEn = j && (j.tier === 'full_den' || j.tier === 'full_all');
+  const showEnergized = (a.ir && a.ir.result === 'FAIL') || (j && (j.tier === 'full' || j.tier === 'full_af' || j.tier === 'full_den' || j.tier === 'full_all'));
+
+  // Build tab buttons
+  const tabs = [
+    {id:'info', label:'Info'},
+    {id:'code', label:'Code'},
+    {id:'ir', label:'IR'},
+    {id:'ut', label:'UT'},
+    {id:'energized', label:'Energized'},
+  ];
+  if (isDeEn) {
+    tabs.push({id:'insulation', label:'Insul'});
+    tabs.push({id:'dlro', label:'DLRO'});
+    tabs.push({id:'torque', label:'Torque'});
+  }
+
+  document.getElementById('asset-editor-tabs').innerHTML = tabs.map(t =>
+    `<button class="asset-tab-btn${assetEditorTab===t.id?' active':''}" data-tab="${t.id}" onclick="switchAssetTab('${t.id}')">${t.label}</button>`
+  ).join('');
+
+  document.getElementById('asset-editor-title').textContent = a.name || 'New Asset';
+  renderAssetEditorContent();
+}
+
+function renderAssetEditorContent() {
+  const a = getAsset(currentAssetId); if (!a) return;
+  const j = getJob();
+  const el = document.getElementById('asset-editor-body');
+  const isDeEn = j && (j.tier === 'full_den' || j.tier === 'full_all');
+
+  if (assetEditorTab === 'info') {
+    const roomOptions = (j && j.rooms || []).map(r =>
+      `<option value="${r.name}" ${a.location===r.name?'selected':''}>${r.name}</option>`
+    ).join('');
+    const eqOptions = EPM_EQ_TYPES.map(t =>
+      `<option value="${t}" ${a.eqType===t?'selected':''}>${t}</option>`
+    ).join('');
+    const critOptions = EPM_CRITICALITY.map(c =>
+      `<option value="${c}" ${a.criticality===c?'selected':''}>${c}</option>`
+    ).join('');
+    const maintOptions = EPM_MAINT_STATUS.map(m =>
+      `<option value="${m}" ${a.maintStatus===m?'selected':''}>${m}</option>`
+    ).join('');
+
+    el.innerHTML = `
+      <div class="ae-field"><label>Asset Tag</label>
+        <input type="text" value="${a.tag||''}" onchange="updateAssetField('tag',this.value);if(this.value)advanceTagCounter(this.value)">
+      </div>
+      <div class="ae-field"><label>Functional Name</label>
+        <input type="text" value="${a.name||''}" onchange="updateAssetField('name',this.value)" placeholder="e.g. Main Switchboard">
+      </div>
+      <div class="ae-field"><label>Location</label>
+        <select onchange="updateAssetField('location',this.value)">
+          <option value="">-- Select Room --</option>
+          ${roomOptions}
+          <option value="${a.location||''}" ${!roomOptions.includes(a.location)?'selected':''}>Other: ${a.location||''}</option>
+        </select>
+      </div>
+      <div class="ae-field"><label>Equipment Type</label>
+        <select onchange="updateAssetField('eqType',this.value)">
+          <option value="">-- Select Type --</option>
+          ${eqOptions}
+        </select>
+      </div>
+      <div class="ae-field"><label>Manufacturer</label>
+        <input type="text" value="${a.manufacturer||''}" onchange="updateAssetField('manufacturer',this.value)" placeholder="e.g. Square D">
+      </div>
+      <div class="ae-field"><label>Model</label>
+        <input type="text" value="${a.model||''}" onchange="updateAssetField('model',this.value)">
+      </div>
+      <div class="ae-field"><label>Serial #</label>
+        <input type="text" value="${a.serial||''}" onchange="updateAssetField('serial',this.value)">
+      </div>
+      <div class="ae-field"><label>Voltage</label>
+        <input type="text" value="${a.voltage||''}" onchange="updateAssetField('voltage',this.value)" placeholder="e.g. 480V">
+      </div>
+      <div class="ae-field"><label>Criticality</label>
+        <select onchange="updateAssetField('criticality',this.value)">${critOptions}</select>
+      </div>
+      <div class="ae-field"><label>Maint. Status</label>
+        <select onchange="updateAssetField('maintStatus',this.value)">${maintOptions}</select>
+      </div>
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="2" style="resize:none" onchange="updateAssetField('notes',this.value)">${a.notes||''}</textarea>
+      </div>
+      <button class="btn btn-red btn-sm" style="margin-top:8px" onclick="deleteAsset('${a.id}')">🗑 Delete Asset</button>
+    `;
+  }
+
+  else if (assetEditorTab === 'code') {
+    const violations = a.codeViolations && a.codeViolations.length ? a.codeViolations : [{article:'',sev:'',corrected:'No',notes:''}];
+
+    // Group violations by code family
+    const CODE_GROUPS = [
+      {label:'NEC', prefix:'NEC'},
+      {label:'NFPA 70B', prefix:'NFPA 70B'},
+      {label:'NFPA 70E', prefix:'NFPA 70E'},
+      {label:'NFPA 72', prefix:'NFPA 72'},
+      {label:'NFPA 110', prefix:'NFPA 110'},
+      {label:'OSHA', prefix:'OSHA'},
+      {label:'Field Observations', prefix:'Field'},
+      {label:'Condition / General', prefix:'Condition'},
+      {label:'XFMR / Equipment', prefix:'XFMR'},
+      {label:'VFD', prefix:'VFD'},
+      {label:'Equipment Cleanliness', prefix:'Equipment'},
+    ];
+
+    function getGroup(article) {
+      if (!article) return 'Other';
+      for (const g of CODE_GROUPS) {
+        if (article.startsWith(g.prefix)) return g.label;
+      }
+      return 'Other';
+    }
+
+    // Build grouped options for a select
+    function buildGroupedOpts(currentArticle, search) {
+      const filtered = search
+        ? EPM_CODE_VIOLATIONS.filter(c => c.article.toLowerCase().includes(search.toLowerCase()))
+        : EPM_CODE_VIOLATIONS;
+
+      const groups = {};
+      filtered.forEach(c => {
+        const g = getGroup(c.article);
+        if (!groups[g]) groups[g] = [];
+        groups[g].push(c);
+      });
+
+      let opts = '<option value="">-- No violation --</option>';
+      Object.entries(groups).forEach(([gname, items]) => {
+        opts += `<optgroup label="${gname}">`;
+        items.forEach(c => {
+          const sel = c.article === currentArticle ? 'selected' : '';
+          opts += `<option value="${c.article}" data-sev="${c.sev}" ${sel}>${c.article}</option>`;
+        });
+        opts += '</optgroup>';
+      });
+      return opts;
+    }
+
+    let html = `<div style="margin-bottom:10px">
+      <input type="text" placeholder="🔍 Search code articles..." id="code-search-input" value="${codeViolationSearch}"
+        oninput="codeViolationSearch=this.value;renderAssetEditorContent()" style="margin-bottom:0">
+    </div>`;
+
+    violations.slice(0,5).forEach((v, idx) => {
+      const sevColor = v.sev === 'Critical (5pts)' ? 'var(--red)' : (v.sev === 'Major (3pts)' ? 'var(--gold)' : 'var(--muted)');
+      const sevLabel = v.sev === 'Critical (5pts)' ? '🔴 Critical' : (v.sev === 'Major (3pts)' ? '🟡 Major' : (v.sev === 'Minor (1pt)' ? '⚪ Minor' : ''));
+      const opts = buildGroupedOpts(v.article, codeViolationSearch);
+
+      html += `<div style="background:var(--bg);border:1px solid ${v.article?'var(--border)':'var(--border)'};border-radius:8px;padding:10px;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:1px">VIOLATION ${idx+1}</div>
+        <select onchange="updateViolationFromSelect(${idx},this)">
+          ${opts}
+        </select>
+        ${v.article ? `
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <div style="font-size:12px;font-weight:700;color:${sevColor};flex:1">${sevLabel}</div>
+          <select style="width:auto;padding:6px 8px;font-size:12px" onchange="updateViolation(${idx},'corrected',this.value)">
+            <option value="No" ${v.corrected!=='Yes'?'selected':''}>Not Corrected</option>
+            <option value="Yes" ${v.corrected==='Yes'?'selected':''}>Corrected ✓</option>
+          </select>
+        </div>
+        <div style="margin-top:8px">
+          <textarea rows="2" style="resize:none;font-size:12px" placeholder="Violation notes..."
+            onchange="updateViolation(${idx},'notes',this.value)">${v.notes||''}</textarea>
+        </div>` : ''}
+      </div>`;
+    });
+
+    if (violations.length < 5) {
+      html += `<button class="btn btn-outline btn-sm btn-full" onclick="addViolation()">+ Add Violation</button>`;
+    }
+    el.innerHTML = html;
+  }
+
+  else if (assetEditorTab === 'ir') {
+    const ir = a.ir || {};
+    const showDetail = ir.result === 'FAIL' || ir.result === 'MONITOR';
+    const resultOpts = EPM_RESULTS.map(r => `<option ${ir.result===r?'selected':''}>${r}</option>`).join('');
+    const phaseOpts = EPM_PHASES.map(p => `<option ${ir.phase===p?'selected':''}>${p}</option>`).join('');
+    const compOpts = EPM_IR_COMPONENTS.map(c => `<option ${ir.component===c?'selected':''}>${c}</option>`).join('');
+    const fmOpts = EPM_IR_FAILURE_MODES.map(f => `<option ${ir.failureMode===f?'selected':''}>${f}</option>`).join('');
+
+    el.innerHTML = `
+      <div class="ae-field"><label>IR Result</label>
+        <select onchange="updateAssetSubField('ir','result',this.value);renderAssetEditorContent()">
+          <option value="">-- Select --</option>${resultOpts}
+        </select>
+      </div>
+      ${showDetail ? `
+      <div class="ae-field"><label>Phase</label>
+        <select onchange="updateAssetSubField('ir','phase',this.value)">
+          <option value="">-- Select --</option>${phaseOpts}
+        </select>
+      </div>
+      <div class="ae-field"><label>Component</label>
+        <select onchange="updateAssetSubField('ir','component',this.value)">
+          <option value="">-- Select --</option>${compOpts}
+        </select>
+      </div>
+      <div class="ae-field"><label>Failure Mode</label>
+        <select onchange="updateAssetSubField('ir','failureMode',this.value)">
+          <option value="">-- Select --</option>${fmOpts}
+        </select>
+      </div>` : ''}
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="3" style="resize:none" onchange="updateAssetSubField('ir','notes',this.value)">${ir.notes||''}</textarea>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'ut') {
+    const ut = a.ut || {};
+    const showDetail = ut.result === 'FAIL' || ut.result === 'MONITOR';
+    const resultOpts = EPM_RESULTS.map(r => `<option ${ut.result===r?'selected':''}>${r}</option>`).join('');
+    const compOpts = EPM_IR_COMPONENTS.map(c => `<option ${ut.component===c?'selected':''}>${c}</option>`).join('');
+    const fmOpts = EPM_IR_FAILURE_MODES.map(f => `<option ${ut.failureMode===f?'selected':''}>${f}</option>`).join('');
+
+    el.innerHTML = `
+      <div class="ae-field"><label>UT Result</label>
+        <select onchange="updateAssetSubField('ut','result',this.value);renderAssetEditorContent()">
+          <option value="">-- Select --</option>${resultOpts}
+        </select>
+      </div>
+      ${showDetail ? `
+      <div class="ae-field"><label>Component</label>
+        <select onchange="updateAssetSubField('ut','component',this.value)">
+          <option value="">-- Select --</option>${compOpts}
+        </select>
+      </div>
+      <div class="ae-field"><label>Failure Mode</label>
+        <select onchange="updateAssetSubField('ut','failureMode',this.value)">
+          <option value="">-- Select --</option>${fmOpts}
+        </select>
+      </div>
+      <div class="ae-field"><label>dB Level</label>
+        <input type="text" value="${ut.db||''}" onchange="updateAssetSubField('ut','db',this.value)" placeholder="e.g. 42.5">
+      </div>` : ''}
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="3" style="resize:none" onchange="updateAssetSubField('ut','notes',this.value)">${ut.notes||''}</textarea>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'energized') {
+    const e = a.energized || {};
+    const phaseOpts = EPM_PHASE_TYPES.map(p => `<option ${e.phase===p?'selected':''}>${p}</option>`).join('');
+    const wireOpts = EPM_WIRE_TYPES.map(w => `<option ${e.wire===w?'selected':''}>${w}</option>`).join('');
+    el.innerHTML = `
+      <div class="row"><div class="ae-field"><label>Phase</label>
+        <select onchange="updateAssetSubField('energized','phase',this.value)">
+          <option value="">--</option>${phaseOpts}
+        </select>
+      </div><div class="ae-field"><label>Wire</label>
+        <select onchange="updateAssetSubField('energized','wire',this.value)">
+          <option value="">--</option>${wireOpts}
+        </select>
+      </div></div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Voltage (V)</div>
+      <div class="row">
+        <div class="ae-field"><label>V-AB</label><input type="text" value="${e.vab||''}" onchange="updateAssetSubField('energized','vab',this.value)"></div>
+        <div class="ae-field"><label>V-BC</label><input type="text" value="${e.vbc||''}" onchange="updateAssetSubField('energized','vbc',this.value)"></div>
+        <div class="ae-field"><label>V-CA</label><input type="text" value="${e.vca||''}" onchange="updateAssetSubField('energized','vca',this.value)"></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
+      <div class="row">
+        <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
+        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
+        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" onchange="updateAssetSubField('energized','ac',this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Rated Amps</label><input type="text" value="${e.ratedAmps||''}" onchange="updateAssetSubField('energized','ratedAmps',this.value)"></div>
+        <div class="ae-field"><label>OCPD</label><input type="text" value="${e.ocpd||''}" onchange="updateAssetSubField('energized','ocpd',this.value)"></div>
+      </div>
+      <div class="ae-field"><label>Analysis</label>
+        <input type="text" value="${e.analysis||'N/A'}" onchange="updateAssetSubField('energized','analysis',this.value)">
+      </div>
+      <div class="ae-field"><label>Summary</label>
+        <select onchange="updateAssetSubField('energized','summary',this.value)">
+          ${EPM_RESULTS.map(r => `<option ${(e.summary||'PASS')===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'insulation') {
+    const ins = a.insulation || {};
+    el.innerHTML = `
+      <div class="row">
+        <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateAssetSubField('insulation','testV',this.value)"></div>
+        <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateAssetSubField('insulation','temp',this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Ph-Ph (MΩ)</label><input type="text" value="${ins.phPh||''}" onchange="updateAssetSubField('insulation','phPh',this.value)"></div>
+        <div class="ae-field"><label>Ph-G (MΩ)</label><input type="text" value="${ins.phG||''}" onchange="updateAssetSubField('insulation','phG',this.value)"></div>
+        <div class="ae-field"><label>PI</label><input type="text" value="${ins.pi||''
