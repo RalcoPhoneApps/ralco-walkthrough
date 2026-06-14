@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- RALCO Walkthrough v6.1 | Built 2026-06-14 13:08 -->
+<!-- RALCO Walkthrough v3.0 | Built 2026-06-14 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -16,66 +16,64 @@
 :root{--navy:#1A3A5C;--gold:#FFAA00;--red:#CC2229;--bg:#0f1e2e;--surface:#162840;--surface2:#1e3550;--border:#2a4a6a;--text:#e8f0f8;--muted:#7a9bbf;--green:#2ecc71;--font:'Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
-header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200}
+.header-back{display:none;align-items:center;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600;gap:4px;user-select:none;-webkit-user-select:none;flex-shrink:0}
+.header-back:active{color:var(--gold)}
+.header-title{flex:1;min-width:0}
 .logo{font-size:18px;font-weight:800;letter-spacing:2px;color:var(--gold)}
 .subtitle{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-.header-right{font-size:12px;color:var(--muted);text-align:right;cursor:pointer;user-select:none;-webkit-user-select:none}
-.header-right span{display:block;font-size:14px;color:var(--text);font-weight:600}
-.screen{display:none;min-height:calc(100vh - 60px)}
+.header-device{font-size:12px;color:var(--muted);text-align:right;cursor:pointer;user-select:none;-webkit-user-select:none;flex-shrink:0}
+.screen{display:none;min-height:calc(100vh - 63px)}
 .screen.active{display:block}
-.jobs-header{padding:16px;display:flex;justify-content:space-between;align-items:center}
-.jobs-header h2{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
-.job-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:0 16px 12px;padding:14px}
-.job-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-.job-customer{font-size:16px;font-weight:700;flex:1;padding-right:8px}
-.job-status{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
-.status-new{background:rgba(122,155,191,0.15);color:var(--muted)}
-.status-progress{background:rgba(255,170,0,0.15);color:var(--gold)}
-.status-ready{background:rgba(46,204,113,0.15);color:var(--green)}
-.job-card-meta{font-size:12px;color:var(--muted);margin-bottom:10px}
-.job-card-actions{display:flex;gap:8px}
-.empty-jobs{text-align:center;padding:60px 20px;color:var(--muted)}
-.empty-jobs .icon{font-size:48px;margin-bottom:12px}
-.empty-jobs p{font-size:14px}
-.nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:100}
-.nav-tab{flex:1;min-width:0;padding:12px 4px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap}
+/* NAV TABS */
+.nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:63px;z-index:100}
+.nav-tab{flex:1;min-width:0;padding:11px 4px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .tab-view{display:none;padding:16px;padding-bottom:80px}
 .tab-view.active{display:block}
+/* CARDS */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
 .card-title{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+/* INPUTS */
 input[type=text],input[type=number],select,textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--font);font-size:14px}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
 label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:7px;font-weight:700;font-size:13px;cursor:pointer;border:none;transition:all 0.15s;white-space:nowrap}
-.btn-gold{background:var(--gold);color:#0f1e2e}
-.btn-gold:active{background:#e09800}
+.btn-gold{background:var(--gold);color:#0f1e2e}.btn-gold:active{background:#e09800}
 .btn-red{background:rgba(204,34,41,0.15);color:var(--red);border:1px solid var(--red)}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
-.btn-outline:active{background:var(--surface2)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-outline:active{background:var(--surface2)}
 .btn-green{background:var(--green);color:#0f1e2e}
 .btn-sm{padding:7px 11px;font-size:12px}
 .btn-full{width:100%;margin-top:10px}
-.row{display:flex;gap:10px}
-.row>*{flex:1}
+/* LAYOUT */
+.row{display:flex;gap:10px}.row>*{flex:1}
 .mt{margin-top:10px}
 .divider{border:none;border-top:1px solid var(--border);margin:14px 0}
 .section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .other-flag{background:rgba(204,34,41,0.1);border:1px solid var(--red);border-radius:6px;padding:8px 12px;font-size:12px;color:#ff8888}
-.back-btn{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;padding:4px 0;margin-bottom:8px}
-.back-btn:active{color:var(--gold)}
-.tier-btn{width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;text-align:left;margin-bottom:8px;transition:all 0.15s}
-.tier-btn.selected{border-color:var(--gold);background:rgba(255,170,0,0.06)}
-.tier-name{font-weight:700;font-size:14px}
-.tier-desc{font-size:11px;color:var(--muted);margin-top:3px}
+/* SITE CARDS */
+.site-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:0 16px 12px;padding:14px;cursor:pointer;transition:border-color 0.15s}
+.site-card:active{border-color:var(--gold)}
+.site-customer{font-size:16px;font-weight:700;margin-bottom:4px}
+.site-meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+.site-actions{display:flex;gap:8px}
+/* CONTRACT/YEAR CARDS */
+.contract-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
+.contract-card:active{border-color:var(--gold)}
+.year-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
+.year-card:active{border-color:var(--gold)}
+/* BUILDINGS */
 .bldg-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:6px}
 .bldg-name{font-size:14px;font-weight:600}
 .bldg-select{background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--muted);font-size:11px;padding:4px 6px;width:auto;margin-top:4px}
+/* ROOMS */
 .room-item{display:flex;align-items:flex-start;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;gap:8px}
 .room-item.active-room{border-color:var(--gold);background:rgba(255,170,0,0.04)}
 .room-name{font-weight:600;font-size:15px}
 .room-meta{font-size:11px;color:var(--muted);margin-top:2px}
 .room-qty-badge{font-size:20px;font-weight:800;color:var(--gold);min-width:32px;text-align:right;margin-top:2px}
+/* EQUIPMENT */
 .eq-panel{background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:14px;margin-bottom:12px}
 .eq-panel-title{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:12px}
 .eq-group-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;padding-top:10px;border-top:1px solid var(--border)}
@@ -84,6 +82,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .eq-label-top{margin-bottom:8px}
 .eq-label-text{font-size:14px;font-weight:500;line-height:1.4;color:var(--text)}
 .eq-controls-row{display:flex;align-items:center;gap:8px}
+/* SERVICE PILLS */
 .svc-pill{flex-shrink:0;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--muted);white-space:nowrap;transition:all 0.15s}
 .svc-pill.svc-override{border-color:var(--gold);color:var(--gold);background:rgba(255,170,0,0.1)}
 .svc-basic{color:var(--muted)}
@@ -91,13 +90,33 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .svc-full_af{color:#cc88ff;border-color:#9944ff;background:rgba(180,100,255,0.1)}
 .svc-full_den{color:#ff8888;border-color:var(--red);background:rgba(204,34,41,0.1)}
 .svc-full_all{color:var(--gold);border-color:var(--gold);background:rgba(255,170,0,0.12)}
+/* COUNTER */
 .counter{display:flex;align-items:center;border:1px solid var(--border);border-radius:7px;overflow:hidden;flex:1}
 .counter-btn{width:42px;height:42px;border:none;background:var(--surface2);color:var(--text);font-size:22px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .counter-btn:active{background:var(--border)}
 .counter-input{flex:1;height:42px;text-align:center;font-size:18px;font-weight:800;color:var(--gold);background:var(--bg);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);padding:0;font-family:var(--font);min-width:0}
 .counter-input:focus{outline:none;background:rgba(255,170,0,0.06)}
+/* ASSET CARDS */
+.asset-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
+.asset-card:active{border-color:var(--gold)}
+/* TIER BUTTONS */
+.tier-btn{width:100%;padding:12px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;text-align:left;margin-bottom:8px;transition:all 0.15s}
+.tier-btn.selected{border-color:var(--gold);background:rgba(255,170,0,0.06)}
+.tier-name{font-weight:700;font-size:14px}
+.tier-desc{font-size:11px;color:var(--muted);margin-top:3px}
+/* ASSET EDITOR MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:none;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
+.modal-overlay.center{align-items:center;justify-content:center}
+.asset-editor-modal{background:var(--surface);border-radius:16px 16px 0 0;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.asset-editor-header{background:var(--navy);padding:14px 16px;border-bottom:2px solid var(--gold);flex-shrink:0}
+.asset-editor-tabs{display:flex;background:var(--surface2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.asset-tab-btn{flex-shrink:0;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.asset-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.asset-editor-body{flex:1;overflow-y:auto;padding:16px}
+.ae-field{margin-bottom:12px}
+.ae-field label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
+/* SVC PICKER */
 .svc-picker{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px 16px 36px;width:100%;max-width:480px}
 .svc-picker-title{font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .svc-picker-default{font-size:11px;color:var(--muted);text-align:center;margin-bottom:12px}
@@ -106,121 +125,128 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 .svc-option{padding:13px 16px;border-radius:8px;border:2px solid var(--border);background:var(--bg);cursor:pointer;text-align:left;transition:all 0.15s}
 .svc-option.selected{border-color:var(--gold);background:rgba(255,170,0,0.08)}
 .svc-option-name{font-size:14px;font-weight:700}
-.sum-table{width:100%;border-collapse:collapse;font-size:13px}
-.sum-table th{text-align:left;padding:7px 10px;background:var(--surface2);color:var(--muted);font-size:11px;letter-spacing:0.5px;text-transform:uppercase}
-.sum-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
-.sum-table .total-row td{font-weight:700;color:var(--gold);background:rgba(255,170,0,0.05)}
-
-/* FIELD TAB */
-.asset-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
-.asset-card:active{border-color:var(--gold)}
-.asset-editor-modal{background:var(--surface);border-radius:16px 16px 0 0;padding:0;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
-.asset-editor-header{background:var(--navy);padding:14px 16px;border-bottom:2px solid var(--gold);flex-shrink:0}
-.asset-editor-tabs{display:flex;background:var(--surface2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
-.asset-tab-btn{flex-shrink:0;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
-.asset-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
-.asset-editor-body{flex:1;overflow-y:auto;padding:16px}
-.ae-field{margin-bottom:12px}
-.ae-field label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state .icon{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+/* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#0f1e2e;padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap}
 .toast.show{opacity:1}
-/* Device setup modal */
-.device-setup{background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px;margin:auto}
-.device-setup h2{font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;text-align:center}
-.device-setup p{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5}
-.modal-overlay.center{align-items:center}
+/* DEVICE SETUP */
+.device-setup-banner{display:none;background:var(--navy);border-bottom:2px solid var(--gold);padding:16px}
+.device-rename-box{background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px}
 </style>
 </head>
 <body>
 
+<!-- DEVICE SETUP BANNER -->
+<div class="device-setup-banner" id="device-setup-banner">
+  <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px">👋 What should we call this device?</div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="device-banner-input" placeholder="e.g. Josh Phone, Bert Laptop..." style="flex:1" onkeydown="if(event.key==='Enter')saveDeviceName()">
+    <button class="btn btn-gold btn-sm" onclick="saveDeviceName()">Save</button>
+  </div>
+</div>
+
+<!-- HEADER -->
 <header>
-  <div>
+  <div id="header-back" class="header-back" onclick="goBack()">‹ Back</div>
+  <div class="header-title">
     <div class="logo">RALCO</div>
     <div class="subtitle">Field Walkthrough</div>
   </div>
-  <div id="header-right-btn" onclick="headerAction()" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer;user-select:none;-webkit-user-select:none;display:none">
-    <span style="font-size:13px;font-weight:700;color:var(--gold)">← Jobs</span>
-  </div>
-  <div id="header-device-label" style="font-size:13px;color:var(--muted);user-select:none">
-    <span id="header-label">Jobs</span>
+  <div class="header-device" onclick="renameDevice()">
+    <span id="header-label">Sites</span><br>
+    <span id="device-name-display" style="font-size:10px;color:var(--muted)">Device</span>
   </div>
 </header>
 
-<!-- DEVICE SETUP MODAL (first launch only) -->
-<div class="modal-overlay center" id="device-setup-modal">
-  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
-    <h2 style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;text-align:center">Welcome to RALCO</h2>
-    <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5">What should we call this device?</p>
-    <label>Device Name</label>
-    <input type="text" id="device-name-input" placeholder="e.g. Bert Phone, Josh Laptop..." style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceName()">
-    <button class="btn btn-gold btn-full" style="margin-top:0;width:100%" onclick="saveDeviceName()">Get Started</button>
+<!-- ══════════════ SITES LIST ══════════════ -->
+<div id="screen-sites" class="screen active">
+  <div style="padding:16px;display:flex;justify-content:space-between;align-items:center">
+    <h2 style="font-size:16px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase">Sites</h2>
+    <button class="btn btn-gold btn-sm" onclick="newSite()">+ New Site</button>
   </div>
-</div>
-
-<!-- DEVICE RENAME INLINE MODAL -->
-<div class="modal-overlay center" id="device-rename-modal">
-  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
-    <h2 style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:16px;text-align:center">Rename Device</h2>
-    <label>Device Name</label>
-    <input type="text" id="device-rename-input" placeholder="e.g. Josh Phone" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceRename()">
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('device-rename-modal').classList.remove('open')">Cancel</button>
-      <button class="btn btn-gold" style="flex:1" onclick="saveDeviceRename()">Save</button>
-    </div>
+  <div style="padding:0 16px 12px">
+    <input type="text" id="site-search-input" placeholder="🔍 Search sites..." oninput="renderSiteList(sites)">
   </div>
-</div>
-
-<!-- JOBS LIST -->
-<div id="screen-jobs" class="screen active">
-  <div id="device-setup-banner" style="display:none;background:var(--navy);border-bottom:2px solid var(--gold);padding:16px;margin-bottom:0">
-    <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px">👋 What should we call this device?</div>
-    <div style="display:flex;gap:8px">
-      <input type="text" id="device-banner-input" placeholder="e.g. Josh Phone, Bert Laptop..." style="flex:1" onkeydown="if(event.key==='Enter')saveBannerDevice()">
-      <button class="btn btn-gold btn-sm" onclick="saveBannerDevice()">Save</button>
-    </div>
-  </div>
-  <div class="jobs-header">
-    <h2>Jobs</h2>
-    <button class="btn btn-gold btn-sm" onclick="newJob()">+ New Job</button>
-  </div>
-  <div id="jobs-list"></div>
+  <div id="sites-list"></div>
   <div style="padding:0 16px 16px;display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn btn-outline btn-sm" onclick="syncAllFromCloud()" style="flex:1">🔄 Sync</button>
-    <button class="btn btn-outline btn-sm" onclick="backupJobs()" style="flex:1">💾 Backup</button>
-    <button class="btn btn-outline btn-sm" onclick="restoreJobs()" style="flex:1">📂 Restore</button>
-    <button class="btn btn-outline btn-sm" onclick="renameDevice()" style="flex:1">✏️ <span id="device-name-display">Set Device Name</span></button>
+    <button class="btn btn-outline btn-sm" onclick="loadSites()" style="flex:1">🔄 Sync</button>
+    <button class="btn btn-outline btn-sm" onclick="backupAllData()" style="flex:1">💾 Backup</button>
+    <button class="btn btn-outline btn-sm" onclick="showDeletedSites()" style="flex:1">🗑 Deleted</button>
+    <button class="btn btn-outline btn-sm" onclick="renameDevice()" style="flex:1">✏️ <span id="device-name-display2">Device</span></button>
   </div>
   <input type="file" id="restore-input" accept=".json" style="display:none" onchange="doRestore(event)">
 </div>
 
-<!-- JOB SCREEN -->
-<div id="screen-job" class="screen">
+<!-- ══════════════ SITE SCREEN ══════════════ -->
+<div id="screen-site" class="screen">
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showTab('setup')">Setup</button>
-    <button class="nav-tab" onclick="showTab('rooms')">Rooms</button>
-    <button class="nav-tab" onclick="showTab('log')">Log</button>
-    <button class="nav-tab" onclick="showTab('field')">Field</button>
-    <button class="nav-tab" onclick="showTab('summary')">Summary</button>
+    <button class="nav-tab active" onclick="showSiteTab('info')">Info</button>
+    <button class="nav-tab" onclick="showSiteTab('contracts')">Contracts</button>
+    <button class="nav-tab" onclick="showSiteTab('assets')">Assets</button>
   </div>
 
-  <div id="tab-setup" class="tab-view active">
-    <div class="back-btn" onclick="goJobs()">← Jobs List</div>
+  <div id="site-tab-info" class="tab-view active">
     <div class="card">
-      <div class="card-title">Job Info</div>
+      <div class="card-title">Site Info</div>
       <label>Customer / Facility Name</label>
-      <input type="text" id="f-customer" placeholder="e.g. Acme Manufacturing" oninput="saveField('customer',this.value)">
+      <input type="text" id="f-site-customer" placeholder="e.g. Dighton Power" oninput="saveSiteField('customer',this.value)">
       <div class="mt"><label>Address</label>
-      <input type="text" id="f-address" placeholder="e.g. 100 Main St, Taunton MA" oninput="saveField('address',this.value)"></div>
+      <input type="text" id="f-site-address" placeholder="e.g. 1450 Somerset Ave, Dighton MA" oninput="saveSiteField('address',this.value)"></div>
       <div class="row mt">
-        <div><label>Date</label><input type="text" id="f-date" placeholder="MM/DD/YYYY" oninput="saveField('date',this.value)"></div>
-        <div><label>Sales Rep</label><input type="text" id="f-rep" placeholder="Name" oninput="saveField('rep',this.value)"></div>
+        <div><label>Contact Name</label><input type="text" id="f-site-contact" placeholder="Optional" oninput="saveSiteField('contact',this.value)"></div>
+        <div><label>Phone</label><input type="text" id="f-site-phone" placeholder="Optional" oninput="saveSiteField('phone',this.value)"></div>
       </div>
       <div class="mt"><label>Site Notes</label>
-      <textarea id="f-notes" rows="2" style="resize:none" placeholder="General observations..." oninput="saveField('notes',this.value)"></textarea></div>
+      <textarea id="f-site-notes" rows="3" style="resize:none" placeholder="Permanent notes about this site..." oninput="saveSiteField('notes',this.value)"></textarea></div>
+    </div>
+    <button class="btn btn-gold btn-full" style="margin-top:0" onclick="showSiteTab('contracts')">View Contracts →</button>
+  </div>
+
+  <div id="site-tab-contracts" class="tab-view">
+    <div class="card">
+      <div class="card-title">Contracts</div>
+      <button class="btn btn-gold btn-full" style="margin-bottom:12px;margin-top:0" onclick="newContract()">+ New Contract</button>
+      <div id="contract-list"></div>
+    </div>
+  </div>
+
+  <div id="site-tab-assets" class="tab-view">
+    <div class="card">
+      <div class="card-title">Master Asset Database</div>
+      <div id="site-asset-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CONTRACT SCREEN ══════════════ -->
+<div id="screen-contract" class="screen">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showContractTab('info')">Info</button>
+    <button class="nav-tab" onclick="showContractTab('walkthrough')">Walkthrough</button>
+    <button class="nav-tab" onclick="showContractTab('years')">Years</button>
+    <button class="nav-tab" onclick="showContractTab('export')">Export</button>
+  </div>
+
+  <div id="contract-tab-info" class="tab-view active">
+    <div class="card">
+      <div class="card-title">Contract Info</div>
+      <div class="row">
+        <div><label>Start Date</label><input type="text" id="f-contract-start" placeholder="MM/DD/YYYY" oninput="saveContractField('startDate',this.value)"></div>
+        <div><label>End Date</label><input type="text" id="f-contract-end" placeholder="MM/DD/YYYY" oninput="saveContractField('endDate',this.value)"></div>
+      </div>
+      <div class="mt"><label>Status</label>
+      <select id="f-contract-status" onchange="saveContractField('status',this.value)">
+        <option>Active</option><option>Completed</option><option>Renewal Pending</option>
+      </select></div>
+      <div class="mt"><label>Notes</label>
+      <textarea id="f-contract-notes" rows="2" style="resize:none" oninput="saveContractField('notes',this.value)"></textarea></div>
     </div>
     <div class="card">
       <div class="card-title">Default Service Tier</div>
-      <div id="tier-list"></div>
+      <div id="contract-tier-list"></div>
     </div>
     <div class="card">
       <div class="card-title">Buildings</div>
@@ -232,7 +258,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     </div>
   </div>
 
-  <div id="tab-rooms" class="tab-view">
+  <div id="contract-tab-walkthrough" class="tab-view">
     <div class="card">
       <div class="card-title">Rooms / Areas <span id="room-count-badge" style="color:var(--muted);font-weight:400;font-size:11px"></span></div>
       <div class="row">
@@ -244,64 +270,72 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <div id="eq-panel" style="display:none"></div>
   </div>
 
-  <div id="tab-log" class="tab-view">
+  <div id="contract-tab-years" class="tab-view">
     <div class="card">
-      <div class="card-title">Field Notes</div>
-      <textarea id="f-fieldnotes" rows="6" style="resize:none" placeholder="Running notes during walkthrough..." oninput="saveField('fieldNotes',this.value)"></textarea>
-    </div>
-    <div class="card">
-      <div class="card-title">Site Observations</div>
-      <div id="obs-list"></div>
-      <div class="row mt">
-        <input type="text" id="new-obs-input" placeholder="Add observation..." onkeydown="if(event.key==='Enter')addObs()">
-        <button class="btn btn-gold btn-sm" onclick="addObs()">+</button>
-      </div>
+      <div class="card-title">Contract Years</div>
+      <button class="btn btn-gold btn-full" style="margin-bottom:12px;margin-top:0" onclick="addYear()">+ Add Year</button>
+      <div id="year-list"></div>
     </div>
   </div>
 
-
-  <div id="tab-field" class="tab-view">
+  <div id="contract-tab-export" class="tab-view">
     <div class="card">
-      <div class="card-title">Field Assets <span id="field-asset-count" style="color:var(--muted);font-weight:400;font-size:11px"></span></div>
-      <div class="row" style="margin-bottom:8px">
-        <button class="btn btn-gold btn-sm" onclick="portFromWalkthrough()" style="flex:1">⬇ Port from Walkthrough</button>
-        <button class="btn btn-outline btn-sm" onclick="addNewAsset()" style="flex:1">+ Add Asset</button>
-      </div>
-      <div id="field-asset-list"></div>
+      <div class="card-title">Sales Builder Export</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Exports walkthrough data to the EMA Sales Builder template covering all 3 years.</p>
+      <button class="btn btn-green btn-full" style="margin-top:0" onclick="exportSalesBuilder()">📥 Export Sales Builder</button>
     </div>
-    <button class="btn btn-green btn-full" onclick="exportEPM()">📥 Export EPM Master</button>
-  </div>
-
-  <div id="tab-summary" class="tab-view">
-    <div class="card">
-      <div class="card-title">Equipment Totals</div>
-      <div id="sum-job-info" style="font-size:12px;color:var(--muted);margin-bottom:12px"></div>
-      <table class="sum-table">
-        <thead><tr><th>Equipment</th><th style="text-align:right">Qty</th><th style="text-align:right">Svc</th></tr></thead>
-        <tbody id="sum-body"></tbody>
-      </table>
-    </div>
-    <div id="sum-overrides-card" class="card" style="display:none">
-      <div class="card-title" style="color:var(--gold)">Service Overrides</div>
-      <div id="sum-overrides"></div>
-    </div>
-    <div id="sum-other-card" class="card" style="display:none;border-color:var(--red)">
-      <div class="card-title" style="color:var(--red)">⚠ Custom Pricing Items</div>
-      <div id="sum-other"></div>
-    </div>
-    <div id="sum-obs-card" class="card" style="display:none">
-      <div class="card-title">Site Observations</div>
-      <div id="sum-obs"></div>
-    </div>
-    <button class="btn btn-outline btn-full" onclick="copyText()">📋 Copy as Text</button>
-    <button class="btn btn-green btn-full" onclick="exportJob()">📥 Export Sales Builder</button>
-    <button class="btn btn-outline btn-full" onclick="exportEPM()" style="margin-top:8px;border-color:var(--gold);color:var(--gold)">📥 Export EPM Master</button>
   </div>
 </div>
 
+<!-- ══════════════ YEAR SCREEN ══════════════ -->
+<div id="screen-year" class="screen">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showYearTab('info')">Info</button>
+    <button class="nav-tab" onclick="showYearTab('field')">Field</button>
+    <button class="nav-tab" onclick="showYearTab('export')">Export</button>
+  </div>
+
+  <div id="year-tab-info" class="tab-view active">
+    <div class="card">
+      <div class="card-title" id="year-label-display">Year</div>
+      <label>Work Date</label>
+      <input type="text" id="f-year-date" placeholder="MM/DD/YYYY" oninput="saveYearField('workDate',this.value)">
+      <div class="mt"><label>Technician / Rep</label>
+      <input type="text" id="f-year-rep" placeholder="Who did the work" oninput="saveYearField('rep',this.value)"></div>
+      <div class="mt"><label>Status</label>
+      <select id="f-year-status" onchange="saveYearField('status',this.value)">
+        <option>Scheduled</option><option>In Progress</option><option>Complete</option>
+      </select></div>
+    </div>
+  </div>
+
+  <div id="year-tab-field" class="tab-view">
+    <div class="card">
+      <div class="card-title">Field Assets <span id="year-asset-count" style="color:var(--muted);font-weight:400;font-size:11px"></span></div>
+      <div id="year-asset-list"></div>
+    </div>
+  </div>
+
+  <div id="year-tab-export" class="tab-view">
+    <div class="card">
+      <div class="card-title">EPM Master Export</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Exports field data for this year to the EPM Master template for use in LogiCurrent Suite.</p>
+      <button class="btn btn-green btn-full" style="margin-top:0" onclick="exportEPMMaster()">📥 Export EPM Master</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DELETED SITES ══════════════ -->
+<div id="screen-deleted" class="screen">
+  <div style="padding:16px">
+    <h2 style="font-size:16px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Recently Deleted</h2>
+    <p style="font-size:12px;color:var(--muted)">Sites are permanently deleted after 30 days.</p>
+  </div>
+  <div id="deleted-list" style="padding:0 16px"></div>
+</div>
 
 <!-- ASSET EDITOR MODAL -->
-<div class="modal-overlay" id="asset-editor-modal" style="align-items:flex-end" onclick="if(event.target===this)closeAssetEditor()">
+<div class="modal-overlay" id="asset-editor-modal" onclick="if(event.target===this)closeAssetEditor()">
   <div class="asset-editor-modal">
     <div class="asset-editor-header">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -309,6 +343,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
         <button class="btn btn-sm btn-outline" onclick="closeAssetEditor()">Done ✓</button>
       </div>
     </div>
+    <div id="asset-history-summary" style="display:none;padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border)"></div>
     <div class="asset-editor-tabs" id="asset-editor-tabs"></div>
     <div class="asset-editor-body" id="asset-editor-body"></div>
   </div>
@@ -325,74 +360,144 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
   </div>
 </div>
 
+<!-- DEVICE RENAME MODAL -->
+<div class="modal-overlay center" id="device-rename-modal">
+  <div class="device-rename-box">
+    <h2 style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:16px;text-align:center">Rename Device</h2>
+    <label>Device Name</label>
+    <input type="text" id="device-rename-input" placeholder="e.g. Josh Phone" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceRename()">
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('device-rename-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-gold" style="flex:1" onclick="saveDeviceRename()">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-const API = 'https://ralco-export.onrender.com';
+// ═══════════════════════════════════════════════════════
+// RALCO FIELD WALKTHROUGH v3
+// Sites → Contracts → Years → Assets
+// ═══════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════
-// STORAGE — localStorage with cloud sync
-// ═══════════════════════════════════════════════════════
+const API = 'https://ralco-export.onrender.com';
+const APP_VERSION = 'v3.0';
+const CACHE_NAME = 'ralco-walkthrough-v7';
+
+// ── Storage ──────────────────────────────────────────────────
 var _store = {};
 var _useLS = (function(){
   try { localStorage.setItem('_t','1'); localStorage.removeItem('_t'); return true; }
   catch(e) { return false; }
 })();
-function lsGet(k){ try { return _useLS ? localStorage.getItem(k) : (_store[k]||null); } catch(e){ return _store[k]||null; } }
-function lsSet(k,v){ try { if(_useLS) localStorage.setItem(k,v); else _store[k]=v; } catch(e){ _store[k]=v; } }
+function lsGet(k){ try { return _useLS?localStorage.getItem(k):(_store[k]||null); } catch(e){ return _store[k]||null; } }
+function lsSet(k,v){ try { if(_useLS)localStorage.setItem(k,v); else _store[k]=v; } catch(e){ _store[k]=v; } }
 
-// ═══════════════════════════════════════════════════════
-// DEVICE IDENTITY
-// ═══════════════════════════════════════════════════════
-let deviceId = lsGet('ralco_device_id');
+// ── Device identity ──────────────────────────────────────────
+let deviceId   = lsGet('ralco_device_id');
 let deviceName = lsGet('ralco_device_name');
-
 if (!deviceId) {
   deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
   lsSet('ralco_device_id', deviceId);
 }
 
+// ── Local state ──────────────────────────────────────────────
+let sites      = [];   // list summaries from cloud
+let currentSite     = null;  // full site object (with contracts)
+let currentContract = null;
+let currentYear     = null;
+let siteAssets      = [];   // master asset list for current site
+let currentAssetId  = null;
+let assetEditorTab  = 'info';
+let lastTagEntered  = null;  // in-memory tag counter
+let codeSearch      = '';
+let syncStatus      = {};
+let currentScreen   = 'sites';
+let svcModalCtx     = null;
+
+// ── Navigation stack ─────────────────────────────────────────
+// screens: sites | site | contract | year | deleted
+function showScreen(name) {
+  currentScreen = name;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + name);
+  if (el) el.classList.add('active');
+  updateHeader();
+}
+
+function updateHeader() {
+  const lbl = document.getElementById('header-label');
+  const back = document.getElementById('header-back');
+  if (!lbl || !back) return;
+  const map = {
+    sites:    {label: deviceName || 'Sites', back: false},
+    site:     {label: currentSite?.customer || 'Site', back: true},
+    contract: {label: `Contract #${currentContract?.contractNumber || 1}`, back: true},
+    year:     {label: currentYear?.label || 'Year', back: true},
+    deleted:  {label: 'Recently Deleted', back: true},
+  };
+  const cfg = map[currentScreen] || {label:'RALCO', back:false};
+  lbl.textContent = cfg.label;
+  back.style.display = cfg.back ? 'flex' : 'none';
+}
+
+function goBack() {
+  if (currentScreen === 'year')     { showYearList(); return; }
+  if (currentScreen === 'contract') { showSiteScreenCached(); return; }
+  if (currentScreen === 'site')     { showSiteList(); return; }
+  if (currentScreen === 'deleted')  { showSiteList(); return; }
+  showSiteList();
+}
+
+function showSiteScreenCached() {
+  // Use cached currentSite instead of re-fetching from cloud
+  if (!currentSite) { showSiteList(); return; }
+  showSiteScreen();
+  showSiteTab('contracts');
+}
+
 // ═══════════════════════════════════════════════════════
-// DATA
+// EQUIPMENT & SERVICE DATA
 // ═══════════════════════════════════════════════════════
 const EQUIPMENT = [
-  {id:'swgr_main',    label:'Switchgear - Incoming Main Service (Per Section)',                  group:'Switchgear & Switchboards'},
-  {id:'swgr_icb',     label:'  Switchgear Insulated Case Breakers (Bus Mounted)',                group:'Switchgear & Switchboards'},
-  {id:'swgr_dob',     label:'  SwitchGear Drawout Breakers',                                    group:'Switchgear & Switchboards'},
-  {id:'swbd',         label:'Distribution Switchboard Multi Cover (Per Section)',                group:'Switchgear & Switchboards'},
-  {id:'swbd_disc',    label:'  Switchboard Disconnects',                                        group:'Switchgear & Switchboards'},
-  {id:'swbd_mcb',     label:'  Switchboard Molded Case Breakers',                               group:'Switchgear & Switchboards'},
-  {id:'panel_dist',   label:'Panelboard-Single Cover > 400A (Distribution Panel)',              group:'Panelboards'},
-  {id:'panel_branch', label:'Panelboard-Single Cover < 400A (Branch Ckt Panel)',                group:'Panelboards'},
-  {id:'mcc',          label:'Motor Control Center (MCC-Per Vertical Section)',                  group:'Motor Control'},
-  {id:'mcc_starter',  label:'  MCC: Combination Motor Starters',                               group:'Motor Control'},
-  {id:'mcc_mcb',      label:'  MCC: Molded Case Breaker',                                      group:'Motor Control'},
-  {id:'mcc_disc',     label:'  MCC: Individual Disconnect Switch',                             group:'Motor Control'},
-  {id:'mcp',          label:'Motor Control Panel (MCP)',                                       group:'Motor Control'},
-  {id:'vfd_mcp',      label:'VFD Motor Control Panel (VFD-MCP)',                               group:'Motor Control'},
-  {id:'disc_ind',     label:'Individual Disconnect Switch > 100A',                             group:'Individual Devices'},
-  {id:'mcb_ind',      label:'Individual Molded Case Breaker > 100A',                           group:'Individual Devices'},
-  {id:'starter_ind',  label:'Individual Combination Motor Starter > 100A',                     group:'Individual Devices'},
+  {id:'swgr_main',    label:'Switchgear - Incoming Main Service (Per Section)',          group:'Switchgear & Switchboards'},
+  {id:'swgr_icb',     label:'  Switchgear Insulated Case Breakers (Bus Mounted)',         group:'Switchgear & Switchboards'},
+  {id:'swgr_dob',     label:'  SwitchGear Drawout Breakers',                             group:'Switchgear & Switchboards'},
+  {id:'swbd',         label:'Distribution Switchboard Multi Cover (Per Section)',         group:'Switchgear & Switchboards'},
+  {id:'swbd_disc',    label:'  Switchboard Disconnects',                                 group:'Switchgear & Switchboards'},
+  {id:'swbd_mcb',     label:'  Switchboard Molded Case Breakers',                        group:'Switchgear & Switchboards'},
+  {id:'panel_dist',   label:'Panelboard-Single Cover > 400A (Distribution Panel)',       group:'Panelboards'},
+  {id:'panel_branch', label:'Panelboard-Single Cover < 400A (Branch Ckt Panel)',         group:'Panelboards'},
+  {id:'mcc',          label:'Motor Control Center (MCC-Per Vertical Section)',           group:'Motor Control'},
+  {id:'mcc_starter',  label:'  MCC: Combination Motor Starters',                        group:'Motor Control'},
+  {id:'mcc_mcb',      label:'  MCC: Molded Case Breaker',                               group:'Motor Control'},
+  {id:'mcc_disc',     label:'  MCC: Individual Disconnect Switch',                      group:'Motor Control'},
+  {id:'mcp',          label:'Motor Control Panel (MCP)',                                group:'Motor Control'},
+  {id:'vfd_mcp',      label:'VFD Motor Control Panel (VFD-MCP)',                        group:'Motor Control'},
+  {id:'disc_ind',     label:'Individual Disconnect Switch > 100A',                      group:'Individual Devices'},
+  {id:'mcb_ind',      label:'Individual Molded Case Breaker > 100A',                    group:'Individual Devices'},
+  {id:'starter_ind',  label:'Individual Combination Motor Starter > 100A',              group:'Individual Devices'},
   {id:'xfmr_oil_mv',  label:'Oil Filled Transformer - 5kV-15kV Primary - Any Size (Pad Mounted)', group:'Transformers'},
-  {id:'xfmr_oil_hv',  label:'Oil Filled Transformer - > 15kV Primary (Substation Class)',      group:'Transformers'},
-  {id:'xfmr_dry',     label:'Dry Type Transformer - < 480V Primary - Any Size kVA',            group:'Transformers'},
-  {id:'pf_cap',       label:'Power Factor Correction Capacitors',                              group:'Individual Devices'},
-  {id:'ltg_cont',     label:'Lighting Contactor > 100A',                                       group:'Individual Devices'},
-  {id:'pdu',          label:'Power Distribution Unit (PDU)',                                   group:'Distribution & Misc'},
-  {id:'wireway',      label:'Wire Trough, Gutter, or Large Junction Boxes',                    group:'Distribution & Misc'},
-  {id:'busduct',      label:"Bus Duct - Vertical or Horizontal (Per 10' section)",              group:'Distribution & Misc'},
-  {id:'ats',          label:'Automatic Transfer Switch (ATS) > 100A',                          group:'Transfer Switches'},
-  {id:'mts',          label:'Manual Transfer Switch (MTS) > 100A',                             group:'Transfer Switches'},
-  {id:'vfd_sm',       label:'Variable Frequency Drives (VFD) < 50 HP',                        group:'VFDs'},
-  {id:'vfd_lg',       label:'Variable Frequency Drives (VFD) 51-200 HP',                      group:'VFDs'},
-  {id:'motor_sm',     label:'Motors < 50 HP',                                                  group:'Motors'},
-  {id:'motor_md',     label:'Motors 51-200 HP',                                                group:'Motors'},
-  {id:'motor_lg',     label:'Motors 201-500 HP',                                               group:'Motors'},
-  {id:'comp',         label:'Compressed Air Equipment',                                        group:'Site Equipment'},
-  {id:'hvac_lg',      label:'HVAC Equipment (Large)',                                          group:'Site Equipment'},
-  {id:'hvac_sm',      label:'HVAC Equipment (Small)',                                          group:'Site Equipment'},
-  {id:'ups_sm',       label:'Uninterruptible Power Supply (UPS) < 50kVA',                     group:'UPS'},
-  {id:'ups_lg',       label:'Uninterruptible Power Supply (UPS) > 50kVA',                     group:'UPS'},
+  {id:'xfmr_oil_hv',  label:'Oil Filled Transformer - > 15kV Primary (Substation Class)',group:'Transformers'},
+  {id:'xfmr_dry',     label:'Dry Type Transformer - < 480V Primary - Any Size kVA',     group:'Transformers'},
+  {id:'pf_cap',       label:'Power Factor Correction Capacitors',                       group:'Individual Devices'},
+  {id:'ltg_cont',     label:'Lighting Contactor > 100A',                                group:'Individual Devices'},
+  {id:'pdu',          label:'Power Distribution Unit (PDU)',                            group:'Distribution & Misc'},
+  {id:'wireway',      label:'Wire Trough, Gutter, or Large Junction Boxes',             group:'Distribution & Misc'},
+  {id:'busduct',      label:"Bus Duct - Vertical or Horizontal (Per 10' section)",       group:'Distribution & Misc'},
+  {id:'ats',          label:'Automatic Transfer Switch (ATS) > 100A',                   group:'Transfer Switches'},
+  {id:'mts',          label:'Manual Transfer Switch (MTS) > 100A',                      group:'Transfer Switches'},
+  {id:'vfd_sm',       label:'Variable Frequency Drives (VFD) < 50 HP',                 group:'VFDs'},
+  {id:'vfd_lg',       label:'Variable Frequency Drives (VFD) 51-200 HP',               group:'VFDs'},
+  {id:'motor_sm',     label:'Motors < 50 HP',                                           group:'Motors'},
+  {id:'motor_md',     label:'Motors 51-200 HP',                                         group:'Motors'},
+  {id:'motor_lg',     label:'Motors 201-500 HP',                                        group:'Motors'},
+  {id:'comp',         label:'Compressed Air Equipment',                                 group:'Site Equipment'},
+  {id:'hvac_lg',      label:'HVAC Equipment (Large)',                                   group:'Site Equipment'},
+  {id:'hvac_sm',      label:'HVAC Equipment (Small)',                                   group:'Site Equipment'},
+  {id:'ups_sm',       label:'Uninterruptible Power Supply (UPS) < 50kVA',              group:'UPS'},
+  {id:'ups_lg',       label:'Uninterruptible Power Supply (UPS) > 50kVA',              group:'UPS'},
 ];
 
 const SVC_TYPES = [
@@ -411,74 +516,261 @@ const TIERS = [
   {id:'full_all', name:'Full EPM + De-En + Arc Flash', desc:'Complete scope'},
 ];
 
-// ═══════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════
-let jobs = [];
-let currentJobId = null;
-let activeRoomId = null;
-let svcModalCtx = null;
-let syncStatus = {}; // jobId -> 'synced' | 'local' | 'syncing'
+const EPM_EQ_TYPES = [
+  '480V Primary Transformer - Oil Filled <5000kVA',
+  '480V/208V/120V Transformer - Dry <250 kva',
+  '480V/208V/120V Transformer - Dry >=250 kva',
+  'Auto Transfer Switch <=400A','Auto Transfer Switch >400A',
+  'Branch Circuit Panel <=400A',
+  'Bus Duct - Vertical or Horizontal (Per 10ft)',
+  'Compressed Air Equipment',
+  'Distribution Panel Single Front >=600A',
+  'Distribution Switchboard Multi Cover (Per Section)',
+  'HVAC Equipment',
+  'Individual Combination Motor Starter','Individual Disconnect Switch',
+  'Individual Molded Case Breaker >=600A','Individual Motor Starter',
+  'Lighting Contactor <=50 hp',
+  'MCC: Combination Motor Starters','MCC: Individual Disconnect Switch',
+  'MCC: Molded Case Breaker','MCC: Motor Starters',
+  'Motor Control Center (Per vertical section)','Motor Control Panel (MCP)',
+  'Motors <50hp','Motors 51-200hp','Motors 201-500hp',
+  'Switchboard Molded Case Breakers >=600A',
+  'Switchgear - Incoming Main Service (Per Section)',
+  'Switchgear Safety Disconnects',
+  'Uninterruptible Power Supply (UPS) <50kVA',
+  'Uninterruptible Power Supply (UPS) >=50kVA',
+  'Variable Frequency Drives <=50hp','Variable Frequency Drives 51-200hp',
+  'VFD Motor Control Panel (VFD-MCP)',
+  'Wire Trough/Large Junction Boxes',
+];
 
-function getJob() { return jobs.find(j => j.id === currentJobId); }
-function getRoom(rid) { const j = getJob(); return j && j.rooms.find(r => r.id === rid); }
-function loadLocal() { try { jobs = JSON.parse(lsGet('ralco_jobs') || '[]'); } catch(e) { jobs = []; } }
-function saveLocal() { lsSet('ralco_jobs', JSON.stringify(jobs)); }
+const EPM_CRITICALITY = [
+  'Production Critical (High)','Life Safety (High)',
+  'Support/Utility (Med)','General/Comfort (Low)','Unknown',
+];
+const EPM_MAINT_STATUS = [
+  'Critical (>2 Cycles/Unknown)','Overdue (<2 Cycles)','Verified (Current)',
+];
+const EPM_IR_COMPONENTS = [
+  'Breaker (Line)','Breaker (Load)','Bus Joint','Cable Term',
+  'Fuse Clip','Lug/Term','Switchgear/Bus','Transformer','VFD',
+];
+const EPM_IR_FAILURE_MODES = [
+  'Arcing','Tracking','Corona','Vibration','Mech Loose','Motor Bearing',
+];
+const EPM_UT_FAILURE_MODES = [
+  'Corona Discharge','Partial Discharge','Arcing','Tracking',
+  'Mechanical Looseness','Bearing Fault','Turbulence',
+];
+const EPM_PHASES      = ['A-Phase','B-Phase','C-Phase','Neutral','Multi-Phase','Ground'];
+const EPM_PHASE_TYPES = ['Single Phase','Three Phase','DC'];
+const EPM_WIRE_TYPES  = ['2-Wire','3-Wire','4-Wire'];
+const EPM_RESULTS     = ['PASS','FAIL','MONITOR','N/A'];
+
+const EPM_STATUS_OPTIONS = [
+  'Walkthrough Done','Quote Sent','Follow-up Needed','Closed Won','Closed Lost',
+];
+
+const CODE_VIOLATIONS = [
+  {article:'Condition of Maintenance / AF Labeling and IR Loading',sev:'Critical (5pts)'},
+  {article:'NEC 110.16 & NFPA 70E 130.5(H) Arc Flash Labeling & Study Validation',sev:'Critical (5pts)'},
+  {article:'XFMR Cond. of Maint. / AF Labeling and IR Loading',sev:'Critical (5pts)'},
+  {article:'Equipment Cleanliness and Maintenance Condition',sev:'Major (3pts)'},
+  {article:'VFD with Undefeatable Interlock Handle',sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) - (Screws/Clips) Listing and Labeling',sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) / 408.7 - Combined Hardware/KO Seal',sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Mechanical Execution of Work',sev:'Minor (1pt)'},
+  {article:'NEC 110.14(A) - Terminations',sev:'Major (3pts)'},
+  {article:'NEC 110.16(B) - Arc Flash Hazard Labeling (2026 Expansion)',sev:'Critical (5pts)'},
+  {article:'NEC 110.14(D) - Torque Requirements',sev:'Major (3pts)'},
+  {article:'NEC 110.21(B) - Labeling Methods & Durability',sev:'Minor (1pt)'},
+  {article:'NEC 110.22(A) - ID of Disconnecting Means',sev:'Minor (1pt)'},
+  {article:'NEC 110.24 - Available Fault Current Labeling',sev:'Major (3pts)'},
+  {article:'NEC 110.26 - Working Space',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(4) - Working Space & Egress (90-Degree Door)',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(E) Dedicated Electrical Equipment Space',sev:'Major (3pts)'},
+  {article:'NEC 110.26(C)(2),(3) - Elec Rm Panic Hardware',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(C)(2),(3) - Small Electric Room Egress',sev:'Major (3pts)'},
+  {article:'NFPA 70E 130.4 / NEC 110.27(A) - Exposed Live Parts',sev:'Critical (5pts)'},
+  {article:'NEC 240.4 / 240.6(A) - OCPD Sizing /Stand Ratings',sev:'Critical (5pts)'},
+  {article:'NEC 240.21(C) - Tap Rules (10-ft, 25-ft, Outside Taps)',sev:'Major (3pts)'},
+  {article:'NEC 250.6(A) - Objectionable Current on Ground',sev:'Major (3pts)'},
+  {article:'NEC 250.30(A)(1) - SDS/XFMR Bonding Jumper',sev:'Critical (5pts)'},
+  {article:'NEC 250.97 - Bonding for Over 250 Volts (Bushings)',sev:'Critical (5pts)'},
+  {article:'NEC 250.102(C) Bond Jumper Sz / Parallel Raceways',sev:'Major (3pts)'},
+  {article:'NEC 250.122 Equipment Grounding Conductor Sizing',sev:'Major (3pts)'},
+  {article:'NEC 300.4 Protect Phys Dmg (Bush/Sleeve/Edge)',sev:'Major (3pts)'},
+  {article:'NEC 300.5(D) - Underground Raceway / Cover Depth',sev:'Major (3pts)'},
+  {article:'NEC 300.11 Support Race & Cables / Ceiling Grid',sev:'Minor (1pt)'},
+  {article:'NEC 300.14 - Free Conductor Length',sev:'Minor (1pt)'},
+  {article:'NEC 312.5(C) - Cable Entry (NM/MC into Panels)',sev:'Major (3pts)'},
+  {article:'NEC 312.8 Panelboard Wire Fill / Splicing in Cabinets',sev:'Major (3pts)'},
+  {article:'NEC 348.30(A) - FMC Support and Securement',sev:'Minor (1pt)'},
+  {article:'NEC 350.30(A) - LFMC Support and Securement',sev:'Minor (1pt)'},
+  {article:'NEC 358.30(A) - EMT Support and Securement',sev:'Minor (1pt)'},
+  {article:'NEC 404.8 - Switch Mounting',sev:'Major (3pts)'},
+  {article:'NEC 406.5 - Receptacle Faceplate / Mounting',sev:'Minor (1pt)'},
+  {article:'NEC 408.4(A) - Circuit Identification',sev:'Minor (1pt)'},
+  {article:'NEC 408.7 - Unused Openings',sev:'Major (3pts)'},
+  {article:'NEC 408.43 Grounding and Bonding of Panelboards',sev:'Critical (5pts)'},
+  {article:'NEC 430.8 - Marking on Motor Controllers',sev:'Minor (1pt)'},
+  {article:'NEC 430.98 - Motor Control Center (MCC) Disconnect Marking',sev:'Minor (1pt)'},
+  {article:'NEC 430.102(B) Local Disco. Means for Motors',sev:'Critical (5pts)'},
+  {article:'NEC 430.250 / 430.52 Motor FLC & OCP Sizing',sev:'Major (3pts)'},
+  {article:'NEC 450.3(B) - Transformer OCPD Protection',sev:'Major (3pts)'},
+  {article:'NEC 700.7 - Emergency System Labeling',sev:'Major (3pts)'},
+  {article:'NEC 700.10(D) - Emergency System Wiring Separation',sev:'Critical (5pts)'},
+  {article:'NEC 701.10 - Legally Req. Standby Wiring Separation',sev:'Major (3pts)'},
+  {article:'NEC 708 - COPS',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 6.2 - Electrical Maintenance Program (EMP) Implementation',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.3.2 / NEC 310.15 - IR Thermography Phase Imbalance',sev:'Major (3pts)'},
+  {article:'NFPA 70E 130.5(B) - Condition of Maintenance Impact on Arc Flash',sev:'Critical (5pts)'},
+  {article:'NFPA 72 10.6.5.2 - Fire Alarm Disconnect Marking and Access',sev:'Critical (5pts)'},
+  {article:'NFPA 72 10.4.1 - Fire Alarm Device Physical Damage',sev:'Major (3pts)'},
+  {article:'NFPA 110 8.3.7 - Starting Battery Maintenance',sev:'Critical (5pts)'},
+  {article:'NFPA 110 8.3.4 - Maint./Test of Life Safety Equipment',sev:'Critical (5pts)'},
+  {article:'NFPA 70E Article 120.2/OSHA 1910.333(b)(2): LOTO',sev:'Critical (5pts)'},
+  {article:'OSHA 1910.303(b)(2) - Approval/Listing of Equip',sev:'Major (3pts)'},
+  {article:'OSHA 1910.305(G) - Flexible Cords Misuse',sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Damaged Enclosure / Structural Integrity',sev:'Major (3pts)'},
+  {article:'NEC 110.12 - Cracked / Broken Insulation or Bushing',sev:'Critical (5pts)'},
+  {article:'NEC 230.62(B) - Damaged or Deteriorated Service Conductors',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.1.3 - Equipment Deterioration Requiring Immediate Action',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.3 - Evidence of Overheating / Discoloration (Thermal Damage)',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.3 - Corrosion on Bus / Connections Requiring Remediation',sev:'Major (3pts)'},
+  {article:'NFPA 70B 11.3 - Contamination / Carbon Tracking on Insulation',sev:'Major (3pts)'},
+  {article:'NEC 312.5(A) - Missing or Improper Enclosure Cover',sev:'Critical (5pts)'},
+  {article:'NEC 110.9 - Interrupting Rating (kAIC)',sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 240.7 - Wrong or Non-Listed Breaker Installed',sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 210.4(B) - Breaker Handle Tie Not Listed/Approved',sev:'Major (3pts)'},
+  {article:'NEC 110.15 / 200.6 / 200.7 / 210.5 / 215.12(C) - Conductor ID / Color Coding',sev:'Major (3pts)'},
+  {article:'NEC 240.60(B)(C) / 240.11 - Fuse Type Mismatch / Noninterchangeable',sev:'Major (3pts)'},
+  {article:'NEC 250.12 - Grounding / Bonding Surface Not Cleaned of Paint or Coatings',sev:'Major (3pts)'},
+  {article:'NEC 300.4(G) - Conduit Bushing / Conductor Protection at Fittings',sev:'Major (3pts)'},
+  {article:'NEC 314.15 - Covers for Damp or Wet Locations',sev:'Major (3pts)'},
+  {article:'NEC 110.21(A) / 450.11 - Missing or Damaged Equipment Nameplate',sev:'Minor (1pt)'},
+  {article:'NEC 110.13 / 450.9 / 450.21 - Transformer Ventilation Clearance',sev:'Major (3pts)'},
+  {article:'NFPA 70B 4.2.7 / 4.3 / 6.1-6.7 / 9.3 / 9.4 - EMP Administration Deficiencies',sev:'Critical (5pts)'},
+  {article:'NFPA 70E 110.3 / 110.4 / 105.3 / 130.7 - Electrical Safety Program, Training & PPE',sev:'Critical (5pts)'},
+  {article:'NEC 110.28 - Enclosure Not Suitable for Environment (NEMA Rating)',sev:'Major (3pts)'},
+  {article:'NEC 312.7 - Damp/Wet Location Enclosure / Drainage Provisions',sev:'Major (3pts)'},
+  {article:'NEC 110.3(B) - Unapproved Field Modification / Non-Listed Assembly',sev:'Major (3pts)'},
+  {article:'NEC 110.14(B) - Splices Not in Approved Junction / Pull Box',sev:'Major (3pts)'},
+  {article:'NEC 240.83 - Breaker Ampere Rating Illegibly Marked / Defaced',sev:'Minor (1pt)'},
+  {article:'NEC 408.36 - Unauthorized Back-Fed Breaker (No Retaining Clip)',sev:'Critical (5pts)'},
+  {article:'NEC 408.36 - Tandem / Double-Tap Breaker in Non-CTL Panel',sev:'Major (3pts)'},
+  {article:'NEC 230.71 - More Than 6 Service Disconnecting Means',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(1) - Insufficient Working Space Depth (< 3ft)',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(2) - Insufficient Working Space Width (< 30in)',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(A)(3) - Insufficient Working Space Height (< 6.5ft)',sev:'Major (3pts)'},
+  {article:'NEC 110.26(B) - Working Space Obstructed / Used for Storage',sev:'Critical (5pts)'},
+  {article:'NEC 110.26(D) - Illumination Not Provided for Working Space',sev:'Minor (1pt)'},
+  {article:'NEC 110.26(F) - Dedicated Equipment Space Violation (Outdoor)',sev:'Major (3pts)'},
+  {article:'NEC 250.4(A)(1) - Grounding of Electrical System Not Maintained',sev:'Critical (5pts)'},
+  {article:'NEC 250.8 - Improper Connection of Grounding / Bonding Conductors',sev:'Major (3pts)'},
+  {article:'NEC 250.10 - Protection of Ground Clamps / Fittings',sev:'Minor (1pt)'},
+  {article:'NEC 250.28 - Main Bonding Jumper Missing or Undersized',sev:'Critical (5pts)'},
+  {article:'NEC 250.50 - Grounding Electrode System Incomplete',sev:'Critical (5pts)'},
+  {article:'NEC 250.53 - Grounding Electrode Conductor Installation',sev:'Major (3pts)'},
+  {article:'NEC 250.64 - Grounding Electrode Conductor Size / Protection',sev:'Major (3pts)'},
+  {article:'NEC 250.119 - EGC Not Identified / Green or Bare Required',sev:'Minor (1pt)'},
+  {article:'NEC 250.148 - EGC Continuity in Junction / Pull Box',sev:'Major (3pts)'},
+  {article:'NEC 240.4(B) - Small Conductor OCPD Oversized',sev:'Critical (5pts)'},
+  {article:'NEC 240.15(A) - Single-Pole Breaker on Multi-Wire Branch Circuit',sev:'Critical (5pts)'},
+  {article:'NEC 240.24(A) - OCPD Not Readily Accessible',sev:'Major (3pts)'},
+  {article:'NEC 240.24(B) - OCPD Near Easily Ignitable Material',sev:'Critical (5pts)'},
+  {article:'NEC 240.24(D) - OCPD Located in Bathroom',sev:'Critical (5pts)'},
+  {article:'NEC 240.60(B) - Cartridge Fuse Class / Rejection Feature Missing',sev:'Major (3pts)'},
+  {article:'NFPA 70B 5.2.1 - Water Intrusion / Moisture Damage Evidence',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.1 - Active Water / Condensation Inside Enclosure',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.2 - Pest / Rodent Intrusion and Nesting Evidence',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.2.3 - Excessive Dust / Debris Accumulation in Enclosure',sev:'Major (3pts)'},
+  {article:'NFPA 70B 5.2.3 - Chemical / Oil Contamination on Equipment',sev:'Major (3pts)'},
+  {article:'NEC 110.11 - Deteriorating Agents (Chemical / Environmental Exposure)',sev:'Major (3pts)'},
+  {article:'NEC 408.3(A) - Switchboard Not Accessible from Front Only',sev:'Major (3pts)'},
+  {article:'NEC 408.3(B) - Switchboard Installed in Damp / Wet Location',sev:'Major (3pts)'},
+  {article:'NEC 408.3(F) - Switchboard Overcurrent Protection Missing',sev:'Critical (5pts)'},
+  {article:'NEC 230.66 - Service Equipment Not Marked / Approved as Such',sev:'Major (3pts)'},
+  {article:'NEC 230.70(A) - Service Disconnect Not Readily Accessible',sev:'Critical (5pts)'},
+  {article:'NEC 450.9 - Transformer Ventilation Obstructed',sev:'Major (3pts)'},
+  {article:'NEC 450.11 - Transformer Marking Missing or Damaged',sev:'Minor (1pt)'},
+  {article:'NEC 450.13 - Transformer Not Accessible / Properly Guarded',sev:'Major (3pts)'},
+  {article:'NEC 450.21(A) - Dry-Type XFMR Clearance from Combustibles',sev:'Critical (5pts)'},
+  {article:'NEC 450.27 - Oil-Insulated XFMR Vault / Containment Required',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.9 - Transformer Oil Level / Condition (Oil-Filled)',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 11.9 - Transformer Oil Leak Evidence',sev:'Critical (5pts)'},
+  {article:'NEC 430.9(B) - Motor Control Devices Not Properly Marked',sev:'Minor (1pt)'},
+  {article:'NEC 430.14(A) - Motor Location / Ventilation Inadequate',sev:'Major (3pts)'},
+  {article:'NEC 430.51 - Motor Branch Circuit OCPD Type Not Suitable',sev:'Major (3pts)'},
+  {article:'NEC 430.109 - Motor Disconnect Type Not Suitable for Application',sev:'Major (3pts)'},
+  {article:'NEC 430.110 - Motor Disconnect Ampere Rating Insufficient',sev:'Major (3pts)'},
+  {article:'NEC 430.232 - Motor Not Protected Against Overload',sev:'Critical (5pts)'},
+  {article:'NFPA 110 7.2 - Generator Visual Inspection Deficiency',sev:'Major (3pts)'},
+  {article:'NFPA 110 7.3 - Generator Coolant / Fluid Level Issue',sev:'Major (3pts)'},
+  {article:'NFPA 110 7.9 - Generator Exercising / Load Test Not Current',sev:'Critical (5pts)'},
+  {article:'NFPA 110 8.4.2 - ATS Failure to Transfer (Functional Test)',sev:'Critical (5pts)'},
+  {article:'NEC 700.5(A) - Transfer Equipment Not Listed / Approved',sev:'Critical (5pts)'},
+  {article:'NEC 700.12 - Emergency Source Capacity Insufficient',sev:'Critical (5pts)'},
+  {article:'NEC 702.5 - Optional Standby OCPD Accessibility',sev:'Major (3pts)'},
+  {article:'NEC 430.122 - VFD Branch Circuit Conductor Sizing',sev:'Major (3pts)'},
+  {article:'NEC 430.131 - VFD Bypass Overcurrent Protection',sev:'Major (3pts)'},
+  {article:'NFPA 70B 17.2 - VFD Filter / Capacitor Condition',sev:'Major (3pts)'},
+  {article:'NFPA 70B 17.2 - VFD Cooling Fan Inoperable / Clogged',sev:'Major (3pts)'},
+  {article:'NEC 300.15 - Box / Fitting Required at Each Conductor Splice',sev:'Major (3pts)'},
+  {article:'NEC 300.17 - Raceway Overfill / Conductor Fill Exceeded',sev:'Major (3pts)'},
+  {article:'NEC 300.22 - Wiring in Ducts / Plenum Spaces Not Permitted',sev:'Critical (5pts)'},
+  {article:'NEC 310.15(B) - Conductor Ampacity Derate Required',sev:'Major (3pts)'},
+  {article:'NEC 358.10 - EMT Use Not Permitted in This Location',sev:'Major (3pts)'},
+  {article:'NEC 334.15 - NM Cable Not Protected / Exposed Run',sev:'Minor (1pt)'},
+  {article:'NEC 460.8(A) - Capacitor Conductor Ampacity Insufficient',sev:'Major (3pts)'},
+  {article:'NEC 460.8(B) - Capacitor OCPD Rating Incorrect',sev:'Major (3pts)'},
+  {article:'NEC 460.9 - Capacitor Discharge Method Not Provided',sev:'Critical (5pts)'},
+  {article:'NEC 368.17 - Bus Duct Overcurrent Protection at Tap Points',sev:'Critical (5pts)'},
+  {article:'NEC 368.12 - Bus Duct Use Not Permitted in This Location',sev:'Major (3pts)'},
+  {article:'NFPA 70B 16.1 - UPS Battery Condition / Maintenance Overdue',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 16.1 - UPS Bypass / Transfer Issue',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 5.1.2 - Equipment Past Recommended Service Interval',sev:'Major (3pts)'},
+  {article:'NFPA 70B 9.2.1 - Loose Connection Found During Inspection',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.2.2 - Evidence of Arcing / Pitting on Contacts',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.3.1 - Contact / Insulation Resistance Below Minimum',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.7 - Circuit Breaker Trip Test Overdue / Failed',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 9.7 - Breaker Mechanism Binding / Inoperable',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 12.2 - Switchgear / Switchboard Interlock Defeated',sev:'Critical (5pts)'},
+  {article:'NFPA 70B 12.2 - Draw-Out Element Racking Mechanism Defective',sev:'Critical (5pts)'},
+  {article:'NEC 240.4 / 240.4(B) - Supply OCPD Exceeds Conductor Ampacity',sev:'Critical (5pts)'},
+  {article:'NEC 110.3(B) / 240.4(A) - OCPD Exceeds Equipment Nameplate Current Rating',sev:'Major (3pts)'},
+  {article:'NEC 110.3(B) / NFPA 70B 17.2 - VFD Operator Interface / Display Damaged or Inoperable',sev:'Major (3pts)'},
+  {article:'Field Observation - Mechanical / Pneumatic Deficiency Noted (Non-Electrical)',sev:'Minor (1pt)'},
+  {article:'NEC 110.3(B) / 110.12 - Door-Mounted Breaker Operating Rod Disconnected or Inoperable',sev:'Major (3pts)'},
+];
 
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
 window.onload = () => {
-  loadLocal();
+  // Unregister old service workers
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+  }
   if (!deviceName) {
     showDeviceSetup();
   } else {
     document.getElementById('device-name-display').textContent = deviceName;
-    renderJobsList();
-    syncAllFromCloud();
+    showSiteList();
   }
-  // Always update device button label
-  const dnd = document.getElementById('device-name-display');
-  if (dnd && deviceName) dnd.textContent = deviceName;
 };
 
 // ═══════════════════════════════════════════════════════
 // DEVICE SETUP
 // ═══════════════════════════════════════════════════════
 function showDeviceSetup() {
-  // Show inline banner instead of modal
-  const banner = document.getElementById('device-setup-banner');
-  if (banner) {
-    banner.style.display = 'block';
-    setTimeout(() => {
-      const inp = document.getElementById('device-banner-input');
-      if (inp) inp.focus();
-    }, 100);
-  }
-  // Also try modal as fallback
-  const modal = document.getElementById('device-setup-modal');
-  if (modal) modal.classList.add('open');
-}
-
-function saveBannerDevice() {
-  const inp = document.getElementById('device-banner-input');
-  const name = inp ? inp.value.trim() : '';
-  deviceName = name || 'Unnamed Device';
-  lsSet('ralco_device_name', deviceName);
-  if (!deviceId) {
-    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-    lsSet('ralco_device_id', deviceId);
-  }
-  document.getElementById('device-setup-banner').style.display = 'none';
-  document.getElementById('device-setup-modal').classList.remove('open');
-  document.getElementById('device-name-display').textContent = deviceName;
-  renderJobsList();
-  syncAllFromCloud();
-  toast('Device set to: ' + deviceName);
+  document.getElementById('device-setup-banner').style.display = 'block';
+  showScreen('sites');
+  renderSiteList([]);
 }
 
 function saveDeviceName() {
-  const inp = document.getElementById('device-name-input');
+  const inp = document.getElementById('device-banner-input');
   const name = (inp ? inp.value.trim() : '') || 'Unnamed Device';
   deviceName = name;
   lsSet('ralco_device_name', name);
@@ -486,464 +778,468 @@ function saveDeviceName() {
     deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
     lsSet('ralco_device_id', deviceId);
   }
+  document.getElementById('device-setup-banner').style.display = 'none';
   document.getElementById('device-name-display').textContent = name;
-  document.getElementById('device-setup-modal').classList.remove('open');
-  const banner = document.getElementById('device-setup-banner');
-  if (banner) banner.style.display = 'none';
-  renderJobsList();
-  syncAllFromCloud();
+  showSiteList();
 }
 
 function renameDevice() {
   const inp = document.getElementById('device-rename-input');
   if (inp) inp.value = deviceName || '';
-  const modal = document.getElementById('device-rename-modal');
-  if (modal) { modal.classList.add('open'); setTimeout(()=>inp&&inp.focus(),100); }
+  document.getElementById('device-rename-modal').classList.add('open');
+  setTimeout(() => inp && inp.focus(), 100);
 }
 
 function saveDeviceRename() {
   const inp = document.getElementById('device-rename-input');
-  const name = inp ? inp.value.trim() : '';
-  deviceName = name || 'Unnamed Device';
-  lsSet('ralco_device_name', deviceName);
-  if (!deviceId) {
-    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-    lsSet('ralco_device_id', deviceId);
-  }
-  document.getElementById('device-name-display').textContent = deviceName;
+  const name = (inp ? inp.value.trim() : '') || 'Unnamed Device';
+  deviceName = name;
+  lsSet('ralco_device_name', name);
+  document.getElementById('device-name-display').textContent = name;
   document.getElementById('device-rename-modal').classList.remove('open');
-  toast('Device set to: ' + deviceName);
-  syncAllFromCloud();
+  toast('Device renamed to: ' + name);
 }
 
 // ═══════════════════════════════════════════════════════
-// CLOUD SYNC
+// SITES LIST
 // ═══════════════════════════════════════════════════════
-function setSyncStatus(jobId, status) {
-  syncStatus[jobId] = status;
-  // Update badge on job card if visible
-  const badge = document.getElementById('sync_' + jobId);
-  if (badge) {
-    badge.textContent = {synced:'☁', local:'📱', syncing:'🔄'}[status] || '📱';
-    badge.title = {synced:'Synced to cloud', local:'Saved locally', syncing:'Syncing...'}[status] || '';
-  }
+function showSiteList() {
+  showScreen('sites');
+  document.getElementById('site-search-input').value = '';
+  // Render local data immediately so user sees their sites right away
+  if (sites.length) renderSiteList(sites);
+  else renderSiteList(null);
+  // Then sync from cloud in background
+  loadSites();
 }
 
-function syncJobToCloud(job) {
-  setSyncStatus(job.id, 'syncing');
-  fetch(API + '/jobs/save', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({job, deviceId, deviceName: deviceName || 'Unnamed Device'})
-  })
-  .then(r => r.ok ? setSyncStatus(job.id, 'synced') : setSyncStatus(job.id, 'local'))
-  .catch(() => setSyncStatus(job.id, 'local'));
-}
-
-function syncAllFromCloud() {
-  fetch(API + '/jobs')
+function loadSites() {
+  fetch(API + '/sites')
   .then(r => r.json())
-  .then(cloudJobs => {
-    const localMap = {};
-    jobs.forEach(j => localMap[j.id] = j);
-    let added = 0, updated = 0;
-    const fetches = [];
-
-    cloudJobs.forEach(cj => {
-      const local = localMap[cj.id];
-      const cloudUpdated = cj.updatedAt || '';
-      const localUpdated = local ? (local.updatedAt || '') : '';
-      // Fetch if we don't have it locally, or cloud version is newer
-      const needsFetch = !local || cloudUpdated > localUpdated;
-
-      if (needsFetch) {
-        fetches.push(
-          fetch(API + '/jobs/' + cj.id)
-          .then(r => r.json())
-          .then(fullJob => {
-            if (!local) {
-              jobs.push(fullJob);
-              added++;
-            } else {
-              const idx = jobs.findIndex(j => j.id === fullJob.id);
-              if (idx !== -1) { jobs[idx] = fullJob; updated++; }
-            }
-            syncStatus[fullJob.id] = 'synced';
-          })
-          .catch(() => {})
-        );
-      } else {
-        syncStatus[cj.id] = 'synced';
-      }
-    });
-
-    Promise.all(fetches).then(() => {
-      if (added > 0 || updated > 0) {
-        saveLocal();
-        // If currently viewing a job that got updated, refresh the view
-        if (currentJobId && updated > 0) {
-          const j = getJob();
-          if (j) {
-            restoreJobFields();
-            renderTiers();
-            renderBuildingList();
-            renderRoomList();
-            if (activeRoomId) renderEqPanel();
-          }
-        }
-        renderJobsList();
-        const parts = [];
-        if (added) parts.push(added + ' new');
-        if (updated) parts.push(updated + ' updated');
-        toast('Synced: ' + parts.join(', '));
-      } else {
-        renderJobsList();
-        toast('Already up to date');
-      }
-    });
+  .then(data => {
+    // Merge — keep any local sites not yet on cloud
+    const cloudIds = new Set(data.map(s => s.id));
+    const localOnly = sites.filter(s => !cloudIds.has(s.id));
+    sites = [...data, ...localOnly];
+    // Mark cloud sites as synced
+    data.forEach(s => syncStatus[s.id] = 'synced');
+    renderSiteList(sites);
   })
   .catch(() => {
-    renderJobsList();
-    toast('Offline — showing local jobs');
+    // Cloud unavailable — just show local
+    if (!sites.length) renderSiteList([]);
   });
 }
 
-function saveAll(skipSync) {
-  saveLocal();
-  const j = getJob();
-  if (j && !skipSync) syncJobToCloud(j);
-}
-
-// ═══════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-}
-
-function showTab(name) {
-  document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  const tabs = ['setup','rooms','log','field','summary'];
-  document.querySelectorAll('.nav-tab')[tabs.indexOf(name)].classList.add('active');
-  if (name === 'summary') renderSummary();
-}
-
-function goJobs() {
-  showScreen('jobs');
-  renderJobsList();
-  document.getElementById('header-label').textContent = deviceName || 'Jobs';
-  showBackBtn(false);
-}
-
-function headerAction() { if (currentJobId) goJobs(); }
-
-function showBackBtn(show) {
-  const btn = document.getElementById('header-right-btn');
-  const lbl = document.getElementById('header-device-label');
-  if (btn) btn.style.display = show ? 'block' : 'none';
-  if (lbl) lbl.style.display = show ? 'none' : 'block';
-}
-
-// ═══════════════════════════════════════════════════════
-// JOBS LIST
-// ═══════════════════════════════════════════════════════
-function renderJobsList() {
-  const el = document.getElementById('jobs-list');
-  if (!jobs.length) {
-    el.innerHTML = '<div class="empty-jobs"><div class="icon">🏭</div><p>No jobs yet.<br>Tap <strong>+ New Job</strong> to get started.</p></div>';
+function renderSiteList(list) {
+  const el = document.getElementById('sites-list');
+  if (list === null) {
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">Loading...</div>';
     return;
   }
-  // Sort by most recently updated
-  const sorted = [...jobs].sort((a,b) => (b.updatedAt||b.id).localeCompare(a.updatedAt||a.id));
-  el.innerHTML = sorted.map(j => {
-    const roomCount = j.rooms ? j.rooms.length : 0;
-    const totalEq = j.rooms ? j.rooms.reduce((a,r) => a + Object.values(r.equipment||{}).reduce((x,y)=>x+y,0), 0) : 0;
-    const status = totalEq > 0 ? 'ready' : (roomCount > 0 ? 'progress' : 'new');
-    const statusLabel = {ready:'Ready', progress:'In Progress', new:'New'}[status];
-    const sync = syncStatus[j.id] || 'local';
-    const syncIcon = {synced:'☁', local:'📱', syncing:'🔄'}[sync];
-    const syncTitle = {synced:'Synced to cloud', local:'Saved locally — will sync when online', syncing:'Syncing...'}[sync];
-    const devLabel = j.deviceName && j.deviceName !== deviceName ? `<span style="font-size:10px;color:var(--muted);margin-left:6px">${j.deviceName}</span>` : '';
-    return `<div class="job-card">
-      <div class="job-card-top">
-        <div class="job-customer">${j.customer || 'Unnamed Job'}${devLabel}</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span id="sync_${j.id}" title="${syncTitle}" style="font-size:14px;cursor:default">${syncIcon}</span>
-          <div class="job-status status-${status}">${statusLabel}</div>
-        </div>
+  if (!list.length) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">🏭</div><p>No sites yet.<br>Tap <strong>+ New Site</strong> to get started.</p></div>';
+    return;
+  }
+  const search = document.getElementById('site-search-input')?.value.toLowerCase() || '';
+  const filtered = search ? list.filter(s => (s.customer||'').toLowerCase().includes(search)) : list;
+  el.innerHTML = filtered.map(s => {
+    const contracts = s.contractCount || 0;
+    const assets = s.assetCount || 0;
+    const sync = syncStatus[s.id] || (s.updatedAt ? 'synced' : 'local');
+    const syncIcon = {synced:'☁', local:'📱', syncing:'🔄'}[sync] || '📱';
+    return `<div class="site-card" onclick="showSite('${s.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+        <div class="site-customer" style="flex:1">${s.customer || 'Unnamed Site'}</div>
+        <span style="font-size:14px;margin-left:8px">${syncIcon}</span>
       </div>
-      <div class="job-card-meta">${[j.date, j.rep, roomCount + ' room' + (roomCount!==1?'s':'')].filter(Boolean).join(' · ')}</div>
-      <div class="job-card-actions">
-        <button class="btn btn-gold btn-sm" style="flex:2" onclick="openJob('${j.id}')">Open</button>
-        <button class="btn btn-outline btn-sm" style="flex:1" onclick="event.stopPropagation();renameJob('${j.id}')">Rename</button>
-        <button class="btn btn-green btn-sm" style="flex:1" onclick="event.stopPropagation();exportJobById('${j.id}')">Export</button>
-        <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteJob('${j.id}')">✕</button>
+      <div class="site-meta">${[s.address, contracts+' contract'+(contracts!==1?'s':''), assets+' asset'+(assets!==1?'s':'')].filter(Boolean).join(' · ')}</div>
+      <div class="site-actions">
+        <button class="btn btn-gold btn-sm" style="flex:2" onclick="event.stopPropagation();showSite('${s.id}')">Open</button>
+        <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteSite('${s.id}','${(s.customer||'').replace(/'/g,"\\'")}')">✕</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function newJob() {
-  const id = 'job_' + Date.now();
-  const now = new Date().toISOString();
-  jobs.unshift({
-    id, customer:'', address:'', date:'', rep:'',
-    notes:'', tier:'basic', buildings:[], rooms:[],
-    fieldNotes:'', observations:[],
-    deviceId, deviceName: deviceName || 'Unnamed Device',
-    createdAt: now, updatedAt: now
+function newSite() {
+  const id = 'site_' + Date.now();
+  const site = {
+    id, customer:'', address:'', contact:'', phone:'', notes:'',
+    contracts:[], deviceId, deviceName: deviceName||'Unnamed Device',
+  };
+  currentSite = site;
+  siteAssets = [];
+  // Save to cloud in background
+  fetch(API + '/sites/save', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({site, deviceId, deviceName: deviceName||'Unnamed Device'})
+  }).then(()=>{ syncStatus[site.id]='synced'; toast('Site saved to cloud'); }).catch(()=>toast('Saved locally — will sync when online'));
+  // Add to local list
+  sites.unshift(site);
+  syncStatus[site.id] = 'local';
+  showSiteScreen();
+  showSiteTab('info');
+  setTimeout(() => document.getElementById('f-site-customer')?.focus(), 100);
+}
+
+function showSite(siteId) {
+  // Check if we already have this site cached
+  if (currentSite && currentSite.id === siteId) {
+    showSiteScreen();
+    showSiteTab('contracts');
+    return;
+  }
+  fetch(API + '/sites/' + siteId)
+  .then(r => r.json())
+  .then(site => {
+    currentSite = site;
+    return fetch(API + '/sites/' + siteId + '/assets').then(r => r.json()).catch(()=>[]);
+  })
+  .then(assets => {
+    siteAssets = assets || [];
+    showSiteScreen();
+    showSiteTab('contracts');
+  })
+  .catch(err => {
+    // If cloud fails, try to find in local sites list
+    const local = sites.find(s => s.id === siteId);
+    if (local) {
+      currentSite = {...local, contracts:[]};
+      siteAssets = [];
+      showSiteScreen();
+      showSiteTab('contracts');
+      toast('Loaded from cache — sync when online');
+    } else {
+      toast('Failed to load site');
+    }
   });
-  saveAll();
-  openJob(id);
 }
 
-function openJob(id) {
-  currentJobId = id;
-  activeRoomId = null;
-  const j = getJob();
-  // If job came from cloud/another device, mark as synced
-  if (!syncStatus[id]) syncStatus[id] = 'synced';
-  document.getElementById('header-label').textContent = j.customer || 'New Job';
-  restoreJobFields();
-  renderTiers();
-  renderBuildingList();
-  renderRoomList();
-  renderObsList();
-  showScreen('job');
-  showTab('setup');
-  showBackBtn(true);
-  renderFieldTab();
-}
-
-function deleteJob(id) {
-  if (!confirm('Delete this job everywhere — phone, laptop, and cloud?')) return;
-  jobs = jobs.filter(j => j.id !== id);
-  saveLocal();
-  // Delete from cloud too
-  fetch(API + '/jobs/' + id, {method: 'DELETE'}).catch(() => {});
-  renderJobsList();
-}
-
-function renameJob(id) {
-  const j = jobs.find(x => x.id === id);
-  const name = prompt('Customer name:', j.customer || '');
-  if (name === null) return;
-  j.customer = name.trim();
-  j.updatedAt = new Date().toISOString();
-  saveAll();
-  renderJobsList();
+function deleteSite(id, name) {
+  if (!confirm(`Delete ${name}? It will move to Recently Deleted for 30 days.`)) return;
+  fetch(API + '/sites/' + id, {method:'DELETE'}).catch(()=>{});
+  sites = sites.filter(s => s.id !== id);
+  renderSiteList(sites);
+  toast('Moved to Recently Deleted');
 }
 
 // ═══════════════════════════════════════════════════════
-// JOB FIELDS
+// SITE SCREEN
 // ═══════════════════════════════════════════════════════
-function saveField(key, val) {
-  const j = getJob(); if (!j) return;
-  j[key] = val;
-  j.updatedAt = new Date().toISOString();
-  if (key === 'customer') document.getElementById('header-label').textContent = val || 'New Job';
-  saveAll();
+function showSiteScreen() {
+  showScreen('site');
+  renderSiteInfo();
+  renderContractList();
+  renderSiteAssets();
 }
 
-function restoreJobFields() {
-  const j = getJob(); if (!j) return;
-  document.getElementById('f-customer').value = j.customer || '';
-  document.getElementById('f-address').value = j.address || '';
-  document.getElementById('f-date').value = j.date || '';
-  document.getElementById('f-rep').value = j.rep || '';
-  document.getElementById('f-notes').value = j.notes || '';
-  document.getElementById('f-fieldnotes').value = j.fieldNotes || '';
+function showSiteTab(tab) {
+  document.querySelectorAll('#screen-site .tab-view').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#screen-site .nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('site-tab-' + tab)?.classList.add('active');
+  const tabs = ['info','contracts','assets'];
+  document.querySelectorAll('#screen-site .nav-tab')[tabs.indexOf(tab)]?.classList.add('active');
+}
+
+function renderSiteInfo() {
+  if (!currentSite) return;
+  const s = currentSite;
+  setValue('f-site-customer', s.customer);
+  setValue('f-site-address', s.address);
+  setValue('f-site-contact', s.contact);
+  setValue('f-site-phone', s.phone);
+  setValue('f-site-notes', s.notes);
+}
+
+function saveSiteField(key, val) {
+  if (!currentSite) return;
+  currentSite[key] = val;
+  if (key === 'customer') updateHeader();
+  debounceSaveSite();
+}
+
+let _saveSiteTimer = null;
+function debounceSaveSite() {
+  clearTimeout(_saveSiteTimer);
+  _saveSiteTimer = setTimeout(() => {
+    fetch(API + '/sites/save', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({site: currentSite, deviceId, deviceName: deviceName||'Unnamed Device'})
+    }).catch(()=>{});
+  }, 800);
 }
 
 // ═══════════════════════════════════════════════════════
-// TIERS
+// CONTRACTS LIST
 // ═══════════════════════════════════════════════════════
-function renderTiers() {
-  const j = getJob(); if (!j) return;
-  document.getElementById('tier-list').innerHTML = TIERS.map(t =>
-    `<button class="tier-btn ${j.tier===t.id?'selected':''}" onclick="selectTier('${t.id}')">
+function renderContractList() {
+  if (!currentSite) return;
+  const el = document.getElementById('contract-list');
+  const contracts = currentSite.contracts || [];
+  if (!contracts.length) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No contracts yet.<br>Tap + New Contract to begin.</div>';
+    return;
+  }
+  el.innerHTML = contracts.map(c => {
+    const years = c.years || [];
+    const statusColor = {Active:'var(--green)',Completed:'var(--muted)','Renewal Pending':'var(--gold)'}[c.status] || 'var(--muted)';
+    return `<div class="contract-card" onclick="openContract('${c.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-size:15px;font-weight:700">Contract #${c.contractNumber}</div>
+        <div style="font-size:11px;font-weight:700;color:${statusColor}">${c.status||'Active'}</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${c.tier ? (TIERS.find(t=>t.id===c.tier)||{name:c.tier}).name : 'No tier set'}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${years.map(y => `<span style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer" onclick="event.stopPropagation();openYear('${y.id}')">${y.label}</span>`).join('')}
+        ${years.length < 3 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();addYear('${c.id}')" style="padding:3px 8px;font-size:11px">+ Year</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function newContract() {
+  if (!currentSite) return;
+  const existing = currentSite.contracts || [];
+  const contractNumber = existing.length + 1;
+  const id = 'c' + contractNumber + '_' + currentSite.id;
+  const contract = {
+    id, siteId: currentSite.id, contractNumber,
+    tier:'basic', status:'Active',
+    startDate:'', endDate:'', notes:'',
+    buildings:[], rooms:[], years:[],
+  };
+  // Save to backend
+  fetch(API + '/contracts/save', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(contract)
+  }).catch(()=>{});
+  if (!currentSite.contracts) currentSite.contracts = [];
+  currentSite.contracts.push(contract);
+  currentContract = contract;
+  showContractScreen();
+}
+
+function openContract(contractId) {
+  const contract = (currentSite.contracts||[]).find(c => c.id === contractId);
+  if (!contract) return;
+  currentContract = contract;
+  showContractScreen();
+}
+
+// ═══════════════════════════════════════════════════════
+// CONTRACT SCREEN
+// ═══════════════════════════════════════════════════════
+function showContractScreen() {
+  showScreen('contract');
+  renderContractInfo();
+  renderWalkthrough();
+  renderYearList();
+}
+
+function showContractTab(tab) {
+  document.querySelectorAll('#screen-contract .tab-view').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#screen-contract .nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('contract-tab-' + tab)?.classList.add('active');
+  const tabs = ['info','walkthrough','years','export'];
+  document.querySelectorAll('#screen-contract .nav-tab')[tabs.indexOf(tab)]?.classList.add('active');
+}
+
+function renderContractInfo() {
+  if (!currentContract) return;
+  const c = currentContract;
+  setValue('f-contract-tier', c.tier);
+  setValue('f-contract-status', c.status);
+  setValue('f-contract-start', c.startDate);
+  setValue('f-contract-end', c.endDate);
+  setValue('f-contract-notes', c.notes);
+  renderTierButtons();
+}
+
+function renderTierButtons() {
+  const el = document.getElementById('contract-tier-list');
+  if (!el || !currentContract) return;
+  el.innerHTML = TIERS.map(t =>
+    `<button class="tier-btn ${currentContract.tier===t.id?'selected':''}" onclick="setContractTier('${t.id}')">
       <div class="tier-name">${t.name}</div>
       <div class="tier-desc">${t.desc}</div>
     </button>`
   ).join('');
 }
 
-function selectTier(id) {
-  const j = getJob(); if (!j) return;
-  j.tier = id;
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderTiers();
-  if (activeRoomId) renderEqPanel();
+function setContractTier(id) {
+  if (!currentContract) return;
+  currentContract.tier = id;
+  renderTierButtons();
+  saveContract();
+  if (document.getElementById('eq-panel')?.style.display !== 'none') renderEqPanel();
+}
+
+function saveContractField(key, val) {
+  if (!currentContract) return;
+  currentContract[key] = val;
+  saveContract();
+}
+
+function saveContract() {
+  if (!currentContract) return;
+  fetch(API + '/contracts/save', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(currentContract)
+  }).catch(()=>{});
 }
 
 // ═══════════════════════════════════════════════════════
-// BUILDINGS
+// WALKTHROUGH (Bert's equipment count — on Contract)
 // ═══════════════════════════════════════════════════════
-function addBuilding() {
-  const j = getJob(); if (!j) return;
-  const inp = document.getElementById('new-bldg-input');
-  const name = inp.value.trim(); if (!name) return;
-  if (!j.buildings) j.buildings = [];
-  const id = 'bldg_' + Date.now();
-  j.buildings.push({id, name});
-  inp.value = '';
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderBuildingList();
-}
+let activeRoomId = null;
 
-function deleteBuilding(id) {
-  const j = getJob(); if (!j) return;
-  if (!confirm('Delete this building?')) return;
-  j.buildings = (j.buildings||[]).filter(b => b.id !== id);
-  j.rooms.forEach(r => { if (r.buildingId === id) r.buildingId = null; });
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderBuildingList(); renderRoomList();
+function renderWalkthrough() {
+  if (!currentContract) return;
+  renderBuildingList();
+  renderRoomList();
+  document.getElementById('eq-panel').style.display = 'none';
 }
 
 function renderBuildingList() {
-  const j = getJob(); if (!j) return;
   const el = document.getElementById('building-list');
-  if (!j.buildings || !j.buildings.length) {
-    el.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 0">No buildings added — rooms default to "Main Bldg."</div>';
+  if (!el || !currentContract) return;
+  const buildings = currentContract.buildings || [];
+  if (!buildings.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 0">No buildings — rooms default to "Main Bldg."</div>';
     return;
   }
-  el.innerHTML = j.buildings.map(b => `
-    <div class="bldg-item">
-      <div class="bldg-name">${b.name}</div>
-      <button class="btn btn-red btn-sm" onclick="deleteBuilding('${b.id}')">✕</button>
-    </div>
-  `).join('');
+  el.innerHTML = buildings.map(b =>
+    `<div class="bldg-item"><div class="bldg-name">${b.name}</div>
+    <button class="btn btn-red btn-sm" onclick="deleteBuilding('${b.id}')">✕</button></div>`
+  ).join('');
 }
 
-// ═══════════════════════════════════════════════════════
-// ROOMS
-// ═══════════════════════════════════════════════════════
+function addBuilding() {
+  if (!currentContract) return;
+  const inp = document.getElementById('new-bldg-input');
+  const name = inp.value.trim(); if (!name) return;
+  if (!currentContract.buildings) currentContract.buildings = [];
+  currentContract.buildings.push({id:'bldg_'+Date.now(), name});
+  inp.value = '';
+  saveContract();
+  renderBuildingList();
+  renderRoomList();
+}
+
+function deleteBuilding(id) {
+  if (!currentContract || !confirm('Delete building?')) return;
+  currentContract.buildings = (currentContract.buildings||[]).filter(b => b.id !== id);
+  currentContract.rooms && currentContract.rooms.forEach(r => { if(r.buildingId===id) r.buildingId=null; });
+  saveContract();
+  renderBuildingList();
+  renderRoomList();
+}
+
 function addRoom() {
-  const j = getJob(); if (!j) return;
+  if (!currentContract) return;
   const inp = document.getElementById('new-room-input');
   const name = inp.value.trim(); if (!name) return;
-  if (j.rooms.length >= 30) { toast('Maximum 30 rooms reached'); return; }
+  if ((currentContract.rooms||[]).length >= 30) { toast('Max 30 rooms'); return; }
+  const buildingId = (currentContract.buildings||[]).length ? currentContract.buildings[0].id : null;
+  if (!currentContract.rooms) currentContract.rooms = [];
   const id = 'rm_' + Date.now();
-  const buildingId = (j.buildings && j.buildings.length) ? j.buildings[0].id : null;
-  j.rooms.push({id, name, buildingId, equipment:{}, overrides:{}, otherNotes:''});
+  currentContract.rooms.push({id, name, buildingId, equipment:{}, overrides:{}, otherNotes:''});
   inp.value = '';
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderRoomList(); setActiveRoom(id);
+  saveContract();
+  renderRoomList();
+  setActiveRoom(id);
 }
 
 function setActiveRoom(id) {
   activeRoomId = id;
   renderRoomList();
   renderEqPanel();
-  setTimeout(() => {
-    const p = document.getElementById('eq-panel');
-    if (p) p.scrollIntoView({behavior:'smooth', block:'start'});
-  }, 50);
+  setTimeout(() => document.getElementById('eq-panel')?.scrollIntoView({behavior:'smooth',block:'start'}), 50);
 }
 
 function deleteRoom(id) {
-  const j = getJob(); if (!j) return;
-  if (!confirm('Delete this room and all its data?')) return;
-  j.rooms = j.rooms.filter(r => r.id !== id);
-  if (activeRoomId === id) {
-    activeRoomId = null;
-    document.getElementById('eq-panel').style.display = 'none';
-  }
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderRoomList();
+  if (!currentContract || !confirm('Delete room?')) return;
+  currentContract.rooms = (currentContract.rooms||[]).filter(r => r.id !== id);
+  if (activeRoomId === id) { activeRoomId = null; document.getElementById('eq-panel').style.display='none'; }
+  saveContract(); renderRoomList();
 }
 
-function setRoomBuilding(roomId, buildingId) {
-  const room = getRoom(roomId); if (!room) return;
-  room.buildingId = buildingId || null;
-  const j = getJob();
-  if (j) j.updatedAt = new Date().toISOString();
-  saveAll(); renderRoomList();
+function getBuildingName(buildingId) {
+  if (!buildingId || !currentContract) return 'Main Bldg.';
+  const b = (currentContract.buildings||[]).find(x => x.id === buildingId);
+  return b ? b.name : 'Main Bldg.';
 }
 
 function roomTotal(room) { return Object.values(room.equipment||{}).reduce((a,b)=>a+b,0); }
 
-function getBuildingName(j, buildingId) {
-  if (!buildingId) return 'Main Bldg.';
-  const b = (j.buildings||[]).find(x => x.id === buildingId);
-  return b ? b.name : 'Main Bldg.';
-}
-
 function renderRoomList() {
-  const j = getJob(); if (!j) return;
-  document.getElementById('room-count-badge').textContent = j.rooms.length + '/30';
+  if (!currentContract) return;
   const el = document.getElementById('room-list');
-  if (!j.rooms.length) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">No rooms yet. Add one above.</div>';
+  const badge = document.getElementById('room-count-badge');
+  const rooms = currentContract.rooms || [];
+  if (badge) badge.textContent = rooms.length + '/30';
+  if (!rooms.length) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No rooms yet.</div>';
     return;
   }
-  const hasBldgs = j.buildings && j.buildings.length > 0;
-  el.innerHTML = j.rooms.map(r => {
-    const bldgName = getBuildingName(j, r.buildingId);
-    return `<div class="room-item ${activeRoomId===r.id?'active-room':''}" onclick="setActiveRoom('${r.id}')">
+  const hasBldgs = (currentContract.buildings||[]).length > 0;
+  el.innerHTML = rooms.map(r => `
+    <div class="room-item ${activeRoomId===r.id?'active-room':''}" onclick="setActiveRoom('${r.id}')">
       <div style="flex:1;min-width:0">
         <div class="room-name">${r.name}</div>
-        <div class="room-meta">${hasBldgs ? bldgName + ' · ' : ''}${roomTotal(r)} item${roomTotal(r)!==1?'s':''} counted</div>
-        ${hasBldgs ? `<select class="bldg-select" onclick="event.stopPropagation()" onchange="setRoomBuilding('${r.id}',this.value)">
+        <div class="room-meta">${hasBldgs?getBuildingName(r.buildingId)+' · ':''}${roomTotal(r)} items</div>
+        ${hasBldgs?`<select class="bldg-select" onclick="event.stopPropagation()" onchange="setRoomBuilding('${r.id}',this.value)">
           <option value="">Main Bldg.</option>
-          ${(j.buildings||[]).map(b => `<option value="${b.id}" ${r.buildingId===b.id?'selected':''}>${b.name}</option>`).join('')}
-        </select>` : ''}
+          ${(currentContract.buildings||[]).map(b=>`<option value="${b.id}" ${r.buildingId===b.id?'selected':''}>${b.name}</option>`).join('')}
+        </select>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <div class="room-qty-badge">${roomTotal(r)||''}</div>
         <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteRoom('${r.id}')">✕</button>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
-// ═══════════════════════════════════════════════════════
-// EQUIPMENT PANEL
-// ═══════════════════════════════════════════════════════
+function setRoomBuilding(roomId, buildingId) {
+  const room = (currentContract.rooms||[]).find(r=>r.id===roomId); if(!room) return;
+  room.buildingId = buildingId||null;
+  saveContract(); renderRoomList();
+}
+
 function renderEqPanel() {
   const panel = document.getElementById('eq-panel');
-  const j = getJob();
-  const room = j && j.rooms.find(r => r.id === activeRoomId);
-  if (!room) { panel.style.display = 'none'; return; }
+  const room = (currentContract.rooms||[]).find(r=>r.id===activeRoomId);
+  if (!room) { panel.style.display='none'; return; }
   panel.style.display = 'block';
 
-  const groups = [];
-  const groupMap = {};
-  EQUIPMENT.forEach(eq => {
-    const g = eq.group;
-    if (!groupMap[g]) { groupMap[g] = []; groups.push(g); }
-    groupMap[g].push(eq);
+  const groups=[], groupMap={};
+  EQUIPMENT.forEach(eq=>{
+    if(!groupMap[eq.group]){groupMap[eq.group]=[];groups.push(eq.group);}
+    groupMap[eq.group].push(eq);
   });
 
-  const siteDefault = j.tier || 'basic';
-  const bldgName = getBuildingName(j, room.buildingId);
-
-  let html = `<div class="eq-panel">
-    <div class="eq-panel-title">📍 ${room.name} <span style="font-size:11px;color:var(--muted);font-weight:400">${bldgName}</span></div>`;
+  const siteDefault = currentContract.tier || 'basic';
+  let html = `<div class="eq-panel"><div class="eq-panel-title">📍 ${room.name} <span style="font-size:11px;color:var(--muted);font-weight:400">${getBuildingName(room.buildingId)}</span></div>`;
 
   groups.forEach(g => {
     html += `<div class="eq-group-label">${g}</div>`;
     groupMap[g].forEach(eq => {
-      const qty = room.equipment[eq.id] || 0;
-      const svc = (room.overrides && room.overrides[eq.id]) || siteDefault;
-      const svcInfo = SVC_TYPES.find(s => s.id === svc);
-      const isOverride = room.overrides && room.overrides[eq.id] && room.overrides[eq.id] !== siteDefault;
+      const qty = room.equipment[eq.id]||0;
+      const svc = (room.overrides&&room.overrides[eq.id])||siteDefault;
+      const svcInfo = SVC_TYPES.find(s=>s.id===svc);
+      const isOverride = room.overrides&&room.overrides[eq.id]&&room.overrides[eq.id]!==siteDefault;
       const isSub = eq.label.startsWith('  ');
-
       html += `<div class="eq-row${isSub?' eq-sub':''}" id="eqrow_${eq.id}">
-        <div class="eq-label-top">
-          <div class="eq-label-text">${eq.label.trim()}</div>
-        </div>
+        <div class="eq-label-top"><div class="eq-label-text">${eq.label.trim()}</div></div>
         <div class="eq-controls-row">
           <button class="svc-pill svc-${svc}${isOverride?' svc-override':''}" onclick="openSvcModal('${room.id}','${eq.id}')">${svcInfo?svcInfo.short:svc} ▾</button>
           <div class="counter">
             <button class="counter-btn" onclick="changeQty('${room.id}','${eq.id}',-1)">−</button>
             <input class="counter-input" type="number" min="0" value="${qty}" id="cinp_${eq.id}"
-              onchange="setQty('${room.id}','${eq.id}',this.value)"
-              onfocus="this.select()" inputmode="numeric">
+              onchange="setQty('${room.id}','${eq.id}',this.value)" onfocus="this.select()" inputmode="numeric">
             <button class="counter-btn" onclick="changeQty('${room.id}','${eq.id}',1)">+</button>
           </div>
         </div>
@@ -956,53 +1252,57 @@ function renderEqPanel() {
     <textarea id="other-notes-input" rows="2" style="resize:none;width:100%;margin-top:4px"
       placeholder="Describe unlisted items (flagged for custom pricing)..."
       oninput="saveOtherNotes(this.value)">${room.otherNotes||''}</textarea>
-    ${(room.otherNotes||'').trim() ? '<div class="other-flag" style="margin-top:8px">⚠ Custom pricing required — flagged for review</div>' : ''}
+    ${(room.otherNotes||'').trim()?'<div class="other-flag" style="margin-top:8px">⚠ Custom pricing required</div>':''}
   </div>`;
-
   panel.innerHTML = html;
 }
 
 function changeQty(roomId, eqId, delta) {
-  const room = getRoom(roomId); if (!room) return;
-  const cur = room.equipment[eqId] || 0;
-  const next = Math.max(0, cur + delta);
-  if (next === 0) delete room.equipment[eqId]; else room.equipment[eqId] = next;
-  const inp = document.getElementById('cinp_' + eqId);
-  if (inp) inp.value = next;
-  const j = getJob(); if (j) j.updatedAt = new Date().toISOString();
-  saveAll(); renderRoomList();
+  const room = (currentContract.rooms||[]).find(r=>r.id===roomId); if(!room) return;
+  const next = Math.max(0, (room.equipment[eqId]||0) + delta);
+  if(next===0) delete room.equipment[eqId]; else room.equipment[eqId]=next;
+  const inp = document.getElementById('cinp_'+eqId);
+  if(inp) inp.value=next;
+  saveContract(); renderRoomList();
 }
 
 function setQty(roomId, eqId, val) {
-  const room = getRoom(roomId); if (!room) return;
-  const n = Math.max(0, parseInt(val) || 0);
-  if (n === 0) delete room.equipment[eqId]; else room.equipment[eqId] = n;
-  const inp = document.getElementById('cinp_' + eqId);
-  if (inp) inp.value = n;
-  const j = getJob(); if (j) j.updatedAt = new Date().toISOString();
-  saveAll(); renderRoomList();
+  const room = (currentContract.rooms||[]).find(r=>r.id===roomId); if(!room) return;
+  const n = Math.max(0, parseInt(val)||0);
+  if(n===0) delete room.equipment[eqId]; else room.equipment[eqId]=n;
+  const inp = document.getElementById('cinp_'+eqId);
+  if(inp) inp.value=n;
+  saveContract(); renderRoomList();
 }
 
 function saveOtherNotes(val) {
-  const room = getRoom(activeRoomId); if (!room) return;
-  room.otherNotes = val;
-  const j = getJob(); if (j) j.updatedAt = new Date().toISOString();
-  saveAll();
+  const room = (currentContract.rooms||[]).find(r=>r.id===activeRoomId); if(!room) return;
+  room.otherNotes=val; saveContract();
 }
 
-// ═══════════════════════════════════════════════════════
-// SERVICE PICKER
-// ═══════════════════════════════════════════════════════
+// Service picker
 function openSvcModal(roomId, eqId) {
-  const room = getRoom(roomId); if (!room) return;
-  const j = getJob();
-  const eq = EQUIPMENT.find(e => e.id === eqId);
-  const current = (room.overrides && room.overrides[eqId]) || j.tier;
-  svcModalCtx = {roomId, eqId};
+  const room = (currentContract.rooms||[]).find(r=>r.id===roomId); if(!room) return;
+  const eq = EQUIPMENT.find(e=>e.id===eqId);
+  const current = (room.overrides&&room.overrides[eqId])||currentContract.tier;
+  svcModalCtx = {roomId, eqId, context:'walkthrough'};
   document.getElementById('svc-modal-eq-name').textContent = eq.label.trim();
-  document.getElementById('svc-modal-default').textContent = 'Site default: ' + (TIERS.find(t=>t.id===j.tier)||{name:j.tier}).name;
-  document.getElementById('svc-options-grid').innerHTML = SVC_TYPES.map(s =>
+  document.getElementById('svc-modal-default').textContent = 'Site default: '+(TIERS.find(t=>t.id===currentContract.tier)||{name:currentContract.tier}).name;
+  document.getElementById('svc-options-grid').innerHTML = SVC_TYPES.map(s=>
     `<div class="svc-option ${s.id===current?'selected':''}" onclick="selectSvc('${s.id}')">
+      <div class="svc-option-name">${s.name}</div>
+    </div>`
+  ).join('');
+  document.getElementById('svc-modal').classList.add('open');
+}
+
+function openAssetSvcModal(assetId, eqId) {
+  // For field tab service override on year scope
+  svcModalCtx = {assetId, eqId, context:'field'};
+  document.getElementById('svc-modal-eq-name').textContent = eqId;
+  document.getElementById('svc-modal-default').textContent = '';
+  document.getElementById('svc-options-grid').innerHTML = SVC_TYPES.map(s=>
+    `<div class="svc-option" onclick="selectSvc('${s.id}')">
       <div class="svc-option-name">${s.name}</div>
     </div>`
   ).join('');
@@ -1011,556 +1311,233 @@ function openSvcModal(roomId, eqId) {
 
 function selectSvc(svcId) {
   if (!svcModalCtx) return;
-  const room = getRoom(svcModalCtx.roomId); if (!room) return;
-  const j = getJob();
-  if (!room.overrides) room.overrides = {};
-  if (svcId === j.tier) delete room.overrides[svcModalCtx.eqId];
-  else room.overrides[svcModalCtx.eqId] = svcId;
-  j.updatedAt = new Date().toISOString();
-  saveAll(); closeSvcModalBtn(); renderEqPanel();
+  if (svcModalCtx.context === 'walkthrough') {
+    const room = (currentContract.rooms||[]).find(r=>r.id===svcModalCtx.roomId); if(!room) return;
+    if(!room.overrides) room.overrides={};
+    if(svcId===currentContract.tier) delete room.overrides[svcModalCtx.eqId];
+    else room.overrides[svcModalCtx.eqId]=svcId;
+    saveContract();
+    closeSvcModal();
+    renderEqPanel();
+  }
 }
 
-function closeSvcModal(e) { if (e.target === document.getElementById('svc-modal')) closeSvcModalBtn(); }
-function closeSvcModalBtn() { document.getElementById('svc-modal').classList.remove('open'); svcModalCtx = null; }
-
-// ═══════════════════════════════════════════════════════
-// OBSERVATIONS
-// ═══════════════════════════════════════════════════════
-function addObs() {
-  const j = getJob(); if (!j) return;
-  const inp = document.getElementById('new-obs-input');
-  const txt = inp.value.trim(); if (!txt) return;
-  if (!j.observations) j.observations = [];
-  j.observations.push(txt);
-  inp.value = '';
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderObsList();
+function closeSvcModal(e) {
+  if (e && e.target !== document.getElementById('svc-modal')) return;
+  closeSvcModalBtn();
 }
-
-function removeObs(i) {
-  const j = getJob(); if (!j) return;
-  j.observations.splice(i,1);
-  j.updatedAt = new Date().toISOString();
-  saveAll(); renderObsList();
-}
-
-function renderObsList() {
-  const j = getJob(); if (!j) return;
-  const el = document.getElementById('obs-list');
-  if (!j.observations || !j.observations.length) { el.innerHTML = ''; return; }
-  el.innerHTML = j.observations.map((o,i) =>
-    `<div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start">
-      <div style="flex:1;font-size:13px;padding-top:2px">${o}</div>
-      <button class="btn btn-red btn-sm" onclick="removeObs(${i})">✕</button>
-    </div>`
-  ).join('');
+function closeSvcModalBtn() {
+  document.getElementById('svc-modal').classList.remove('open');
+  svcModalCtx = null;
 }
 
 // ═══════════════════════════════════════════════════════
-// SUMMARY
+// YEARS
 // ═══════════════════════════════════════════════════════
-function renderSummary() {
-  const j = getJob(); if (!j) return;
-  const tier = TIERS.find(t => t.id === j.tier);
-  document.getElementById('sum-job-info').innerHTML =
-    [j.customer, j.address, j.date && 'Date: '+j.date, j.rep && 'Rep: '+j.rep, tier && 'Tier: '+tier.name]
-    .filter(Boolean).join(' &nbsp;·&nbsp; ');
+function renderYearList() {
+  if (!currentContract) return;
+  const el = document.getElementById('year-list');
+  const years = currentContract.years || [];
+  if (!years.length) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No years yet. Tap + Add Year.</div>';
+    return;
+  }
+  el.innerHTML = years.map(y => {
+    const statusColor = {Complete:'var(--green)','In Progress':'var(--gold)',Scheduled:'var(--muted)'}[y.status]||'var(--muted)';
+    return `<div class="year-card" onclick="openYear('${y.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:16px;font-weight:800;color:var(--gold)">${y.label}</div>
+        <div style="font-size:11px;font-weight:700;color:${statusColor}">${y.status||'Scheduled'}</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">${[y.workDate, y.rep].filter(Boolean).join(' · ')||'Not started'}</div>
+    </div>`;
+  }).join('');
+}
 
-  const totals = {};
-  const overridesList = [];
-  j.rooms.forEach(room => {
-    Object.entries(room.equipment||{}).forEach(([k,v]) => totals[k] = (totals[k]||0)+v);
-    Object.entries(room.overrides||{}).forEach(([k,svc]) => {
-      if ((room.equipment||{})[k] > 0 && svc !== j.tier) {
-        const eq = EQUIPMENT.find(e => e.id === k);
-        const s = SVC_TYPES.find(x => x.id === svc);
-        if (eq && s) overridesList.push(`${eq.label.trim()} (${room.name}) → ${s.name}`);
-      }
+function addYear(contractId) {
+  const contract = contractId ? (currentSite.contracts||[]).find(c=>c.id===contractId) : currentContract;
+  if (!contract) return;
+  const yn = (contract.years||[]).length + 1;
+  if (yn > 3) { toast('Max 3 years per contract'); return; }
+  const cn = contract.contractNumber || 1;
+  const label = `C${cn}-Y${yn}`;
+  const id = `y${yn}_${contract.id}`;
+  const year = {id, contractId:contract.id, siteId:currentSite.id, yearNumber:yn, label, workDate:'', rep:'', status:'Scheduled', scopedAssetIds:[]};
+  fetch(API + '/years/save', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(year)}).catch(()=>{});
+  if (!contract.years) contract.years = [];
+  contract.years.push(year);
+  renderContractList();
+  renderYearList();
+  currentYear = year;
+  showYearScreen();
+}
+
+function openYear(yearId) {
+  // Find year across all contracts
+  let year = null;
+  for (const c of (currentSite.contracts||[])) {
+    year = (c.years||[]).find(y=>y.id===yearId);
+    if (year) { currentContract = c; break; }
+  }
+  if (!year) return;
+  currentYear = year;
+  showYearScreen();
+}
+
+function showYearList() {
+  showContractScreen();
+  showContractTab('years');
+}
+
+// ═══════════════════════════════════════════════════════
+// YEAR SCREEN
+// ═══════════════════════════════════════════════════════
+function showYearScreen() {
+  showScreen('year');
+  renderYearInfo();
+  renderYearAssets();
+}
+
+function showYearTab(tab) {
+  document.querySelectorAll('#screen-year .tab-view').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#screen-year .nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('year-tab-'+tab)?.classList.add('active');
+  const tabs = ['info','field','export'];
+  document.querySelectorAll('#screen-year .nav-tab')[tabs.indexOf(tab)]?.classList.add('active');
+}
+
+function renderYearInfo() {
+  if (!currentYear) return;
+  setValue('f-year-date', currentYear.workDate);
+  setValue('f-year-rep', currentYear.rep);
+  setValue('f-year-status', currentYear.status);
+  const lbl = document.getElementById('year-label-display');
+  if (lbl) lbl.textContent = currentYear.label;
+}
+
+function saveYearField(key, val) {
+  if (!currentYear) return;
+  currentYear[key] = val;
+  fetch(API + '/years/save', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(currentYear)}).catch(()=>{});
+}
+
+// ═══════════════════════════════════════════════════════
+// YEAR FIELD DATA (Assets)
+// ═══════════════════════════════════════════════════════
+let currentAssetEditorTab = 'info';
+let currentAssetData = null; // local edits before save
+
+function renderYearAssets() {
+  const el = document.getElementById('year-asset-list');
+  if (!el) return;
+
+  if (!siteAssets.length) {
+    el.innerHTML = `<div style="text-align:center;padding:24px;color:var(--muted);font-size:14px">
+      No assets yet.<br><br>
+      <button class="btn btn-gold" onclick="portAssetsFromWalkthrough()">⬇ Port from Walkthrough</button><br>
+      <button class="btn btn-outline" style="margin-top:8px" onclick="addNewAsset()">+ Add Asset Manually</button>
+    </div>`;
+    return;
+  }
+
+  // Group by location
+  const byLoc = {};
+  siteAssets.forEach(a => {
+    const loc = a.location || 'Unassigned';
+    if (!byLoc[loc]) byLoc[loc] = [];
+    byLoc[loc].push(a);
+  });
+
+  let html = `<div style="display:flex;gap:8px;margin-bottom:12px">
+    <button class="btn btn-gold btn-sm" style="flex:1" onclick="portAssetsFromWalkthrough()">⬇ Port from Walkthrough</button>
+    <button class="btn btn-outline btn-sm" style="flex:1" onclick="addNewAsset()">+ Add Asset</button>
+  </div>`;
+
+  Object.entries(byLoc).forEach(([loc, assets]) => {
+    html += `<div class="eq-group-label">${loc}</div>`;
+    assets.forEach(a => {
+      const yearData = getYearData(a);
+      const ir = yearData.ir || {};
+      const ut = yearData.ut || {};
+      const violations = yearData.codeViolations || [];
+      const en = yearData.energized || {};
+      const ins = yearData.insulation || {};
+      const dlro = yearData.dlro || {};
+      const tq = yearData.torque || {};
+
+      const hasFail = [ir.result, ut.result, en.summary, ins.result, dlro.result, tq.result].includes('FAIL');
+      const codeCount = violations.filter(v=>v.article).length;
+      const hasIssue = hasFail || codeCount > 0;
+      const isComplete = ir.result && ut.result;
+      const dot = hasIssue ? '🔴' : (isComplete ? '✅' : '⚪');
+
+      html += `<div class="asset-card" onclick="openAssetEditor('${a.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700">${a.name||'(Unnamed)'}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${a.tag?'#'+a.tag+' · ':''}${a.eqType||''}</div>
+          </div>
+          <div style="font-size:16px;margin-left:8px">${dot}</div>
+        </div>
+        ${codeCount>0?`<div style="font-size:11px;color:var(--red);margin-top:4px">${codeCount} violation${codeCount!==1?'s':''}</div>`:''}
+        ${hasFail?`<div style="font-size:11px;color:var(--red);margin-top:2px">FAIL recorded</div>`:''}
+      </div>`;
     });
   });
 
-  const entries = EQUIPMENT.filter(e => totals[e.id]);
-  const grandTotal = Object.values(totals).reduce((a,b)=>a+b,0);
-  const s = SVC_TYPES.find(x => x.id === j.tier);
-  const tbody = document.getElementById('sum-body');
-  if (!entries.length) {
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:20px">No equipment counted yet</td></tr>';
-  } else {
-    tbody.innerHTML = entries.map(e =>
-      `<tr><td>${e.label.trim()}</td><td style="text-align:right;font-weight:700">${totals[e.id]}</td><td style="text-align:right;font-size:11px;color:var(--muted)">${s?s.short:''}</td></tr>`
-    ).join('') + `<tr class="total-row"><td>TOTAL</td><td style="text-align:right">${grandTotal}</td><td></td></tr>`;
-  }
-
-  const ovCard = document.getElementById('sum-overrides-card');
-  if (overridesList.length) {
-    ovCard.style.display = 'block';
-    document.getElementById('sum-overrides').innerHTML = overridesList.map(o => `<div style="font-size:13px;margin-bottom:5px">• ${o}</div>`).join('');
-  } else { ovCard.style.display = 'none'; }
-
-  const otherItems = (j.rooms||[]).filter(r => (r.otherNotes||'').trim());
-  const otherCard = document.getElementById('sum-other-card');
-  if (otherItems.length) {
-    otherCard.style.display = 'block';
-    document.getElementById('sum-other').innerHTML = otherItems.map(r =>
-      `<div style="font-size:13px;margin-bottom:6px"><strong>${r.name}:</strong> ${r.otherNotes}</div>`
-    ).join('');
-  } else { otherCard.style.display = 'none'; }
-
-  const obsCard = document.getElementById('sum-obs-card');
-  if (j.observations && j.observations.length) {
-    obsCard.style.display = 'block';
-    document.getElementById('sum-obs').innerHTML = j.observations.map(o => `<div style="font-size:13px;margin-bottom:4px">• ${o}</div>`).join('');
-  } else { obsCard.style.display = 'none'; }
+  el.innerHTML = html;
+  document.getElementById('year-asset-count').textContent = siteAssets.length + ' asset' + (siteAssets.length!==1?'s':'');
 }
 
-// ═══════════════════════════════════════════════════════
-// COPY AS TEXT
-// ═══════════════════════════════════════════════════════
-function copyText() {
-  const j = getJob(); if (!j) return;
-  const tier = TIERS.find(t => t.id === j.tier);
-  const totals = {};
-  j.rooms.forEach(r => Object.entries(r.equipment||{}).forEach(([k,v]) => totals[k]=(totals[k]||0)+v));
-  const entries = EQUIPMENT.filter(e => totals[e.id]);
-  const grandTotal = Object.values(totals).reduce((a,b)=>a+b,0);
-
-  let txt = 'RALCO FIELD WALKTHROUGH\n========================\n';
-  if (j.customer) txt += 'Customer: ' + j.customer + '\n';
-  if (j.address)  txt += 'Location: ' + j.address + '\n';
-  if (j.date)     txt += 'Date: ' + j.date + '\n';
-  if (j.rep)      txt += 'Rep: ' + j.rep + '\n';
-  txt += 'Tier: ' + (tier ? tier.name : 'Not selected') + '\n';
-  txt += '\nEQUIPMENT COUNT\n---------------\n';
-  entries.forEach(e => txt += e.label.trim() + ': ' + totals[e.id] + '\n');
-  if (grandTotal) txt += 'TOTAL: ' + grandTotal + '\n';
-
-  navigator.clipboard.writeText(txt).then(() => toast('Copied!')).catch(() => toast('Copy failed'));
+function getYearData(asset) {
+  if (!currentYear) return {};
+  const yearId = currentYear.id;
+  const history = asset.serviceHistory || [];
+  const entry = history.find(h => h.yearId === yearId);
+  return entry || {};
 }
 
-// ═══════════════════════════════════════════════════════
-// EXPORT
-// ═══════════════════════════════════════════════════════
-function exportJob() { exportJobById(currentJobId); }
-
-function exportJobById(jobId) {
-  const j = jobs.find(x => x.id === jobId);
-  if (!j) return;
-  if (!j.rooms || !j.rooms.length) { toast('No rooms to export'); return; }
-  toast('Preparing export...');
-  fetch(API + '/export', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(j)
-  })
-  .then(res => {
-    if (!res.ok) return res.json().then(e => { throw new Error(e.error || 'Export failed'); });
-    return res.blob();
-  })
-  .then(blob => {
-    const filename = (j.customer || 'Job').replace(/[^a-zA-Z0-9 _-]/g, '_') + '_EMA_Sales_Builder.xlsx';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    toast('Downloaded: ' + filename);
-  })
-  .catch(err => {
-    toast(err.message.includes('fetch') ? 'Export needs internet connection' : 'Export failed: ' + err.message);
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// BACKUP / RESTORE
-// ═══════════════════════════════════════════════════════
-function backupJobs() {
-  const blob = new Blob([JSON.stringify(jobs, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'ralco_jobs_backup_' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-  toast('Backup downloaded');
-}
-
-function restoreJobs() { document.getElementById('restore-input').click(); }
-
-function doRestore(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const data = JSON.parse(ev.target.result);
-      if (!Array.isArray(data)) throw new Error('bad format');
-      if (!confirm('Merge ' + data.length + ' jobs?')) return;
-      const existing = new Set(jobs.map(j => j.id));
-      let added = 0;
-      data.forEach(j => { if (!existing.has(j.id)) { jobs.push(j); added++; } });
-      saveLocal(); renderJobsList();
-      toast('Restored ' + added + ' jobs');
-    } catch(err) { toast('Restore failed: invalid file'); }
-  };
-  reader.readAsText(file);
-  e.target.value = '';
-}
-
-// ═══════════════════════════════════════════════════════
-// FIELD DATA — EPM Master asset collection
-// ═══════════════════════════════════════════════════════
-
-const EPM_EQ_TYPES = [
-  '480V Primary Transformer - Oil Filled <5000kVA',
-  '480V/208V/120V Transformer - Dry <250 kva',
-  '480V/208V/120V Transformer - Dry >=250 kva',
-  'Auto Transfer Switch <=400A',
-  'Auto Transfer Switch >400A',
-  'Branch Circuit Panel <=400A',
-  'Bus Duct - Vertical or Horizontal (Per 10ft)',
-  'Compressed Air Equipment',
-  'Distribution Panel Single Front >=600A',
-  'Distribution Switchboard Multi Cover (Per Section)',
-  'HVAC Equipment',
-  'Individual Combination Motor Starter',
-  'Individual Disconnect Switch',
-  'Individual Molded Case Breaker >=600A',
-  'Individual Motor Starter',
-  'Lighting Contactor <=50 hp',
-  'MCC: Combination Motor Starters',
-  'MCC: Individual Disconnect Switch',
-  'MCC: Molded Case Breaker',
-  'MCC: Motor Starters',
-  'Motor Control Center (Per vertical section)',
-  'Motor Control Panel (MCP)',
-  'Motors <50hp',
-  'Motors 51-200hp',
-  'Motors 201-500hp',
-  'Switchboard Molded Case Breakers >=600A',
-  'Switchgear - Incoming Main Service (Per Section)',
-  'Switchgear Safety Disconnects',
-  'Uninterruptible Power Supply (UPS) <50kVA',
-  'Uninterruptible Power Supply (UPS) >=50kVA',
-  'Variable Frequency Drives <=50hp',
-  'Variable Frequency Drives 51-200hp',
-  'VFD Motor Control Panel (VFD-MCP)',
-  'Wire Trough/Large Junction Boxes',
-];
-
-const EPM_CRITICALITY = [
-  'Production Critical (High)',
-  'Life Safety (High)',
-  'Support/Utility (Med)',
-  'General/Comfort (Low)',
-  'Unknown',
-];
-
-const EPM_MAINT_STATUS = [
-  'Critical (>2 Cycles/Unknown)',
-  'Overdue (<2 Cycles)',
-  'Verified (Current)',
-];
-
-const EPM_IR_COMPONENTS = [
-  'Breaker (Line)', 'Breaker (Load)', 'Bus Joint', 'Cable Term',
-  'Fuse Clip', 'Lug/Term', 'Switchgear/Bus', 'Transformer', 'VFD',
-];
-
-const EPM_IR_FAILURE_MODES = [
-  'Arcing', 'Tracking', 'Corona', 'Vibration', 'Mech Loose', 'Motor Bearing',
-];
-
-const EPM_PHASES = ['A-Phase', 'B-Phase', 'C-Phase', 'Neutral', 'Multi-Phase', 'Ground'];
-const EPM_PHASE_TYPES = ['Single Phase', 'Three Phase', 'DC'];
-const EPM_WIRE_TYPES = ['2-Wire', '3-Wire', '4-Wire'];
-const EPM_RESULTS = ['PASS', 'FAIL', 'MONITOR', 'N/A'];
-
-const EPM_CODE_VIOLATIONS = [
-  {article:'Condition of Maintenance / AF Labeling and IR Loading', sev:'Critical (5pts)'},
-  {article:'NEC 110.16 & NFPA 70E 130.5(H) Arc Flash Labeling & Study Validation', sev:'Critical (5pts)'},
-  {article:'XFMR Cond. of Maint. / AF Labeling and IR Loading', sev:'Critical (5pts)'},
-  {article:'Equipment Cleanliness and Maintenance Condition', sev:'Major (3pts)'},
-  {article:'VFD with Undefeatable Interlock Handle', sev:'Minor (1pt)'},
-  {article:'NEC 110.3(B) - (Screws/Clips) Listing and Labeling', sev:'Minor (1pt)'},
-  {article:'NEC 110.3(B) / 408.7 - Combined Hardware/KO Seal', sev:'Major (3pts)'},
-  {article:'NEC 110.12 - Mechanical Execution of Work', sev:'Minor (1pt)'},
-  {article:'NEC 110.14(A) - Terminations', sev:'Major (3pts)'},
-  {article:'NEC 110.16(B) - Arc Flash Hazard Labeling (2026 Expansion)', sev:'Critical (5pts)'},
-  {article:'NEC 110.14(D) - Torque Requirements', sev:'Major (3pts)'},
-  {article:'NEC 110.21(B) - Labeling Methods & Durability', sev:'Minor (1pt)'},
-  {article:'NEC 110.22(A) - ID of Disconnecting Means', sev:'Minor (1pt)'},
-  {article:'NEC 110.24 - Available Fault Current Labeling', sev:'Major (3pts)'},
-  {article:'NEC 110.26 - Working Space', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(A)(4) - Working Space & Egress (90-Degree Door)', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(E) Dedicated Electrical Equipment Space', sev:'Major (3pts)'},
-  {article:'NEC 110.26(C)(2),(3) - Elec Rm Panic Hardware', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(C)(2),(3) - Small Electric Room Egress', sev:'Major (3pts)'},
-  {article:'NFPA 70E 130.4 / NEC 110.27(A) - Exposed Live Parts', sev:'Critical (5pts)'},
-  {article:'NEC 240.4 / 240.6(A) - OCPD Sizing /Stand Ratings', sev:'Critical (5pts)'},
-  {article:'NEC 240.21(C) - Tap Rules (10-ft, 25-ft, Outside Taps)', sev:'Major (3pts)'},
-  {article:'NEC 250.6(A) - Objectionable Current on Ground', sev:'Major (3pts)'},
-  {article:'NEC 250.30(A)(1) - SDS/XFMR Bonding Jumper', sev:'Critical (5pts)'},
-  {article:'NEC 250.97 - Bonding for Over 250 Volts (Bushings)', sev:'Critical (5pts)'},
-  {article:'NEC 250.102(C) Bond Jumper Sz / Parallel Raceways', sev:'Major (3pts)'},
-  {article:'NEC 250.122 Equipment Grounding Conductor Sizing', sev:'Major (3pts)'},
-  {article:'NEC 300.4 Protect Phys Dmg (Bush/Sleeve/Edge)', sev:'Major (3pts)'},
-  {article:'NEC 300.5(D) - Underground Raceway / Cover Depth', sev:'Major (3pts)'},
-  {article:'NEC 300.11 Support Race & Cables / Ceiling Grid', sev:'Minor (1pt)'},
-  {article:'NEC 300.14 - Free Conductor Length', sev:'Minor (1pt)'},
-  {article:'NEC 312.5(C) - Cable Entry (NM/MC into Panels)', sev:'Major (3pts)'},
-  {article:'NEC 312.8 Panelboard Wire Fill / Splicing in Cabinets', sev:'Major (3pts)'},
-  {article:'NEC 348.30(A) - FMC Support and Securement', sev:'Minor (1pt)'},
-  {article:'NEC 350.30(A) - LFMC Support and Securement', sev:'Minor (1pt)'},
-  {article:'NEC 358.30(A) - EMT Support and Securement', sev:'Minor (1pt)'},
-  {article:'NEC 404.8 - Switch Mounting', sev:'Major (3pts)'},
-  {article:'NEC 406.5 - Receptacle Faceplate / Mounting', sev:'Minor (1pt)'},
-  {article:'NEC 408.4(A) - Circuit Identification', sev:'Minor (1pt)'},
-  {article:'NEC 408.7 - Unused Openings', sev:'Major (3pts)'},
-  {article:'NEC 408.43 Grounding and Bonding of Panelboards', sev:'Critical (5pts)'},
-  {article:'NEC 430.8 - Marking on Motor Controllers', sev:'Minor (1pt)'},
-  {article:'NEC 430.98 - Motor Control Center (MCC) Disconnect Marking', sev:'Minor (1pt)'},
-  {article:'NEC 430.102(B) Local Disco. Means for Motors', sev:'Critical (5pts)'},
-  {article:'NEC 430.250 / 430.52 Motor FLC & OCP Sizing', sev:'Major (3pts)'},
-  {article:'NEC 450.3(B) - Transformer OCPD Protection', sev:'Major (3pts)'},
-  {article:'NEC 700.7 - Emergency System Labeling', sev:'Major (3pts)'},
-  {article:'NEC 700.10(D) - Emergency System Wiring Separation', sev:'Critical (5pts)'},
-  {article:'NEC 701.10 - Legally Req. Standby Wiring Separation', sev:'Major (3pts)'},
-  {article:'NEC 708 - COPS', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 6.2 - Electrical Maintenance Program (EMP) Implementation', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 9.3.2 / NEC 310.15 - IR Thermography Phase Imbalance', sev:'Major (3pts)'},
-  {article:'NFPA 70E 130.5(B) - Condition of Maintenance Impact on Arc Flash', sev:'Critical (5pts)'},
-  {article:'NFPA 72 10.6.5.2 - Fire Alarm Disconnect Marking and Access', sev:'Critical (5pts)'},
-  {article:'NFPA 72 10.4.1 - Fire Alarm Device Physical Damage', sev:'Major (3pts)'},
-  {article:'NFPA 110 8.3.7 - Starting Battery Maintenance', sev:'Critical (5pts)'},
-  {article:'NFPA 110 8.3.4 - Maint./Test of Life Safety Equipment', sev:'Critical (5pts)'},
-  {article:'NFPA 70E Article 120.2/OSHA 1910.333(b)(2): LOTO', sev:'Critical (5pts)'},
-  {article:'OSHA 1910.303(b)(2) - Approval/Listing of Equip', sev:'Major (3pts)'},
-  {article:'OSHA 1910.305(G) - Flexible Cords Misuse', sev:'Major (3pts)'},
-  {article:'NEC 110.12 - Damaged Enclosure / Structural Integrity', sev:'Major (3pts)'},
-  {article:'NEC 110.12 - Cracked / Broken Insulation or Bushing', sev:'Critical (5pts)'},
-  {article:'NEC 230.62(B) - Damaged or Deteriorated Service Conductors', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 5.1.3 - Equipment Deterioration Requiring Immediate Action', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 11.3 - Evidence of Overheating / Discoloration (Thermal Damage)', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 11.3 - Corrosion on Bus / Connections Requiring Remediation', sev:'Major (3pts)'},
-  {article:'NFPA 70B 11.3 - Contamination / Carbon Tracking on Insulation', sev:'Major (3pts)'},
-  {article:'NEC 312.5(A) - Missing or Improper Enclosure Cover', sev:'Critical (5pts)'},
-  {article:'NEC 110.9 - Interrupting Rating (kAIC)', sev:'Critical (5pts)'},
-  {article:'NEC 110.3(B) / 240.7 - Wrong or Non-Listed Breaker Installed', sev:'Critical (5pts)'},
-  {article:'NEC 110.3(B) / 210.4(B) - Breaker Handle Tie Not Listed/Approved', sev:'Major (3pts)'},
-  {article:'NEC 110.15 / 200.6 / 200.7 / 210.5 / 215.12(C) - Conductor ID / Color Coding', sev:'Major (3pts)'},
-  {article:'NEC 240.60(B)(C) / 240.11 - Fuse Type Mismatch / Noninterchangeable', sev:'Major (3pts)'},
-  {article:'NEC 250.12 - Grounding / Bonding Surface Not Cleaned of Paint or Coatings', sev:'Major (3pts)'},
-  {article:'NEC 300.4(G) - Conduit Bushing / Conductor Protection at Fittings', sev:'Major (3pts)'},
-  {article:'NEC 314.15 - Covers for Damp or Wet Locations', sev:'Major (3pts)'},
-  {article:'NEC 110.21(A) / 450.11 - Missing or Damaged Equipment Nameplate', sev:'Minor (1pt)'},
-  {article:'NEC 110.13 / 450.9 / 450.21 - Transformer Ventilation Clearance', sev:'Major (3pts)'},
-  {article:'NFPA 70B 4.2.7 / 4.3 / 6.1-6.7 / 9.3 / 9.4 - EMP Administration Deficiencies', sev:'Critical (5pts)'},
-  {article:'NFPA 70E 110.3 / 110.4 / 105.3 / 130.7 - Electrical Safety Program, Training & PPE', sev:'Critical (5pts)'},
-  {article:'NEC 110.28 - Enclosure Not Suitable for Environment (NEMA Rating)', sev:'Major (3pts)'},
-  {article:'NEC 312.7 - Damp/Wet Location Enclosure / Drainage Provisions', sev:'Major (3pts)'},
-  {article:'NEC 110.3(B) - Unapproved Field Modification / Non-Listed Assembly', sev:'Major (3pts)'},
-  {article:'NEC 110.14(B) - Splices Not in Approved Junction / Pull Box', sev:'Major (3pts)'},
-  {article:'NEC 240.83 - Breaker Ampere Rating Illegibly Marked / Defaced', sev:'Minor (1pt)'},
-  {article:'NEC 408.36 - Unauthorized Back-Fed Breaker (No Retaining Clip)', sev:'Critical (5pts)'},
-  {article:'NEC 408.36 - Tandem / Double-Tap Breaker in Non-CTL Panel', sev:'Major (3pts)'},
-  {article:'NEC 230.71 - More Than 6 Service Disconnecting Means', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(A)(1) - Insufficient Working Space Depth (< 3ft)', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(A)(2) - Insufficient Working Space Width (< 30in)', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(A)(3) - Insufficient Working Space Height (< 6.5ft)', sev:'Major (3pts)'},
-  {article:'NEC 110.26(B) - Working Space Obstructed / Used for Storage', sev:'Critical (5pts)'},
-  {article:'NEC 110.26(D) - Illumination Not Provided for Working Space', sev:'Minor (1pt)'},
-  {article:'NEC 110.26(F) - Dedicated Equipment Space Violation (Outdoor)', sev:'Major (3pts)'},
-  {article:'NEC 250.4(A)(1) - Grounding of Electrical System Not Maintained', sev:'Critical (5pts)'},
-  {article:'NEC 250.8 - Improper Connection of Grounding / Bonding Conductors', sev:'Major (3pts)'},
-  {article:'NEC 250.10 - Protection of Ground Clamps / Fittings', sev:'Minor (1pt)'},
-  {article:'NEC 250.28 - Main Bonding Jumper Missing or Undersized', sev:'Critical (5pts)'},
-  {article:'NEC 250.50 - Grounding Electrode System Incomplete', sev:'Critical (5pts)'},
-  {article:'NEC 250.53 - Grounding Electrode Conductor Installation', sev:'Major (3pts)'},
-  {article:'NEC 250.64 - Grounding Electrode Conductor Size / Protection', sev:'Major (3pts)'},
-  {article:'NEC 250.119 - EGC Not Identified / Green or Bare Required', sev:'Minor (1pt)'},
-  {article:'NEC 250.148 - EGC Continuity in Junction / Pull Box', sev:'Major (3pts)'},
-  {article:'NEC 240.4(B) - Small Conductor OCPD Oversized', sev:'Critical (5pts)'},
-  {article:'NEC 240.15(A) - Single-Pole Breaker on Multi-Wire Branch Circuit', sev:'Critical (5pts)'},
-  {article:'NEC 240.24(A) - OCPD Not Readily Accessible', sev:'Major (3pts)'},
-  {article:'NEC 240.24(B) - OCPD Near Easily Ignitable Material', sev:'Critical (5pts)'},
-  {article:'NEC 240.24(D) - OCPD Located in Bathroom', sev:'Critical (5pts)'},
-  {article:'NEC 240.60(B) - Cartridge Fuse Class / Rejection Feature Missing', sev:'Major (3pts)'},
-  {article:'NFPA 70B 5.2.1 - Water Intrusion / Moisture Damage Evidence', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 5.2.1 - Active Water / Condensation Inside Enclosure', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 5.2.2 - Pest / Rodent Intrusion and Nesting Evidence', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 5.2.3 - Excessive Dust / Debris Accumulation in Enclosure', sev:'Major (3pts)'},
-  {article:'NFPA 70B 5.2.3 - Chemical / Oil Contamination on Equipment', sev:'Major (3pts)'},
-  {article:'NEC 110.11 - Deteriorating Agents (Chemical / Environmental Exposure)', sev:'Major (3pts)'},
-  {article:'NEC 408.3(A) - Switchboard Not Accessible from Front Only', sev:'Major (3pts)'},
-  {article:'NEC 408.3(B) - Switchboard Installed in Damp / Wet Location', sev:'Major (3pts)'},
-  {article:'NEC 408.3(F) - Switchboard Overcurrent Protection Missing', sev:'Critical (5pts)'},
-  {article:'NEC 230.66 - Service Equipment Not Marked / Approved as Such', sev:'Major (3pts)'},
-  {article:'NEC 230.70(A) - Service Disconnect Not Readily Accessible', sev:'Critical (5pts)'},
-  {article:'NEC 450.9 - Transformer Ventilation Obstructed', sev:'Major (3pts)'},
-  {article:'NEC 450.11 - Transformer Marking Missing or Damaged', sev:'Minor (1pt)'},
-  {article:'NEC 450.13 - Transformer Not Accessible / Properly Guarded', sev:'Major (3pts)'},
-  {article:'NEC 450.21(A) - Dry-Type XFMR Clearance from Combustibles', sev:'Critical (5pts)'},
-  {article:'NEC 450.27 - Oil-Insulated XFMR Vault / Containment Required', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 11.9 - Transformer Oil Level / Condition (Oil-Filled)', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 11.9 - Transformer Oil Leak Evidence', sev:'Critical (5pts)'},
-  {article:'NEC 430.9(B) - Motor Control Devices Not Properly Marked', sev:'Minor (1pt)'},
-  {article:'NEC 430.14(A) - Motor Location / Ventilation Inadequate', sev:'Major (3pts)'},
-  {article:'NEC 430.51 - Motor Branch Circuit OCPD Type Not Suitable', sev:'Major (3pts)'},
-  {article:'NEC 430.109 - Motor Disconnect Type Not Suitable for Application', sev:'Major (3pts)'},
-  {article:'NEC 430.110 - Motor Disconnect Ampere Rating Insufficient', sev:'Major (3pts)'},
-  {article:'NEC 430.232 - Motor Not Protected Against Overload', sev:'Critical (5pts)'},
-  {article:'NFPA 110 7.2 - Generator Visual Inspection Deficiency', sev:'Major (3pts)'},
-  {article:'NFPA 110 7.3 - Generator Coolant / Fluid Level Issue', sev:'Major (3pts)'},
-  {article:'NFPA 110 7.9 - Generator Exercising / Load Test Not Current', sev:'Critical (5pts)'},
-  {article:'NFPA 110 8.4.2 - ATS Failure to Transfer (Functional Test)', sev:'Critical (5pts)'},
-  {article:'NEC 700.5(A) - Transfer Equipment Not Listed / Approved', sev:'Critical (5pts)'},
-  {article:'NEC 700.12 - Emergency Source Capacity Insufficient', sev:'Critical (5pts)'},
-  {article:'NEC 702.5 - Optional Standby OCPD Accessibility', sev:'Major (3pts)'},
-  {article:'NEC 430.122 - VFD Branch Circuit Conductor Sizing', sev:'Major (3pts)'},
-  {article:'NEC 430.131 - VFD Bypass Overcurrent Protection', sev:'Major (3pts)'},
-  {article:'NFPA 70B 17.2 - VFD Filter / Capacitor Condition', sev:'Major (3pts)'},
-  {article:'NFPA 70B 17.2 - VFD Cooling Fan Inoperable / Clogged', sev:'Major (3pts)'},
-  {article:'NEC 300.15 - Box / Fitting Required at Each Conductor Splice', sev:'Major (3pts)'},
-  {article:'NEC 300.17 - Raceway Overfill / Conductor Fill Exceeded', sev:'Major (3pts)'},
-  {article:'NEC 300.22 - Wiring in Ducts / Plenum Spaces Not Permitted', sev:'Critical (5pts)'},
-  {article:'NEC 310.15(B) - Conductor Ampacity Derate Required', sev:'Major (3pts)'},
-  {article:'NEC 358.10 - EMT Use Not Permitted in This Location', sev:'Major (3pts)'},
-  {article:'NEC 334.15 - NM Cable Not Protected / Exposed Run', sev:'Minor (1pt)'},
-  {article:'NEC 362.10 - ENT Use Not Permitted in This Location', sev:'Major (3pts)'},
-  {article:'NEC 460.8(A) - Capacitor Conductor Ampacity Insufficient', sev:'Major (3pts)'},
-  {article:'NEC 460.8(B) - Capacitor OCPD Rating Incorrect', sev:'Major (3pts)'},
-  {article:'NEC 460.9 - Capacitor Discharge Method Not Provided', sev:'Critical (5pts)'},
-  {article:'NEC 368.17 - Bus Duct Overcurrent Protection at Tap Points', sev:'Critical (5pts)'},
-  {article:'NEC 368.12 - Bus Duct Use Not Permitted in This Location', sev:'Major (3pts)'},
-  {article:'NFPA 70B 16.1 - UPS Battery Condition / Maintenance Overdue', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 16.1 - UPS Bypass / Transfer Issue', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 5.1.2 - Equipment Past Recommended Service Interval', sev:'Major (3pts)'},
-  {article:'NFPA 70B 9.2.1 - Loose Connection Found During Inspection', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 9.2.2 - Evidence of Arcing / Pitting on Contacts', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 9.3.1 - Contact / Insulation Resistance Below Minimum', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 9.7 - Circuit Breaker Trip Test Overdue / Failed', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 9.7 - Breaker Mechanism Binding / Inoperable', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 12.2 - Switchgear / Switchboard Interlock Defeated', sev:'Critical (5pts)'},
-  {article:'NFPA 70B 12.2 - Draw-Out Element Racking Mechanism Defective', sev:'Critical (5pts)'},
-  {article:'NEC 240.4 / 240.4(B) - Supply OCPD Exceeds Conductor Ampacity', sev:'Critical (5pts)'},
-  {article:'NEC 110.3(B) / 240.4(A) - OCPD Exceeds Equipment Nameplate Current Rating', sev:'Major (3pts)'},
-  {article:'NEC 110.3(B) / NFPA 70B 17.2 - VFD Operator Interface / Display Damaged or Inoperable', sev:'Major (3pts)'},
-  {article:'Field Observation - Mechanical / Pneumatic Deficiency Noted (Non-Electrical)', sev:'Minor (1pt)'},
-  {article:'NEC 110.3(B) / 110.12 - Door-Mounted Breaker Operating Rod Disconnected or Inoperable', sev:'Major (3pts)'},
-];
-
-// Asset tag counter — stored in cloud, loaded on init
-let assetTagCounter = null;
-
-function getNextAssetTag() {
-  const year = new Date().getFullYear();
-  if (!assetTagCounter || Math.floor(assetTagCounter / 10000) !== year) {
-    assetTagCounter = year * 10000 + 1;
-  }
-  const tag = assetTagCounter;
-  return String(tag);
-}
-
-function advanceTagCounter(usedTag) {
-  const num = parseInt(usedTag);
-  if (!isNaN(num) && num >= (assetTagCounter || 0)) {
-    assetTagCounter = num + 1;
-    lsSet('ralco_tag_counter', String(assetTagCounter));
-    // Sync counter to cloud
-    fetch(API + '/tag-counter', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({counter: assetTagCounter})
-    }).catch(()=>{});
-  }
-}
-
-function loadTagCounter() {
-  const local = lsGet('ralco_tag_counter');
-  if (local) assetTagCounter = parseInt(local);
-  // Try to get from cloud (cloud wins if higher)
-  fetch(API + '/tag-counter')
-  .then(r => r.json())
-  .then(d => {
-    if (d.counter && d.counter > (assetTagCounter || 0)) {
-      assetTagCounter = d.counter;
-      lsSet('ralco_tag_counter', String(assetTagCounter));
-    }
-  })
-  .catch(()=>{});
-}
-
-// ── Asset editing state ──
-let currentAssetId = null;
-let assetEditorTab = 'info';
-let codeViolationSearch = '';
-let codeViolationCount = 1;
-
-function getAssets() {
-  const j = getJob(); if (!j) return [];
-  return j.assets || [];
-}
-
-function getAsset(id) {
-  return getAssets().find(a => a.id === id);
-}
-
-function saveAssets(assets) {
-  const j = getJob(); if (!j) return;
-  j.assets = assets;
-  j.updatedAt = new Date().toISOString();
-  saveAll();
-}
-
-// ── Port from Bert's walkthrough ──
-function portFromWalkthrough() {
-  const j = getJob(); if (!j) return;
-  const existing = j.assets || [];
-  const existingKeys = new Set(existing.map(a => a.portKey).filter(Boolean));
-
+function portAssetsFromWalkthrough() {
+  if (!currentContract || !currentSite) return;
+  const existing = new Set(siteAssets.map(a => a.portKey).filter(Boolean));
   let added = 0;
-  (j.rooms || []).forEach(room => {
-    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
-      const eq = EQUIPMENT.find(e => e.id === eqId);
-      if (!eq) return;
-      // Map sales equipment label to EPM type
+  const newAssets = [];
+
+  (currentContract.rooms||[]).forEach(room => {
+    Object.entries(room.equipment||{}).forEach(([eqId, qty]) => {
+      const eq = EQUIPMENT.find(e=>e.id===eqId); if(!eq) return;
       const epmType = mapToEpmType(eq.label.trim());
-      for (let i = 0; i < qty; i++) {
+      for (let i=0; i<qty; i++) {
         const portKey = `${room.id}_${eqId}_${i}`;
-        if (existingKeys.has(portKey)) continue;
-        const asset = {
-          id: 'asset_' + Date.now() + '_' + Math.random().toString(36).slice(2,5),
-          portKey,
-          tag: '',
-          name: '',
-          location: room.name,
-          eqType: epmType,
-          manufacturer: '',
-          model: '',
-          serial: '',
-          voltage: '',
-          criticality: 'Production Critical (High)',
-          maintStatus: 'Critical (>2 Cycles/Unknown)',
-          notes: '',
-          codeViolations: [],
-          ir: {result:'', phase:'', component:'', failureMode:'', notes:''},
-          ut: {result:'', component:'', failureMode:'', db:'', notes:''},
-          energized: {phase:'', wire:'', vab:'', vbc:'', vca:'', aa:'', ab:'', ac:'', ratedAmps:'', ocpd:'', analysis:'N/A', summary:'PASS'},
-          insulation: {testV:'', phPh:'', phG:'', pi:'', temp:'', result:'N/A', notes:''},
-          dlro: {phA:'', phB:'', phC:'', dev:'', result:'N/A', notes:''},
-          torque: {phase:'', connType:'', spec:'', verified:'', result:'N/A', notes:''},
-        };
-        existing.push(asset);
+        if (existing.has(portKey)) continue;
+        newAssets.push({
+          id: 'asset_'+Date.now()+'_'+Math.random().toString(36).slice(2,5),
+          siteId: currentSite.id,
+          portKey, tag:'', name:'', location:room.name,
+          eqType: epmType, manufacturer:'', model:'', serial:'', voltage:'',
+          criticality:'Production Critical (High)',
+          maintStatus:'Critical (>2 Cycles/Unknown)', notes:'',
+          serviceHistory:[],
+        });
         added++;
       }
     });
   });
 
-  saveAssets(existing);
-  renderFieldTab();
-  if (added > 0) toast(`Ported ${added} asset${added!==1?'s':''} from walkthrough`);
+  siteAssets = [...siteAssets, ...newAssets];
+  // Save to backend
+  if (newAssets.length) {
+    fetch(API + '/assets/save', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({siteId: currentSite.id, assets: newAssets})
+    }).catch(()=>{});
+  }
+  renderYearAssets();
+  if (added) toast(`Ported ${added} asset${added!==1?'s':''} from walkthrough`);
   else toast('All walkthrough assets already ported');
 }
 
 function mapToEpmType(salesLabel) {
-  // Map sales app labels to EPM Master equipment types
   const map = {
     'Switchgear - Incoming Main Service (Per Section)': 'Switchgear - Incoming Main Service (Per Section)',
     'Switchgear Insulated Case Breakers (Bus Mounted)': 'Switchgear - Incoming Main Service (Per Section)',
@@ -1591,608 +1568,565 @@ function mapToEpmType(salesLabel) {
     'Manual Transfer Switch (MTS) > 100A': 'Auto Transfer Switch >400A',
     'Variable Frequency Drives (VFD) < 50 HP': 'Variable Frequency Drives <=50hp',
     'Variable Frequency Drives (VFD) 51-200 HP': 'Variable Frequency Drives 51-200hp',
-    'Motors < 50 HP': 'Motors <50hp',
-    'Motors 51-200 HP': 'Motors 51-200hp',
+    'Motors < 50 HP': 'Motors <50hp','Motors 51-200 HP': 'Motors 51-200hp',
     'Motors 201-500 HP': 'Motors 201-500hp',
     'Compressed Air Equipment': 'Compressed Air Equipment',
-    'HVAC Equipment (Large)': 'HVAC Equipment',
-    'HVAC Equipment (Small)': 'HVAC Equipment',
+    'HVAC Equipment (Large)': 'HVAC Equipment','HVAC Equipment (Small)': 'HVAC Equipment',
     'Uninterruptible Power Supply (UPS) < 50kVA': 'Uninterruptible Power Supply (UPS) <50kVA',
     'Uninterruptible Power Supply (UPS) > 50kVA': 'Uninterruptible Power Supply (UPS) >=50kVA',
   };
   return map[salesLabel] || salesLabel;
 }
 
-// ── Field tab render ──
-function renderFieldTab() {
-  const j = getJob();
-  const assets = getAssets();
-  const el = document.getElementById('field-asset-list');
-  if (!el) return;
-
-  if (!assets.length) {
-    el.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);font-size:14px">
-      No assets yet.<br><br>
-      <button class="btn btn-gold" onclick="portFromWalkthrough()" style="margin-bottom:10px">⬇ Port from Walkthrough</button><br>
-      <button class="btn btn-outline" onclick="addNewAsset()" style="margin-top:8px">+ Add Asset Manually</button>
-    </div>`;
-    return;
-  }
-
-  // Group by location
-  const byLocation = {};
-  assets.forEach(a => {
-    const loc = a.location || 'Unassigned';
-    if (!byLocation[loc]) byLocation[loc] = [];
-    byLocation[loc].push(a);
-  });
-
-  let html = '';
-  Object.entries(byLocation).forEach(([loc, locAssets]) => {
-    html += `<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;padding-top:10px;border-top:1px solid var(--border)">${loc}</div>`;
-    locAssets.forEach(a => {
-      const irResult = a.ir && a.ir.result ? a.ir.result : '';
-      const utResult = a.ut && a.ut.result ? a.ut.result : '';
-      const codeCount = (a.codeViolations || []).filter(v => v.article).length;
-      const hasIssue = irResult === 'FAIL' || utResult === 'FAIL' || codeCount > 0;
-      const isComplete = irResult && utResult;
-      const statusColor = hasIssue ? 'var(--red)' : (isComplete ? 'var(--green)' : 'var(--muted)');
-      const statusDot = hasIssue ? '●' : (isComplete ? '✓' : '○');
-
-      html += `<div class="asset-card" onclick="openAssetEditor('${a.id}')">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:700;color:var(--text)">${a.name || '(Unnamed)'}</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:2px">${a.tag ? '#'+a.tag+' · ' : ''}${a.eqType || ''}</div>
-          </div>
-          <div style="color:${statusColor};font-size:16px;margin-left:8px;flex-shrink:0">${statusDot}</div>
-        </div>
-        ${codeCount > 0 ? `<div style="font-size:11px;color:var(--red);margin-top:4px">${codeCount} violation${codeCount!==1?'s':''}</div>` : ''}
-      </div>`;
-    });
-  });
-
-  el.innerHTML = html;
-  document.getElementById('field-asset-count').textContent = assets.length + ' asset' + (assets.length!==1?'s':'');
-}
-
 function addNewAsset() {
-  const j = getJob(); if (!j) return;
-  const assets = j.assets || [];
-  const suggestedTag = getNextAssetTag();
+  const suggestedTag = lastTagEntered ? String(parseInt(lastTagEntered)+1) : '';
   const asset = {
-    id: 'asset_' + Date.now(),
-    portKey: null,
-    tag: suggestedTag,
-    name: '',
-    location: (j.rooms && j.rooms.length) ? j.rooms[0].name : '',
-    eqType: '',
-    manufacturer: '',
-    model: '',
-    serial: '',
-    voltage: '',
-    criticality: 'Production Critical (High)',
-    maintStatus: 'Critical (>2 Cycles/Unknown)',
-    notes: '',
-    codeViolations: [{article:'', sev:'', corrected:'No'}],
-    ir: {result:'', phase:'', component:'', failureMode:'', notes:''},
-    ut: {result:'', component:'', failureMode:'', db:'', notes:''},
-    energized: {phase:'', wire:'', vab:'', vbc:'', vca:'', aa:'', ab:'', ac:'', ratedAmps:'', ocpd:'', analysis:'N/A', summary:'PASS'},
-    insulation: {testV:'', phPh:'', phG:'', pi:'', temp:'', result:'N/A', notes:''},
-    dlro: {phA:'', phB:'', phC:'', dev:'', result:'N/A', notes:''},
-    torque: {phase:'', connType:'', spec:'', verified:'', result:'N/A', notes:''},
+    id:'asset_'+Date.now(), siteId:currentSite?.id, portKey:null,
+    tag:suggestedTag, name:'', location: (currentContract?.rooms||[])[0]?.name||'',
+    eqType:'', manufacturer:'', model:'', serial:'', voltage:'',
+    criticality:'Production Critical (High)',
+    maintStatus:'Critical (>2 Cycles/Unknown)', notes:'',
+    serviceHistory:[],
   };
-  assets.push(asset);
-  saveAssets(assets);
+  siteAssets.push(asset);
   openAssetEditor(asset.id);
 }
 
-// ── Asset Editor Modal ──
+// ═══════════════════════════════════════════════════════
+// ASSET EDITOR
+// ═══════════════════════════════════════════════════════
 function openAssetEditor(assetId) {
   currentAssetId = assetId;
-  assetEditorTab = 'info';
-  renderAssetEditor();
+  currentAssetEditorTab = 'info';
+  renderAssetEditorFull();
   document.getElementById('asset-editor-modal').classList.add('open');
 }
 
 function closeAssetEditor() {
+  // Save any pending changes
+  saveCurrentAsset();
   document.getElementById('asset-editor-modal').classList.remove('open');
   currentAssetId = null;
-  renderFieldTab();
+  renderYearAssets();
+}
+
+function saveCurrentAsset() {
+  const asset = siteAssets.find(a=>a.id===currentAssetId); if(!asset) return;
+  // Save to backend
+  fetch(API + '/assets/save', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({siteId:currentSite?.id, assets:[asset]})
+  }).catch(()=>{});
+}
+
+function getCurrentAsset() { return siteAssets.find(a=>a.id===currentAssetId); }
+
+function getOrCreateYearEntry(asset) {
+  if (!currentYear) return {};
+  const yearId = currentYear.id;
+  if (!asset.serviceHistory) asset.serviceHistory = [];
+  let entry = asset.serviceHistory.find(h=>h.yearId===yearId);
+  if (!entry) {
+    entry = {
+      yearId, label:currentYear.label,
+      ir:{result:'',phase:'',component:'',failureMode:'',notes:''},
+      ut:{result:'',component:'',failureMode:'',db:'',notes:''},
+      energized:{phase:'',wire:'',vab:'',vbc:'',vca:'',aa:'',ab:'',ac:'',ratedAmps:'',ocpd:'',analysis:'N/A',summary:'N/A'},
+      insulation:{testV:'',phPh:'',phG:'',pi:'',temp:'',result:'N/A',notes:''},
+      dlro:{phA:'',phB:'',phC:'',dev:'',result:'N/A',notes:''},
+      torque:{phase:'',connType:'',spec:'',verified:'',result:'N/A',notes:''},
+      codeViolations:[{article:'',sev:'',corrected:'No',notes:''}],
+    };
+    asset.serviceHistory.push(entry);
+  }
+  return entry;
+}
+
+function updateAssetField(field, val) {
+  const a = getCurrentAsset(); if(!a) return;
+  a[field] = val;
+  if (field==='tag') { lastTagEntered = val; }
+  if (field==='name') document.getElementById('asset-editor-title').textContent = val||'New Asset';
+}
+
+function updateYearField(section, field, val) {
+  const a = getCurrentAsset(); if(!a) return;
+  const entry = getOrCreateYearEntry(a);
+  if (!entry[section]) entry[section]={};
+  entry[section][field] = val;
+  // Re-render if IR result changes (affects energized visibility)
+  if (section==='ir' && field==='result') renderAssetEditorBody();
+}
+
+function updateViolationFromSelect(idx, sel) {
+  const a = getCurrentAsset(); if(!a) return;
+  const entry = getOrCreateYearEntry(a);
+  if (!entry.codeViolations) entry.codeViolations=[];
+  while(entry.codeViolations.length<=idx) entry.codeViolations.push({article:'',sev:'',corrected:'No',notes:''});
+  const opt = sel.options[sel.selectedIndex];
+  entry.codeViolations[idx].article = opt?.value||'';
+  entry.codeViolations[idx].sev = opt?.getAttribute('data-sev')||'';
+  renderAssetEditorBody();
+}
+
+function updateViolationField(idx, field, val) {
+  const a = getCurrentAsset(); if(!a) return;
+  const entry = getOrCreateYearEntry(a);
+  if (!entry.codeViolations) entry.codeViolations=[];
+  while(entry.codeViolations.length<=idx) entry.codeViolations.push({article:'',sev:'',corrected:'No',notes:''});
+  entry.codeViolations[idx][field] = val;
+}
+
+function addViolation() {
+  const a = getCurrentAsset(); if(!a) return;
+  const entry = getOrCreateYearEntry(a);
+  if (!entry.codeViolations) entry.codeViolations=[];
+  if (entry.codeViolations.length>=5) { toast('Max 5 violations'); return; }
+  entry.codeViolations.push({article:'',sev:'',corrected:'No',notes:''});
+  renderAssetEditorBody();
+}
+
+function deleteAsset(id) {
+  if (!confirm('Delete this asset?')) return;
+  siteAssets = siteAssets.filter(a=>a.id!==id);
+  fetch(API+'/assets/'+id, {method:'DELETE'}).catch(()=>{});
+  closeAssetEditor();
+}
+
+function renderAssetEditorFull() {
+  const a = getCurrentAsset(); if(!a) return;
+  const isDeEn = currentContract && (currentContract.tier==='full_den'||currentContract.tier==='full_all');
+  const entry = getOrCreateYearEntry(a);
+  const irResult = entry.ir?.result||'';
+  const showEnergized = irResult==='FAIL' || (currentContract && ['full','full_af','full_den','full_all'].includes(currentContract.tier));
+
+  const tabs = [{id:'info',label:'Info'},{id:'code',label:'Code'},{id:'ir',label:'IR'},{id:'ut',label:'UT'},{id:'energized',label:'Energized'}];
+  if (isDeEn) { tabs.push({id:'insulation',label:'Insul'},{id:'dlro',label:'DLRO'},{id:'torque',label:'Torque'}); }
+
+  document.getElementById('asset-editor-tabs').innerHTML = tabs.map(t=>
+    `<button class="asset-tab-btn${currentAssetEditorTab===t.id?' active':''}" onclick="switchAssetTab('${t.id}')">${t.label}</button>`
+  ).join('');
+  document.getElementById('asset-editor-title').textContent = a.name||'New Asset';
+
+  // Show previous year summary if available
+  const prevEntries = (a.serviceHistory||[]).filter(h=>h.yearId!==currentYear?.id);
+  const histEl = document.getElementById('asset-history-summary');
+  if (histEl && prevEntries.length) {
+    histEl.style.display = 'block';
+    histEl.innerHTML = prevEntries.map(h=>`
+      <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:12px">
+        <div style="font-weight:700;color:var(--gold);margin-bottom:4px">${h.label}</div>
+        <div style="color:var(--muted)">IR: <span style="color:${h.ir?.result==='FAIL'?'var(--red)':'var(--text)'}">${h.ir?.result||'—'}</span>
+        &nbsp;UT: <span style="color:${h.ut?.result==='FAIL'?'var(--red)':'var(--text)'}">${h.ut?.result||'—'}</span>
+        &nbsp;Violations: ${(h.codeViolations||[]).filter(v=>v.article).length}</div>
+      </div>`).join('');
+  } else if (histEl) {
+    histEl.style.display = 'none';
+  }
+
+  renderAssetEditorBody();
 }
 
 function switchAssetTab(tab) {
-  assetEditorTab = tab;
-  document.querySelectorAll('.asset-tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.asset-tab-btn[data-tab="${tab}"]`).classList.add('active');
-  renderAssetEditorContent();
+  currentAssetEditorTab = tab;
+  document.querySelectorAll('.asset-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.asset-tab-btn').forEach(b=>{ if(b.textContent.trim()===tab||b.onclick?.toString().includes(`'${tab}'`)) b.classList.add('active'); });
+  // Find by onclick
+  document.querySelectorAll('.asset-tab-btn').forEach(b=>{ if(b.getAttribute('onclick')===`switchAssetTab('${tab}')`) b.classList.add('active'); });
+  renderAssetEditorBody();
 }
 
-function renderAssetEditor() {
-  const a = getAsset(currentAssetId); if (!a) return;
-  const j = getJob();
-  const isDeEn = j && (j.tier === 'full_den' || j.tier === 'full_all');
-  const showEnergized = (a.ir && a.ir.result === 'FAIL') || (j && (j.tier === 'full' || j.tier === 'full_af' || j.tier === 'full_den' || j.tier === 'full_all'));
-
-  // Build tab buttons
-  const tabs = [
-    {id:'info', label:'Info'},
-    {id:'code', label:'Code'},
-    {id:'ir', label:'IR'},
-    {id:'ut', label:'UT'},
-    {id:'energized', label:'Energized'},
-  ];
-  if (isDeEn) {
-    tabs.push({id:'insulation', label:'Insul'});
-    tabs.push({id:'dlro', label:'DLRO'});
-    tabs.push({id:'torque', label:'Torque'});
-  }
-
-  document.getElementById('asset-editor-tabs').innerHTML = tabs.map(t =>
-    `<button class="asset-tab-btn${assetEditorTab===t.id?' active':''}" data-tab="${t.id}" onclick="switchAssetTab('${t.id}')">${t.label}</button>`
-  ).join('');
-
-  document.getElementById('asset-editor-title').textContent = a.name || 'New Asset';
-  renderAssetEditorContent();
-}
-
-function renderAssetEditorContent() {
-  const a = getAsset(currentAssetId); if (!a) return;
-  const j = getJob();
+function renderAssetEditorBody() {
   const el = document.getElementById('asset-editor-body');
-  const isDeEn = j && (j.tier === 'full_den' || j.tier === 'full_all');
+  const a = getCurrentAsset(); if(!a||!el) return;
+  const entry = getOrCreateYearEntry(a);
+  const tab = currentAssetEditorTab;
 
-  if (assetEditorTab === 'info') {
-    const roomOptions = (j && j.rooms || []).map(r =>
-      `<option value="${r.name}" ${a.location===r.name?'selected':''}>${r.name}</option>`
-    ).join('');
-    const eqOptions = EPM_EQ_TYPES.map(t =>
-      `<option value="${t}" ${a.eqType===t?'selected':''}>${t}</option>`
-    ).join('');
-    const critOptions = EPM_CRITICALITY.map(c =>
-      `<option value="${c}" ${a.criticality===c?'selected':''}>${c}</option>`
-    ).join('');
-    const maintOptions = EPM_MAINT_STATUS.map(m =>
-      `<option value="${m}" ${a.maintStatus===m?'selected':''}>${m}</option>`
-    ).join('');
-
+  if (tab==='info') {
+    const roomOpts = (currentContract?.rooms||[]).map(r=>`<option value="${r.name}" ${a.location===r.name?'selected':''}>${r.name}</option>`).join('');
+    const eqOpts = EPM_EQ_TYPES.map(t=>`<option value="${t}" ${a.eqType===t?'selected':''}>${t}</option>`).join('');
+    const critOpts = EPM_CRITICALITY.map(c=>`<option value="${c}" ${a.criticality===c?'selected':''}>${c}</option>`).join('');
+    const maintOpts = EPM_MAINT_STATUS.map(m=>`<option value="${m}" ${a.maintStatus===m?'selected':''}>${m}</option>`).join('');
     el.innerHTML = `
       <div class="ae-field"><label>Asset Tag</label>
-        <input type="text" value="${a.tag||''}" onchange="updateAssetField('tag',this.value);if(this.value)advanceTagCounter(this.value)">
-      </div>
+        <input type="text" value="${a.tag||''}" onchange="updateAssetField('tag',this.value)" placeholder="e.g. 20260001"></div>
       <div class="ae-field"><label>Functional Name</label>
-        <input type="text" value="${a.name||''}" onchange="updateAssetField('name',this.value)" placeholder="e.g. Main Switchboard">
-      </div>
+        <input type="text" value="${a.name||''}" onchange="updateAssetField('name',this.value)" placeholder="e.g. Main Switchboard"></div>
       <div class="ae-field"><label>Location</label>
         <select onchange="updateAssetField('location',this.value)">
-          <option value="">-- Select Room --</option>
-          ${roomOptions}
-          <option value="${a.location||''}" ${!roomOptions.includes(a.location)?'selected':''}>Other: ${a.location||''}</option>
-        </select>
-      </div>
+          <option value="">-- Select Room --</option>${roomOpts}</select></div>
       <div class="ae-field"><label>Equipment Type</label>
         <select onchange="updateAssetField('eqType',this.value)">
-          <option value="">-- Select Type --</option>
-          ${eqOptions}
-        </select>
-      </div>
+          <option value="">-- Select Type --</option>${eqOpts}</select></div>
       <div class="ae-field"><label>Manufacturer</label>
-        <input type="text" value="${a.manufacturer||''}" onchange="updateAssetField('manufacturer',this.value)" placeholder="e.g. Square D">
-      </div>
+        <input type="text" value="${a.manufacturer||''}" onchange="updateAssetField('manufacturer',this.value)"></div>
       <div class="ae-field"><label>Model</label>
-        <input type="text" value="${a.model||''}" onchange="updateAssetField('model',this.value)">
-      </div>
+        <input type="text" value="${a.model||''}" onchange="updateAssetField('model',this.value)"></div>
       <div class="ae-field"><label>Serial #</label>
-        <input type="text" value="${a.serial||''}" onchange="updateAssetField('serial',this.value)">
-      </div>
+        <input type="text" value="${a.serial||''}" onchange="updateAssetField('serial',this.value)"></div>
       <div class="ae-field"><label>Voltage</label>
-        <input type="text" value="${a.voltage||''}" onchange="updateAssetField('voltage',this.value)" placeholder="e.g. 480V">
-      </div>
+        <input type="text" value="${a.voltage||''}" onchange="updateAssetField('voltage',this.value)" placeholder="e.g. 480V"></div>
       <div class="ae-field"><label>Criticality</label>
-        <select onchange="updateAssetField('criticality',this.value)">${critOptions}</select>
-      </div>
+        <select onchange="updateAssetField('criticality',this.value)">${critOpts}</select></div>
       <div class="ae-field"><label>Maint. Status</label>
-        <select onchange="updateAssetField('maintStatus',this.value)">${maintOptions}</select>
-      </div>
+        <select onchange="updateAssetField('maintStatus',this.value)">${maintOpts}</select></div>
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="2" style="resize:none" onchange="updateAssetField('notes',this.value)">${a.notes||''}</textarea>
-      </div>
-      <button class="btn btn-red btn-sm" style="margin-top:8px" onclick="deleteAsset('${a.id}')">🗑 Delete Asset</button>
-    `;
+        <textarea rows="2" style="resize:none" onchange="updateAssetField('notes',this.value)">${a.notes||''}</textarea></div>
+      <button class="btn btn-red btn-sm" style="margin-top:8px" onclick="deleteAsset('${a.id}')">🗑 Delete Asset</button>`;
   }
 
-  else if (assetEditorTab === 'code') {
-    const violations = a.codeViolations && a.codeViolations.length ? a.codeViolations : [{article:'',sev:'',corrected:'No',notes:''}];
-
-    // Group violations by code family
-    const CODE_GROUPS = [
-      {label:'NEC', prefix:'NEC'},
-      {label:'NFPA 70B', prefix:'NFPA 70B'},
-      {label:'NFPA 70E', prefix:'NFPA 70E'},
-      {label:'NFPA 72', prefix:'NFPA 72'},
-      {label:'NFPA 110', prefix:'NFPA 110'},
-      {label:'OSHA', prefix:'OSHA'},
-      {label:'Field Observations', prefix:'Field'},
-      {label:'Condition / General', prefix:'Condition'},
-      {label:'XFMR / Equipment', prefix:'XFMR'},
-      {label:'VFD', prefix:'VFD'},
-      {label:'Equipment Cleanliness', prefix:'Equipment'},
-    ];
-
-    function getGroup(article) {
-      if (!article) return 'Other';
-      for (const g of CODE_GROUPS) {
-        if (article.startsWith(g.prefix)) return g.label;
-      }
-      return 'Other';
-    }
-
-    // Build grouped options for a select
-    function buildGroupedOpts(currentArticle, search) {
-      const filtered = search
-        ? EPM_CODE_VIOLATIONS.filter(c => c.article.toLowerCase().includes(search.toLowerCase()))
-        : EPM_CODE_VIOLATIONS;
-
-      const groups = {};
-      filtered.forEach(c => {
-        const g = getGroup(c.article);
-        if (!groups[g]) groups[g] = [];
-        groups[g].push(c);
-      });
-
+  else if (tab==='code') {
+    const violations = entry.codeViolations?.length ? entry.codeViolations : [{article:'',sev:'',corrected:'No',notes:''}];
+    const CODE_GROUPS = ['NEC','NFPA 70B','NFPA 70E','NFPA 72','NFPA 110','OSHA','Field','Equipment','XFMR','VFD','Condition'];
+    function getGroup(art) { for(const g of CODE_GROUPS) if(art.startsWith(g)) return g; return 'Other'; }
+    function buildOpts(currentArt) {
+      const filtered = codeSearch ? CODE_VIOLATIONS.filter(c=>c.article.toLowerCase().includes(codeSearch.toLowerCase())) : CODE_VIOLATIONS;
+      const groups={};
+      filtered.forEach(c=>{ const g=getGroup(c.article); if(!groups[g])groups[g]=[]; groups[g].push(c); });
       let opts = '<option value="">-- No violation --</option>';
-      Object.entries(groups).forEach(([gname, items]) => {
-        opts += `<optgroup label="${gname}">`;
-        items.forEach(c => {
-          const sel = c.article === currentArticle ? 'selected' : '';
-          opts += `<option value="${c.article}" data-sev="${c.sev}" ${sel}>${c.article}</option>`;
-        });
+      Object.entries(groups).forEach(([g,items])=>{
+        opts += `<optgroup label="${g}">`;
+        items.forEach(c=>{ opts+=`<option value="${c.article}" data-sev="${c.sev}" ${c.article===currentArt?'selected':''}>${c.article}</option>`; });
         opts += '</optgroup>';
       });
       return opts;
     }
 
-    let html = `<div style="margin-bottom:10px">
-      <input type="text" placeholder="🔍 Search code articles..." id="code-search-input" value="${codeViolationSearch}"
-        oninput="codeViolationSearch=this.value;renderAssetEditorContent()" style="margin-bottom:0">
+    let html = `<div class="ae-field">
+      <input type="text" placeholder="🔍 Search code articles..." value="${codeSearch}"
+        id="code-search-inp" onkeydown="if(event.key==='Enter'){codeSearch=this.value;renderAssetEditorBody()}" style="margin-bottom:8px">
     </div>`;
 
-    violations.slice(0,5).forEach((v, idx) => {
-      const sevColor = v.sev === 'Critical (5pts)' ? 'var(--red)' : (v.sev === 'Major (3pts)' ? 'var(--gold)' : 'var(--muted)');
-      const sevLabel = v.sev === 'Critical (5pts)' ? '🔴 Critical' : (v.sev === 'Major (3pts)' ? '🟡 Major' : (v.sev === 'Minor (1pt)' ? '⚪ Minor' : ''));
-      const opts = buildGroupedOpts(v.article, codeViolationSearch);
-
-      html += `<div style="background:var(--bg);border:1px solid ${v.article?'var(--border)':'var(--border)'};border-radius:8px;padding:10px;margin-bottom:10px">
+    violations.slice(0,5).forEach((v,idx)=>{
+      const sevColor = v.sev==='Critical (5pts)'?'var(--red)':(v.sev==='Major (3pts)'?'var(--gold)':'var(--muted)');
+      const sevLabel = v.sev==='Critical (5pts)'?'🔴 Critical':(v.sev==='Major (3pts)'?'🟡 Major':(v.sev==='Minor (1pt)'?'⚪ Minor':''));
+      html += `<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:10px">
         <div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:1px">VIOLATION ${idx+1}</div>
-        <select onchange="updateViolationFromSelect(${idx},this)">
-          ${opts}
-        </select>
-        ${v.article ? `
+        <select onchange="updateViolationFromSelect(${idx},this)">${buildOpts(v.article)}</select>
+        ${v.article?`
         <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
           <div style="font-size:12px;font-weight:700;color:${sevColor};flex:1">${sevLabel}</div>
-          <select style="width:auto;padding:6px 8px;font-size:12px" onchange="updateViolation(${idx},'corrected',this.value)">
+          <select style="width:auto;padding:6px 8px;font-size:12px" onchange="updateViolationField(${idx},'corrected',this.value)">
             <option value="No" ${v.corrected!=='Yes'?'selected':''}>Not Corrected</option>
             <option value="Yes" ${v.corrected==='Yes'?'selected':''}>Corrected ✓</option>
           </select>
         </div>
         <div style="margin-top:8px">
           <textarea rows="2" style="resize:none;font-size:12px" placeholder="Violation notes..."
-            onchange="updateViolation(${idx},'notes',this.value)">${v.notes||''}</textarea>
+            onchange="updateViolationField(${idx},'notes',this.value)">${v.notes||''}</textarea>
         </div>` : ''}
       </div>`;
     });
-
-    if (violations.length < 5) {
-      html += `<button class="btn btn-outline btn-sm btn-full" onclick="addViolation()">+ Add Violation</button>`;
-    }
+    if (violations.length<5) html += `<button class="btn btn-outline btn-sm btn-full" onclick="addViolation()">+ Add Violation</button>`;
     el.innerHTML = html;
   }
 
-  else if (assetEditorTab === 'ir') {
-    const ir = a.ir || {};
-    const showDetail = ir.result === 'FAIL' || ir.result === 'MONITOR';
-    const resultOpts = EPM_RESULTS.map(r => `<option ${ir.result===r?'selected':''}>${r}</option>`).join('');
-    const phaseOpts = EPM_PHASES.map(p => `<option ${ir.phase===p?'selected':''}>${p}</option>`).join('');
-    const compOpts = EPM_IR_COMPONENTS.map(c => `<option ${ir.component===c?'selected':''}>${c}</option>`).join('');
-    const fmOpts = EPM_IR_FAILURE_MODES.map(f => `<option ${ir.failureMode===f?'selected':''}>${f}</option>`).join('');
-
+  else if (tab==='ir') {
+    const ir = entry.ir||{};
+    const showDetail = ir.result==='FAIL'||ir.result==='MONITOR';
     el.innerHTML = `
       <div class="ae-field"><label>IR Result</label>
-        <select onchange="updateAssetSubField('ir','result',this.value);renderAssetEditorContent()">
-          <option value="">-- Select --</option>${resultOpts}
-        </select>
-      </div>
-      ${showDetail ? `
+        <select onchange="updateYearField('ir','result',this.value);renderAssetEditorFull()">
+          <option value="">-- Select --</option>
+          ${EPM_RESULTS.map(r=>`<option ${ir.result===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>
+      ${showDetail?`
       <div class="ae-field"><label>Phase</label>
-        <select onchange="updateAssetSubField('ir','phase',this.value)">
-          <option value="">-- Select --</option>${phaseOpts}
-        </select>
-      </div>
+        <select onchange="updateYearField('ir','phase',this.value)">
+          <option value="">--</option>${EPM_PHASES.map(p=>`<option ${ir.phase===p?'selected':''}>${p}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Component</label>
-        <select onchange="updateAssetSubField('ir','component',this.value)">
-          <option value="">-- Select --</option>${compOpts}
-        </select>
-      </div>
+        <select onchange="updateYearField('ir','component',this.value)">
+          <option value="">--</option>${EPM_IR_COMPONENTS.map(c=>`<option ${ir.component===c?'selected':''}>${c}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Failure Mode</label>
-        <select onchange="updateAssetSubField('ir','failureMode',this.value)">
-          <option value="">-- Select --</option>${fmOpts}
-        </select>
-      </div>` : ''}
+        <select onchange="updateYearField('ir','failureMode',this.value)">
+          <option value="">--</option>${EPM_IR_FAILURE_MODES.map(f=>`<option ${ir.failureMode===f?'selected':''}>${f}</option>`).join('')}
+        </select></div>`:''}
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="3" style="resize:none" onchange="updateAssetSubField('ir','notes',this.value)">${ir.notes||''}</textarea>
-      </div>
-    `;
+        <textarea rows="3" style="resize:none" onchange="updateYearField('ir','notes',this.value)">${ir.notes||''}</textarea></div>`;
   }
 
-  else if (assetEditorTab === 'ut') {
-    const ut = a.ut || {};
-    const showDetail = ut.result === 'FAIL' || ut.result === 'MONITOR';
-    const resultOpts = EPM_RESULTS.map(r => `<option ${ut.result===r?'selected':''}>${r}</option>`).join('');
-    const compOpts = EPM_IR_COMPONENTS.map(c => `<option ${ut.component===c?'selected':''}>${c}</option>`).join('');
-    const fmOpts = EPM_IR_FAILURE_MODES.map(f => `<option ${ut.failureMode===f?'selected':''}>${f}</option>`).join('');
-
+  else if (tab==='ut') {
+    const ut = entry.ut||{};
+    const showDetail = ut.result==='FAIL'||ut.result==='MONITOR';
     el.innerHTML = `
       <div class="ae-field"><label>UT Result</label>
-        <select onchange="updateAssetSubField('ut','result',this.value);renderAssetEditorContent()">
-          <option value="">-- Select --</option>${resultOpts}
-        </select>
-      </div>
-      ${showDetail ? `
+        <select onchange="updateYearField('ut','result',this.value);renderAssetEditorBody()">
+          <option value="">-- Select --</option>
+          ${EPM_RESULTS.map(r=>`<option ${ut.result===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>
+      ${showDetail?`
       <div class="ae-field"><label>Component</label>
-        <select onchange="updateAssetSubField('ut','component',this.value)">
-          <option value="">-- Select --</option>${compOpts}
-        </select>
-      </div>
+        <select onchange="updateYearField('ut','component',this.value)">
+          <option value="">--</option>${EPM_IR_COMPONENTS.map(c=>`<option ${ut.component===c?'selected':''}>${c}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Failure Mode</label>
-        <select onchange="updateAssetSubField('ut','failureMode',this.value)">
-          <option value="">-- Select --</option>${fmOpts}
-        </select>
-      </div>
+        <select onchange="updateYearField('ut','failureMode',this.value)">
+          <option value="">--</option>${EPM_UT_FAILURE_MODES.map(f=>`<option ${ut.failureMode===f?'selected':''}>${f}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>dB Level</label>
-        <input type="text" value="${ut.db||''}" onchange="updateAssetSubField('ut','db',this.value)" placeholder="e.g. 42.5">
-      </div>` : ''}
+        <input type="text" value="${ut.db||''}" onchange="updateYearField('ut','db',this.value)" placeholder="e.g. 42.5"></div>`:''}
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="3" style="resize:none" onchange="updateAssetSubField('ut','notes',this.value)">${ut.notes||''}</textarea>
-      </div>
-    `;
+        <textarea rows="3" style="resize:none" onchange="updateYearField('ut','notes',this.value)">${ut.notes||''}</textarea></div>`;
   }
 
-  else if (assetEditorTab === 'energized') {
-    const e = a.energized || {};
-    const phaseOpts = EPM_PHASE_TYPES.map(p => `<option ${e.phase===p?'selected':''}>${p}</option>`).join('');
-    const wireOpts = EPM_WIRE_TYPES.map(w => `<option ${e.wire===w?'selected':''}>${w}</option>`).join('');
+  else if (tab==='energized') {
+    const e = entry.energized||{};
     el.innerHTML = `
       <div class="row"><div class="ae-field"><label>Phase</label>
-        <select onchange="updateAssetSubField('energized','phase',this.value)">
-          <option value="">--</option>${phaseOpts}
-        </select>
-      </div><div class="ae-field"><label>Wire</label>
-        <select onchange="updateAssetSubField('energized','wire',this.value)">
-          <option value="">--</option>${wireOpts}
-        </select>
-      </div></div>
+        <select onchange="updateYearField('energized','phase',this.value)">
+          <option value="">--</option>${EPM_PHASE_TYPES.map(p=>`<option ${e.phase===p?'selected':''}>${p}</option>`).join('')}
+        </select></div>
+      <div class="ae-field"><label>Wire</label>
+        <select onchange="updateYearField('energized','wire',this.value)">
+          <option value="">--</option>${EPM_WIRE_TYPES.map(w=>`<option ${e.wire===w?'selected':''}>${w}</option>`).join('')}
+        </select></div></div>
       <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Voltage (V)</div>
       <div class="row">
-        <div class="ae-field"><label>V-AB</label><input type="text" value="${e.vab||''}" onchange="updateAssetSubField('energized','vab',this.value)"></div>
-        <div class="ae-field"><label>V-BC</label><input type="text" value="${e.vbc||''}" onchange="updateAssetSubField('energized','vbc',this.value)"></div>
-        <div class="ae-field"><label>V-CA</label><input type="text" value="${e.vca||''}" onchange="updateAssetSubField('energized','vca',this.value)"></div>
+        <div class="ae-field"><label>V-AB</label><input type="text" value="${e.vab||''}" onchange="updateYearField('energized','vab',this.value)"></div>
+        <div class="ae-field"><label>V-BC</label><input type="text" value="${e.vbc||''}" onchange="updateYearField('energized','vbc',this.value)"></div>
+        <div class="ae-field"><label>V-CA</label><input type="text" value="${e.vca||''}" onchange="updateYearField('energized','vca',this.value)"></div>
       </div>
       <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
       <div class="row">
-        <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
-        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
-        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" onchange="updateAssetSubField('energized','ac',this.value)"></div>
+        <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateYearField('energized','aa',this.value)"></div>
+        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateYearField('energized','ab',this.value)"></div>
+        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" onchange="updateYearField('energized','ac',this.value)"></div>
       </div>
       <div class="row">
-        <div class="ae-field"><label>Rated Amps</label><input type="text" value="${e.ratedAmps||''}" onchange="updateAssetSubField('energized','ratedAmps',this.value)"></div>
-        <div class="ae-field"><label>OCPD</label><input type="text" value="${e.ocpd||''}" onchange="updateAssetSubField('energized','ocpd',this.value)"></div>
+        <div class="ae-field"><label>Rated Amps</label><input type="text" value="${e.ratedAmps||''}" onchange="updateYearField('energized','ratedAmps',this.value)"></div>
+        <div class="ae-field"><label>OCPD</label><input type="text" value="${e.ocpd||''}" onchange="updateYearField('energized','ocpd',this.value)"></div>
       </div>
       <div class="ae-field"><label>Analysis</label>
-        <input type="text" value="${e.analysis||'N/A'}" onchange="updateAssetSubField('energized','analysis',this.value)">
-      </div>
+        <input type="text" value="${e.analysis||'N/A'}" onchange="updateYearField('energized','analysis',this.value)"></div>
       <div class="ae-field"><label>Summary</label>
-        <select onchange="updateAssetSubField('energized','summary',this.value)">
-          ${EPM_RESULTS.map(r => `<option ${(e.summary||'PASS')===r?'selected':''}>${r}</option>`).join('')}
-        </select>
-      </div>
-    `;
+        <select onchange="updateYearField('energized','summary',this.value)">
+          ${EPM_RESULTS.map(r=>`<option ${(e.summary||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>`;
   }
 
-  else if (assetEditorTab === 'insulation') {
-    const ins = a.insulation || {};
+  else if (tab==='insulation') {
+    const ins = entry.insulation||{};
     el.innerHTML = `
       <div class="row">
-        <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateAssetSubField('insulation','testV',this.value)"></div>
-        <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateAssetSubField('insulation','temp',this.value)"></div>
+        <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateYearField('insulation','testV',this.value)"></div>
+        <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateYearField('insulation','temp',this.value)"></div>
       </div>
       <div class="row">
-        <div class="ae-field"><label>Ph-Ph (MΩ)</label><input type="text" value="${ins.phPh||''}" onchange="updateAssetSubField('insulation','phPh',this.value)"></div>
-        <div class="ae-field"><label>Ph-G (MΩ)</label><input type="text" value="${ins.phG||''}" onchange="updateAssetSubField('insulation','phG',this.value)"></div>
-        <div class="ae-field"><label>PI</label><input type="text" value="${ins.pi||''}" onchange="updateAssetSubField('insulation','pi',this.value)"></div>
+        <div class="ae-field"><label>Ph-Ph (MΩ)</label><input type="text" value="${ins.phPh||''}" onchange="updateYearField('insulation','phPh',this.value)"></div>
+        <div class="ae-field"><label>Ph-G (MΩ)</label><input type="text" value="${ins.phG||''}" onchange="updateYearField('insulation','phG',this.value)"></div>
+        <div class="ae-field"><label>PI</label><input type="text" value="${ins.pi||''}" onchange="updateYearField('insulation','pi',this.value)"></div>
       </div>
       <div class="ae-field"><label>Result</label>
-        <select onchange="updateAssetSubField('insulation','result',this.value)">
-          ${EPM_RESULTS.map(r => `<option ${(ins.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
-        </select>
-      </div>
+        <select onchange="updateYearField('insulation','result',this.value)">
+          ${EPM_RESULTS.map(r=>`<option ${(ins.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('insulation','notes',this.value)">${ins.notes||''}</textarea>
-      </div>
-    `;
+        <textarea rows="2" style="resize:none" onchange="updateYearField('insulation','notes',this.value)">${ins.notes||''}</textarea></div>`;
   }
 
-  else if (assetEditorTab === 'dlro') {
-    const d = a.dlro || {};
+  else if (tab==='dlro') {
+    const d = entry.dlro||{};
     el.innerHTML = `
       <div class="row">
-        <div class="ae-field"><label>Ph-A (mΩ)</label><input type="text" value="${d.phA||''}" onchange="updateAssetSubField('dlro','phA',this.value)"></div>
-        <div class="ae-field"><label>Ph-B (mΩ)</label><input type="text" value="${d.phB||''}" onchange="updateAssetSubField('dlro','phB',this.value)"></div>
-        <div class="ae-field"><label>Ph-C (mΩ)</label><input type="text" value="${d.phC||''}" onchange="updateAssetSubField('dlro','phC',this.value)"></div>
+        <div class="ae-field"><label>Ph-A (mΩ)</label><input type="text" value="${d.phA||''}" onchange="updateYearField('dlro','phA',this.value)"></div>
+        <div class="ae-field"><label>Ph-B (mΩ)</label><input type="text" value="${d.phB||''}" onchange="updateYearField('dlro','phB',this.value)"></div>
+        <div class="ae-field"><label>Ph-C (mΩ)</label><input type="text" value="${d.phC||''}" onchange="updateYearField('dlro','phC',this.value)"></div>
       </div>
       <div class="row">
-        <div class="ae-field"><label>Dev%</label><input type="text" value="${d.dev||''}" onchange="updateAssetSubField('dlro','dev',this.value)"></div>
+        <div class="ae-field"><label>Dev%</label><input type="text" value="${d.dev||''}" onchange="updateYearField('dlro','dev',this.value)"></div>
         <div class="ae-field"><label>Result</label>
-          <select onchange="updateAssetSubField('dlro','result',this.value)">
-            ${EPM_RESULTS.map(r => `<option ${(d.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
-          </select>
-        </div>
+          <select onchange="updateYearField('dlro','result',this.value)">
+            ${EPM_RESULTS.map(r=>`<option ${(d.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+          </select></div>
       </div>
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('dlro','notes',this.value)">${d.notes||''}</textarea>
-      </div>
-    `;
+        <textarea rows="2" style="resize:none" onchange="updateYearField('dlro','notes',this.value)">${d.notes||''}</textarea></div>`;
   }
 
-  else if (assetEditorTab === 'torque') {
-    const t = a.torque || {};
+  else if (tab==='torque') {
+    const t = entry.torque||{};
     el.innerHTML = `
       <div class="ae-field"><label>Phase</label>
-        <select onchange="updateAssetSubField('torque','phase',this.value)">
-          <option value="">--</option>
-          ${EPM_PHASES.map(p => `<option ${t.phase===p?'selected':''}>${p}</option>`).join('')}
-        </select>
-      </div>
+        <select onchange="updateYearField('torque','phase',this.value)">
+          <option value="">--</option>${EPM_PHASES.map(p=>`<option ${t.phase===p?'selected':''}>${p}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Connection Type</label>
-        <input type="text" value="${t.connType||''}" onchange="updateAssetSubField('torque','connType',this.value)" placeholder="e.g. Lug, Bus Bar">
-      </div>
+        <input type="text" value="${t.connType||''}" onchange="updateYearField('torque','connType',this.value)" placeholder="e.g. Lug, Bus Bar"></div>
       <div class="row">
-        <div class="ae-field"><label>Spec (ft-lb)</label><input type="text" value="${t.spec||''}" onchange="updateAssetSubField('torque','spec',this.value)"></div>
+        <div class="ae-field"><label>Spec (ft-lb)</label><input type="text" value="${t.spec||''}" onchange="updateYearField('torque','spec',this.value)"></div>
         <div class="ae-field"><label>Verified?</label>
-          <select onchange="updateAssetSubField('torque','verified',this.value)">
+          <select onchange="updateYearField('torque','verified',this.value)">
             <option value="">--</option>
             <option ${t.verified==='Yes'?'selected':''}>Yes</option>
             <option ${t.verified==='No'?'selected':''}>No</option>
-          </select>
-        </div>
+          </select></div>
       </div>
       <div class="ae-field"><label>Result</label>
-        <select onchange="updateAssetSubField('torque','result',this.value)">
-          ${EPM_RESULTS.map(r => `<option ${(t.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
-        </select>
-      </div>
+        <select onchange="updateYearField('torque','result',this.value)">
+          ${EPM_RESULTS.map(r=>`<option ${(t.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+        </select></div>
       <div class="ae-field"><label>Notes</label>
-        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('torque','notes',this.value)">${t.notes||''}</textarea>
-      </div>
-    `;
+        <textarea rows="2" style="resize:none" onchange="updateYearField('torque','notes',this.value)">${t.notes||''}</textarea></div>`;
   }
 }
 
-function updateAssetField(field, value) {
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  a[field] = value;
-  if (field === 'name') document.getElementById('asset-editor-title').textContent = value || 'New Asset';
-  saveAssets(assets);
+// ═══════════════════════════════════════════════════════
+// SITE ASSETS (master list view)
+// ═══════════════════════════════════════════════════════
+function renderSiteAssets() {
+  const el = document.getElementById('site-asset-list');
+  if (!el) return;
+  if (!siteAssets.length) {
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No assets documented yet.<br>Assets are added from within a contract year.</div>';
+    return;
+  }
+  const byLoc={};
+  siteAssets.forEach(a=>{ const l=a.location||'Unassigned'; if(!byLoc[l])byLoc[l]=[]; byLoc[l].push(a); });
+  let html = '';
+  Object.entries(byLoc).forEach(([loc,assets])=>{
+    html+=`<div class="eq-group-label">${loc}</div>`;
+    assets.forEach(a=>{
+      const histCount = (a.serviceHistory||[]).length;
+      html+=`<div class="asset-card">
+        <div style="font-size:13px;font-weight:700">${a.name||'(Unnamed)'}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${a.tag?'#'+a.tag+' · ':''}${a.eqType||''}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${histCount} service record${histCount!==1?'s':''}</div>
+      </div>`;
+    });
+  });
+  el.innerHTML = html;
 }
 
-function updateAssetSubField(section, field, value) {
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  if (!a[section]) a[section] = {};
-  a[section][field] = value;
-  saveAssets(assets);
+// ═══════════════════════════════════════════════════════
+// EXPORTS
+// ═══════════════════════════════════════════════════════
+function exportSalesBuilder() {
+  if (!currentContract || !currentSite) return;
+  if (!(currentContract.rooms||[]).length) { toast('No rooms in walkthrough'); return; }
+  toast('Generating Sales Builder...');
+  fetch(API + '/export/sales', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({contract:currentContract, site:currentSite})
+  })
+  .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
+  .then(blob=>{
+    const fname = sanitizeFilename(currentSite.customer) + `_C${currentContract.contractNumber}_EMA_Sales_Builder.xlsx`;
+    downloadBlob(blob, fname);
+    toast('Downloaded: '+fname);
+  })
+  .catch(err=>toast('Export failed: '+err.message));
 }
 
-function updateViolation(idx, field, value) {
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  if (!a.codeViolations) a.codeViolations = [];
-  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
-  a.codeViolations[idx][field] = value;
-  saveAssets(assets);
-}
-
-function updateViolationSev(idx, selectEl) {
-  const selected = selectEl.options[selectEl.selectedIndex];
-  const sev = selected ? selected.getAttribute('data-sev') : '';
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  if (!a.codeViolations) a.codeViolations = [];
-  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
-  a.codeViolations[idx].sev = sev || '';
-  saveAssets(assets);
-  renderAssetEditorContent();
-}
-
-function updateViolationFromSelect(idx, selectEl) {
-  const selected = selectEl.options[selectEl.selectedIndex];
-  const article = selected ? selected.value : '';
-  const sev = selected ? selected.getAttribute('data-sev') : '';
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  if (!a.codeViolations) a.codeViolations = [];
-  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
-  a.codeViolations[idx].article = article || '';
-  a.codeViolations[idx].sev = sev || '';
-  saveAssets(assets);
-  renderAssetEditorContent();
-}
-
-function addViolation() {
-  const assets = getAssets();
-  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
-  if (!a.codeViolations) a.codeViolations = [];
-  if (a.codeViolations.length >= 5) { toast('Max 5 violations per asset'); return; }
-  a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
-  saveAssets(assets);
-  renderAssetEditorContent();
-}
-
-function deleteAsset(id) {
-  if (!confirm('Delete this asset?')) return;
-  const j = getJob(); if (!j) return;
-  j.assets = (j.assets || []).filter(a => a.id !== id);
-  j.updatedAt = new Date().toISOString();
-  saveAll();
-  closeAssetEditor();
-}
-
-// EPM Export
-function exportEPM() {
-  const j = getJob(); if (!j) return;
-  const assets = j.assets || [];
-  if (!assets.length) { toast('No assets to export'); return; }
+function exportEPMMaster() {
+  if (!currentYear || !currentSite) return;
+  const assets = siteAssets.filter(a=>{
+    const scoped = currentYear.scopedAssetIds;
+    return !scoped?.length || scoped.includes(a.id);
+  });
+  if (!assets.length) { toast('No assets for this year'); return; }
   toast('Generating EPM Master...');
   fetch(API + '/export/epm', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({job: j, assets})
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({site:currentSite, year:currentYear, assets})
   })
-  .then(r => {
-    if (!r.ok) return r.json().then(e => { throw new Error(e.error || 'Export failed'); });
-    return r.blob();
+  .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
+  .then(blob=>{
+    const fname = sanitizeFilename(currentSite.customer) + `_${currentYear.label}_EPM_Master.xlsx`;
+    downloadBlob(blob, fname);
+    toast('Downloaded: '+fname);
   })
-  .then(blob => {
-    const filename = (j.customer||'Job').replace(/[^a-zA-Z0-9 _-]/g,'_') + '_EPM_Master.xlsx';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    toast('Downloaded: ' + filename);
-  })
-  .catch(err => toast('Export failed: ' + err.message));
+  .catch(err=>toast('Export failed: '+err.message));
 }
 
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function sanitizeFilename(name) {
+  return (name||'Job').replace(/[^a-zA-Z0-9 _-]/g,'_').trim() || 'Job';
+}
 
 // ═══════════════════════════════════════════════════════
-// TOAST
+// RECENTLY DELETED
 // ═══════════════════════════════════════════════════════
+function showDeletedSites() {
+  showScreen('deleted');
+  fetch(API + '/sites/deleted')
+  .then(r=>r.json())
+  .then(data=>{
+    const el = document.getElementById('deleted-list');
+    if (!data.length) { el.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted)">No recently deleted sites.</div>'; return; }
+    el.innerHTML = data.map(s=>`
+      <div class="site-card">
+        <div class="site-customer">${s.customer||'Unnamed'}</div>
+        <div class="site-meta">${s.address||''}</div>
+        <div style="font-size:11px;color:var(--red);margin-bottom:8px">Deleted ${s.deletedAt?new Date(s.deletedAt).toLocaleDateString():''}</div>
+        <button class="btn btn-green btn-sm btn-full" onclick="restoreSite('${s.id}','${(s.customer||'').replace(/'/g,"\\'")}')">Restore</button>
+      </div>`).join('');
+  })
+  .catch(()=>toast('Failed to load deleted sites'));
+}
+
+function restoreSite(id, name) {
+  fetch(API+'/sites/'+id+'/restore', {method:'POST'}).catch(()=>{});
+  toast(name + ' restored');
+  showDeletedSites();
+}
+
+// ═══════════════════════════════════════════════════════
+// BACKUP / RESTORE
+// ═══════════════════════════════════════════════════════
+function backupAllData() {
+  fetch(API+'/sites')
+  .then(r=>r.json())
+  .then(siteList=>{
+    const blob = new Blob([JSON.stringify({sites:siteList, exportedAt:new Date().toISOString()}, null, 2)], {type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='ralco_backup_'+new Date().toISOString().slice(0,10)+'.json';
+    a.click();
+    toast('Backup downloaded');
+  })
+  .catch(()=>toast('Backup failed'));
+}
+
+function restoreData() { document.getElementById('restore-input').click(); }
+
+function doRestore(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      toast('Restore from backup coming in v3.1');
+    } catch { toast('Invalid backup file'); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════
+function setValue(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val||'';
+}
+
 function toast(msg) {
   const el = document.getElementById('toast');
+  if (!el) return;
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2800);
+  setTimeout(()=>el.classList.remove('show'), 2800);
 }
 
-</script>
-<script>
-// Unregister any existing service workers to prevent caching issues
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(registrations => {
-    registrations.forEach(reg => reg.unregister());
-  });
-}
 </script>
 </body>
 </html>
