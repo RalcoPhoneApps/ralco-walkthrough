@@ -884,6 +884,30 @@ function newSite() {
   setTimeout(() => document.getElementById('f-site-customer')?.focus(), 100);
 }
 
+function normalizeSite(site) {
+  // Ensure all required fields exist regardless of migration source
+  if (!site.contracts) site.contracts = [];
+  site.contracts.forEach(c => {
+    if (!c.buildings) c.buildings = [];
+    if (!c.rooms) c.rooms = [];
+    if (!c.years) c.years = [];
+    if (!c.tier) c.tier = 'basic';
+    if (!c.status) c.status = 'Active';
+    // Normalize rooms
+    c.rooms.forEach(r => {
+      if (!r.equipment) r.equipment = {};
+      if (!r.overrides) r.overrides = {};
+      if (!r.otherNotes) r.otherNotes = '';
+    });
+    // Normalize years
+    c.years.forEach(y => {
+      if (!y.scopedAssetIds) y.scopedAssetIds = [];
+      if (!y.status) y.status = 'Scheduled';
+    });
+  });
+  return site;
+}
+
 function showSite(siteId) {
   // Check if we already have this site cached
   if (currentSite && currentSite.id === siteId) {
@@ -892,9 +916,9 @@ function showSite(siteId) {
     return;
   }
   fetch(API + '/sites/' + siteId)
-  .then(r => r.json())
+  .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
   .then(site => {
-    currentSite = site;
+    currentSite = normalizeSite(site);
     return fetch(API + '/sites/' + siteId + '/assets').then(r => r.json()).catch(()=>[]);
   })
   .then(assets => {
@@ -903,16 +927,15 @@ function showSite(siteId) {
     showSiteTab('contracts');
   })
   .catch(err => {
-    // If cloud fails, try to find in local sites list
     const local = sites.find(s => s.id === siteId);
     if (local) {
-      currentSite = {...local, contracts:[]};
+      currentSite = normalizeSite({...local, contracts:[]});
       siteAssets = [];
       showSiteScreen();
       showSiteTab('contracts');
       toast('Loaded from cache — sync when online');
     } else {
-      toast('Failed to load site');
+      toast('Failed to load site: ' + err.message);
     }
   });
 }
@@ -1018,6 +1041,8 @@ function newContract() {
   }).catch(()=>{});
   if (!currentSite.contracts) currentSite.contracts = [];
   currentSite.contracts.push(contract);
+  if (!currentSite.contracts) currentSite.contracts = [];
+  currentSite.contracts.push(contract);
   currentContract = contract;
   showContractScreen();
 }
@@ -1025,6 +1050,16 @@ function newContract() {
 function openContract(contractId) {
   const contract = (currentSite.contracts||[]).find(c => c.id === contractId);
   if (!contract) return;
+  // Normalize contract fields
+  if (!contract.buildings) contract.buildings = [];
+  if (!contract.rooms) contract.rooms = [];
+  if (!contract.years) contract.years = [];
+  if (!contract.tier) contract.tier = 'basic';
+  contract.rooms.forEach(r => {
+    if (!r.equipment) r.equipment = {};
+    if (!r.overrides) r.overrides = {};
+    if (!r.otherNotes) r.otherNotes = '';
+  });
   currentContract = contract;
   showContractScreen();
 }
