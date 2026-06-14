@@ -146,13 +146,26 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 </header>
 
 <!-- DEVICE SETUP MODAL (first launch only) -->
-<div class="modal-overlay center" id="device-setup-modal">
-  <div class="device-setup">
-    <h2>Welcome to RALCO</h2>
-    <p>What should we call this device? This helps identify who created each job.</p>
+<div class="modal-overlay" id="device-setup-modal" style="align-items:center;justify-content:center">
+  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
+    <h2 style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;text-align:center">Welcome to RALCO</h2>
+    <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5">What should we call this device?</p>
     <label>Device Name</label>
     <input type="text" id="device-name-input" placeholder="e.g. Bert Phone, Josh Laptop..." style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceName()">
-    <button class="btn btn-gold btn-full" style="margin-top:0" onclick="saveDeviceName()">Get Started</button>
+    <button class="btn btn-gold btn-full" style="margin-top:0;width:100%" onclick="saveDeviceName()">Get Started</button>
+  </div>
+</div>
+
+<!-- DEVICE RENAME INLINE MODAL -->
+<div class="modal-overlay" id="device-rename-modal" style="align-items:center;justify-content:center;display:none">
+  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
+    <h2 style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:16px;text-align:center">Rename Device</h2>
+    <label>Device Name</label>
+    <input type="text" id="device-rename-input" placeholder="e.g. Josh Phone" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceRename()">
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('device-rename-modal').style.display='none'">Cancel</button>
+      <button class="btn btn-gold" style="flex:1" onclick="saveDeviceRename()">Save</button>
+    </div>
   </div>
 </div>
 
@@ -441,17 +454,23 @@ function saveDeviceName() {
 }
 
 function renameDevice() {
-  const current = deviceName || '';
-  const name = prompt(current ? 'Rename this device:' : 'What should we call this device?', current);
-  if (name === null) return;
-  deviceName = name.trim() || 'Unnamed Device';
+  const inp = document.getElementById('device-rename-input');
+  if (inp) inp.value = deviceName || '';
+  const modal = document.getElementById('device-rename-modal');
+  if (modal) { modal.style.display = 'flex'; setTimeout(()=>inp&&inp.focus(),100); }
+}
+
+function saveDeviceRename() {
+  const inp = document.getElementById('device-rename-input');
+  const name = inp ? inp.value.trim() : '';
+  deviceName = name || 'Unnamed Device';
   lsSet('ralco_device_name', deviceName);
-  document.getElementById('device-name-display').textContent = deviceName;
-  // Also make sure deviceId exists
   if (!deviceId) {
     deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
     lsSet('ralco_device_id', deviceId);
   }
+  document.getElementById('device-name-display').textContent = deviceName;
+  document.getElementById('device-rename-modal').style.display = 'none';
   toast('Device set to: ' + deviceName);
   syncAllFromCloud();
 }
@@ -1920,28 +1939,4 @@ function renderAssetEditorContent() {
       <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
       <div class="row">
         <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
-        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
-        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" onchange="updateAssetSubField('energized','ac',this.value)"></div>
-      </div>
-      <div class="row">
-        <div class="ae-field"><label>Rated Amps</label><input type="text" value="${e.ratedAmps||''}" onchange="updateAssetSubField('energized','ratedAmps',this.value)"></div>
-        <div class="ae-field"><label>OCPD</label><input type="text" value="${e.ocpd||''}" onchange="updateAssetSubField('energized','ocpd',this.value)"></div>
-      </div>
-      <div class="ae-field"><label>Analysis</label>
-        <input type="text" value="${e.analysis||'N/A'}" onchange="updateAssetSubField('energized','analysis',this.value)">
-      </div>
-      <div class="ae-field"><label>Summary</label>
-        <select onchange="updateAssetSubField('energized','summary',this.value)">
-          ${EPM_RESULTS.map(r => `<option ${(e.summary||'PASS')===r?'selected':''}>${r}</option>`).join('')}
-        </select>
-      </div>
-    `;
-  }
-
-  else if (assetEditorTab === 'insulation') {
-    const ins = a.insulation || {};
-    el.innerHTML = `
-      <div class="row">
-        <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateAssetSubField('insulation','testV',this.value)"></div>
-        <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateAssetSubField('insulation','temp',this.value)"></div>
-      </d
+        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></
