@@ -4,13 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>RALCO Field Walkthrough</title>
+<title>RALCO Maintenance &amp; Testing+</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RALCO">
+<meta name="apple-mobile-web-app-title" content="RALCO M&amp;T+">
 <meta name="theme-color" content="#1A3A5C">
 <style>
 :root{--navy:#1A3A5C;--gold:#FFAA00;--red:#CC2229;--bg:#0f1e2e;--surface:#162840;--surface2:#1e3550;--border:#2a4a6a;--text:#e8f0f8;--muted:#7a9bbf;--green:#2ecc71;--font:'Segoe UI',system-ui,sans-serif}
@@ -153,7 +153,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
   <div id="header-back" class="header-back" onclick="goBack()">‹ Back</div>
   <div class="header-title">
     <div class="logo">RALCO</div>
-    <div class="subtitle">Field Walkthrough</div>
+    <div class="subtitle">Maintenance &amp; Testing+</div>
   </div>
   <div class="header-device" onclick="renameDevice()">
     <span id="header-label">Sites</span><br>
@@ -167,8 +167,13 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <h2 style="font-size:16px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase">Sites</h2>
     <button class="btn btn-gold btn-sm" onclick="newSite()">+ New Site</button>
   </div>
-  <div style="padding:0 16px 12px">
-    <input type="text" id="site-search-input" placeholder="🔍 Search sites..." oninput="renderSiteList(sites)">
+  <div style="padding:0 16px 12px;display:flex;gap:8px">
+    <input type="text" id="site-search-input" placeholder="🔍 Search sites..." oninput="renderSiteList(sites)" style="flex:1">
+    <select id="site-sort-select" onchange="lsSet('ralco_site_sort',this.value);renderSiteList(sites)" style="width:auto;padding:8px 10px;font-size:12px;background:var(--surface2)">
+      <option value="recent">Recent</option>
+      <option value="az">A→Z</option>
+      <option value="created">Created</option>
+    </select>
   </div>
   <div id="sites-list"></div>
   <div style="padding:0 16px 16px;display:flex;gap:8px;flex-wrap:wrap">
@@ -313,8 +318,58 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 
   <div id="contract-tab-export" class="tab-view">
     <div class="card">
+      <div class="card-title">Pricing Setup</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">These values populate the yellow cells in the Sales Builder automatically.</div>
+
+      <label>Facility Access Factor</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 1</div>
+          <select id="f-faf-y1" onchange="updateFAF()" style="text-align:center">
+            <option value="1.00">1.00 — Average</option>
+            <option value="1.05">1.05 — First Time</option>
+            <option value="1.10">1.10 — Many Rooms</option>
+            <option value="1.15">1.15 — Escorted</option>
+            <option value="1.20">1.20 — Tight Security</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 2</div>
+          <select id="f-faf-y2" onchange="savePricing()" style="text-align:center">
+            <option value="1.00">1.00 — Average</option>
+            <option value="1.05">1.05 — First Time</option>
+            <option value="1.10">1.10 — Many Rooms</option>
+            <option value="1.15">1.15 — Escorted</option>
+            <option value="1.20">1.20 — Tight Security</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 3</div>
+          <select id="f-faf-y3" onchange="savePricing()" style="text-align:center">
+            <option value="1.00">1.00 — Average</option>
+            <option value="1.05">1.05 — First Time</option>
+            <option value="1.10">1.10 — Many Rooms</option>
+            <option value="1.15">1.15 — Escorted</option>
+            <option value="1.20">1.20 — Tight Security</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>NFPA 70E Seats (Y1)</label>
+          <input type="number" id="f-nfpa-seats" min="0" max="20" value="0" placeholder="0" oninput="savePricing()">
+        </div>
+        <div>
+          <label>Target Margin %</label>
+          <input type="number" id="f-target-margin" min="0" max="100" placeholder="e.g. 54" oninput="savePricing()">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
       <div class="card-title">Sales Builder Export</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Exports walkthrough data to the EMA Sales Builder template covering all 3 years.</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Exports walkthrough data and pricing to the EMA Sales Builder template covering all 3 years.</p>
       <button class="btn btn-green btn-full" style="margin-top:0" onclick="exportSalesBuilder()">📥 Export Sales Builder</button>
     </div>
   </div>
@@ -870,7 +925,13 @@ function renderSiteList(list) {
     return;
   }
   const search = document.getElementById('site-search-input')?.value.toLowerCase() || '';
-  const filtered = search ? list.filter(s => (s.customer||'').toLowerCase().includes(search)) : list;
+  const sort = lsGet('ralco_site_sort') || 'recent';
+  const sortSel = document.getElementById('site-sort-select');
+  if (sortSel) sortSel.value = sort;
+  let filtered = search ? list.filter(s => (s.customer||'').toLowerCase().includes(search)) : [...list];
+  if (sort === 'az') filtered.sort((a,b) => (a.customer||'').localeCompare(b.customer||''));
+  else if (sort === 'created') filtered.sort((a,b) => a.id.localeCompare(b.id));
+  // 'recent' is default order from cloud (already sorted by updated_at desc)
   el.innerHTML = filtered.map(s => {
     const contracts = s.contractCount || 0;
     const assets = s.assetCount || 0;
@@ -1087,8 +1148,8 @@ function newContract() {
 }
 
 function deleteContract(contractId) {
-  if (!confirm('Delete this contract and all its years?')) return;
   if (!currentSite) return;
+  if (!confirm('Delete this contract and all its years?')) return;
   currentSite.contracts = (currentSite.contracts||[]).filter(c => c.id !== contractId);
   fetch(API + '/contracts/' + contractId, {method:'DELETE'}).catch(()=>{});
   renderContractList();
@@ -1177,6 +1238,50 @@ function setContractTier(id) {
   renderTierButtons();
   saveContract();
   if (document.getElementById('eq-panel')?.style.display !== 'none') renderEqPanel();
+}
+
+// FAF options for step-down logic
+const FAF_OPTIONS = ['1.00','1.05','1.10','1.15','1.20'];
+
+function renderPricingFields() {
+  if (!currentContract) return;
+  const p = currentContract.pricing || {};
+  const y1 = p.fafY1 || '1.00';
+  const y2 = p.fafY2 || stepDownFAF(y1);
+  const y3 = p.fafY3 || stepDownFAF(y2);
+  setSelectValue('f-faf-y1', y1);
+  setSelectValue('f-faf-y2', y2);
+  setSelectValue('f-faf-y3', y3);
+  setValue('f-nfpa-seats', p.nfpaSeats || '0');
+  setValue('f-target-margin', p.targetMargin || '');
+}
+
+function setSelectValue(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+function stepDownFAF(faf) {
+  const idx = FAF_OPTIONS.indexOf(faf);
+  return idx > 0 ? FAF_OPTIONS[idx - 1] : FAF_OPTIONS[0];
+}
+
+function updateFAF() {
+  const y1 = document.getElementById('f-faf-y1')?.value || '1.00';
+  setSelectValue('f-faf-y2', stepDownFAF(y1));
+  setSelectValue('f-faf-y3', stepDownFAF(stepDownFAF(y1)));
+  savePricing();
+}
+
+function savePricing() {
+  if (!currentContract) return;
+  if (!currentContract.pricing) currentContract.pricing = {};
+  currentContract.pricing.fafY1 = document.getElementById('f-faf-y1')?.value || '1.00';
+  currentContract.pricing.fafY2 = document.getElementById('f-faf-y2')?.value || '1.00';
+  currentContract.pricing.fafY3 = document.getElementById('f-faf-y3')?.value || '1.00';
+  currentContract.pricing.nfpaSeats = document.getElementById('f-nfpa-seats')?.value || '0';
+  currentContract.pricing.targetMargin = document.getElementById('f-target-margin')?.value || '';
+  saveContract();
 }
 
 function saveContractField(key, val) {
@@ -1298,7 +1403,7 @@ function renderRoomList() {
         <div class="room-meta">${hasBldgs?getBuildingName(r.buildingId)+' · ':''}${roomTotal(r)} items</div>
         ${hasBldgs?`<select class="bldg-select" onclick="event.stopPropagation()" onchange="setRoomBuilding('${r.id}',this.value)">
           <option value="">Main Bldg.</option>
-          ${(currentContract.buildings||[]).map(b=>`<option value="${b.id}" ${r.buildingId===b.id?'selected':''}>${b.name}</option>`).join('')}
+          ${(currentSite.buildings||[]).map(b=>`<option value="${b.id}" ${r.buildingId===b.id?'selected':''}>${b.name}</option>`).join('')}
         </select>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
@@ -1537,6 +1642,12 @@ function renderFieldTab() {
   const contracts = currentSite.contracts || [];
   const csel = document.getElementById('field-contract-select');
   if (!csel) return;
+
+  // Auto-select most recent contract if none selected
+  if (!fieldContractId && contracts.length) {
+    fieldContractId = contracts[contracts.length - 1].id;
+  }
+
   csel.innerHTML = '<option value="">-- Select Contract --</option>' +
     contracts.map(c => `<option value="${c.id}" ${fieldContractId===c.id?'selected':''}>Contract #${c.contractNumber}</option>`).join('');
   onFieldContractChange(fieldContractId || '', true);
@@ -1544,7 +1655,6 @@ function renderFieldTab() {
 
 function onFieldContractChange(contractId, silent) {
   fieldContractId = contractId;
-  fieldYearId = null;
   const ysel = document.getElementById('field-year-select');
   const panel = document.getElementById('field-year-panel');
   if (!ysel) return;
@@ -1555,9 +1665,20 @@ function onFieldContractChange(contractId, silent) {
   }
   const contract = (currentSite.contracts||[]).find(c=>c.id===contractId);
   const years = contract ? (contract.years||[]) : [];
+
+  // Auto-select most recent year
+  if (!fieldYearId && years.length) {
+    fieldYearId = years[years.length - 1].id;
+  }
+
   ysel.innerHTML = '<option value="">-- Select Year --</option>' +
-    years.map(y => `<option value="${y.id}">${y.label}</option>`).join('');
-  if (panel) panel.style.display = 'none';
+    years.map(y => `<option value="${y.id}" ${fieldYearId===y.id?'selected':''}>${y.label}</option>`).join('');
+
+  if (fieldYearId && years.find(y=>y.id===fieldYearId)) {
+    onFieldYearChange(fieldYearId);
+  } else if (panel) {
+    panel.style.display = 'none';
+  }
 }
 
 function onFieldYearChange(yearId) {
@@ -2158,7 +2279,11 @@ function exportSalesBuilder() {
   toast('Generating Sales Builder...');
   fetch(API + '/export/sales', {
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'}, site:currentSite})
+    body: JSON.stringify({
+      contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
+      site:currentSite,
+      pricing: currentContract.pricing || {}
+    })
   })
   .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
   .then(blob=>{
@@ -2799,7 +2924,11 @@ function exportSalesBuilder() {
   toast('Generating Sales Builder...');
   fetch(API + '/export/sales', {
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'}, site:currentSite})
+    body: JSON.stringify({
+      contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
+      site:currentSite,
+      pricing: currentContract.pricing || {}
+    })
   })
   .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
   .then(blob=>{
