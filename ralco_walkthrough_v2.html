@@ -241,6 +241,50 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <div class="card-title">Default Service Tier</div>
       <div id="walkthrough-tier-list"></div>
     </div>
+    <div class="card" style="margin-top:12px">
+      <div class="card-title">Pricing</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">These populate the yellow cells in the Sales Builder automatically.</div>
+      <label>Facility Access Factor</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 1</div>
+          <select id="f-faf-y1" onchange="updateFAF()" style="padding:8px 4px;font-size:11px">
+            <option value="1.00">1.00 Avg</option>
+            <option value="1.05">1.05 1st</option>
+            <option value="1.10">1.10 Rms</option>
+            <option value="1.15">1.15 Esc</option>
+            <option value="1.20">1.20 Sec</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 2</div>
+          <select id="f-faf-y2" onchange="saveSitePricing()" style="padding:8px 4px;font-size:11px">
+            <option value="1.00">1.00 Avg</option>
+            <option value="1.05">1.05 1st</option>
+            <option value="1.10">1.10 Rms</option>
+            <option value="1.15">1.15 Esc</option>
+            <option value="1.20">1.20 Sec</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 3</div>
+          <select id="f-faf-y3" onchange="saveSitePricing()" style="padding:8px 4px;font-size:11px">
+            <option value="1.00">1.00 Avg</option>
+            <option value="1.05">1.05 1st</option>
+            <option value="1.10">1.10 Rms</option>
+            <option value="1.15">1.15 Esc</option>
+            <option value="1.20">1.20 Sec</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>NFPA 70E Seats (Y1)</label>
+        <input type="number" id="f-nfpa-seats" min="0" max="20" value="0" oninput="saveSitePricing()"></div>
+        <div><label>Target Margin %</label>
+        <input type="number" id="f-target-margin" min="0" max="100" placeholder="e.g. 54" oninput="saveSitePricing()"></div>
+      </div>
+    </div>
+    <button class="btn btn-green btn-full" onclick="exportSalesBuilder()" style="margin-top:12px">📥 Export Sales Builder</button>
   </div>
 
   <div id="site-tab-contracts" class="tab-view">
@@ -318,59 +362,9 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 
   <div id="contract-tab-export" class="tab-view">
     <div class="card">
-      <div class="card-title">Pricing Setup</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">These values populate the yellow cells in the Sales Builder automatically.</div>
-
-      <label>Facility Access Factor</label>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
-        <div>
-          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 1</div>
-          <select id="f-faf-y1" onchange="updateFAF()" style="text-align:center">
-            <option value="1.00">1.00 — Average</option>
-            <option value="1.05">1.05 — First Time</option>
-            <option value="1.10">1.10 — Many Rooms</option>
-            <option value="1.15">1.15 — Escorted</option>
-            <option value="1.20">1.20 — Tight Security</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 2</div>
-          <select id="f-faf-y2" onchange="savePricing()" style="text-align:center">
-            <option value="1.00">1.00 — Average</option>
-            <option value="1.05">1.05 — First Time</option>
-            <option value="1.10">1.10 — Many Rooms</option>
-            <option value="1.15">1.15 — Escorted</option>
-            <option value="1.20">1.20 — Tight Security</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-size:10px;color:var(--muted);margin-bottom:4px;text-align:center">Year 3</div>
-          <select id="f-faf-y3" onchange="savePricing()" style="text-align:center">
-            <option value="1.00">1.00 — Average</option>
-            <option value="1.05">1.05 — First Time</option>
-            <option value="1.10">1.10 — Many Rooms</option>
-            <option value="1.15">1.15 — Escorted</option>
-            <option value="1.20">1.20 — Tight Security</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>NFPA 70E Seats (Y1)</label>
-          <input type="number" id="f-nfpa-seats" min="0" max="20" value="0" placeholder="0" oninput="savePricing()">
-        </div>
-        <div>
-          <label>Target Margin %</label>
-          <input type="number" id="f-target-margin" min="0" max="100" placeholder="e.g. 54" oninput="savePricing()">
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
       <div class="card-title">Sales Builder Export</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Exports walkthrough data and pricing to the EMA Sales Builder template covering all 3 years.</p>
-      <button class="btn btn-green btn-full" style="margin-top:0" onclick="exportSalesBuilder()">📥 Export Sales Builder</button>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Export the Sales Builder from the <strong style="color:var(--gold)">Walkthrough tab</strong> on the Site screen — pricing and equipment data live there.</p>
+      <button class="btn btn-green btn-full" style="margin-top:0" onclick="goBack();showSiteTab('walkthrough')">← Go to Walkthrough</button>
     </div>
   </div>
 </div>
@@ -986,6 +980,7 @@ function normalizeSite(site) {
     if (!r.overrides) r.overrides = {};
     if (!r.otherNotes) r.otherNotes = '';
   });
+  if (!site.pricing) site.pricing = {};
   site.contracts.forEach(c => {
     if (!c.years) c.years = [];
     if (!c.tier) c.tier = 'basic';
@@ -1243,19 +1238,6 @@ function setContractTier(id) {
 // FAF options for step-down logic
 const FAF_OPTIONS = ['1.00','1.05','1.10','1.15','1.20'];
 
-function renderPricingFields() {
-  if (!currentContract) return;
-  const p = currentContract.pricing || {};
-  const y1 = p.fafY1 || '1.00';
-  const y2 = p.fafY2 || stepDownFAF(y1);
-  const y3 = p.fafY3 || stepDownFAF(y2);
-  setSelectValue('f-faf-y1', y1);
-  setSelectValue('f-faf-y2', y2);
-  setSelectValue('f-faf-y3', y3);
-  setValue('f-nfpa-seats', p.nfpaSeats || '0');
-  setValue('f-target-margin', p.targetMargin || '');
-}
-
 function setSelectValue(id, val) {
   const el = document.getElementById(id);
   if (el) el.value = val;
@@ -1266,23 +1248,40 @@ function stepDownFAF(faf) {
   return idx > 0 ? FAF_OPTIONS[idx - 1] : FAF_OPTIONS[0];
 }
 
+function renderSitePricingFields() {
+  if (!currentSite) return;
+  const p = currentSite.pricing || {};
+  const y1 = p.fafY1 || '1.00';
+  const y2 = p.fafY2 || stepDownFAF(y1);
+  const y3 = p.fafY3 || stepDownFAF(y2);
+  setSelectValue('f-faf-y1', y1);
+  setSelectValue('f-faf-y2', y2);
+  setSelectValue('f-faf-y3', y3);
+  setValue('f-nfpa-seats', p.nfpaSeats !== undefined ? p.nfpaSeats : '0');
+  setValue('f-target-margin', p.targetMargin || '');
+}
+
 function updateFAF() {
   const y1 = document.getElementById('f-faf-y1')?.value || '1.00';
   setSelectValue('f-faf-y2', stepDownFAF(y1));
   setSelectValue('f-faf-y3', stepDownFAF(stepDownFAF(y1)));
-  savePricing();
+  saveSitePricing();
 }
 
-function savePricing() {
-  if (!currentContract) return;
-  if (!currentContract.pricing) currentContract.pricing = {};
-  currentContract.pricing.fafY1 = document.getElementById('f-faf-y1')?.value || '1.00';
-  currentContract.pricing.fafY2 = document.getElementById('f-faf-y2')?.value || '1.00';
-  currentContract.pricing.fafY3 = document.getElementById('f-faf-y3')?.value || '1.00';
-  currentContract.pricing.nfpaSeats = document.getElementById('f-nfpa-seats')?.value || '0';
-  currentContract.pricing.targetMargin = document.getElementById('f-target-margin')?.value || '';
-  saveContract();
+function saveSitePricing() {
+  if (!currentSite) return;
+  if (!currentSite.pricing) currentSite.pricing = {};
+  currentSite.pricing.fafY1 = document.getElementById('f-faf-y1')?.value || '1.00';
+  currentSite.pricing.fafY2 = document.getElementById('f-faf-y2')?.value || '1.00';
+  currentSite.pricing.fafY3 = document.getElementById('f-faf-y3')?.value || '1.00';
+  currentSite.pricing.nfpaSeats = document.getElementById('f-nfpa-seats')?.value || '0';
+  currentSite.pricing.targetMargin = document.getElementById('f-target-margin')?.value || '';
+  debounceSaveSite();
 }
+
+// Legacy contract pricing (kept for compatibility)
+function renderPricingFields() { renderSitePricingFields(); }
+function savePricing() { saveSitePricing(); }
 
 function saveContractField(key, val) {
   if (!currentContract) return;
@@ -1310,6 +1309,7 @@ function renderWalkthrough() {
   renderWalkthroughTier();
   setValue('f-wt-date', currentSite.walkthroughDate);
   setValue('f-wt-rep', currentSite.walkthroughRep);
+  renderSitePricingFields();
   document.getElementById('eq-panel').style.display = 'none';
 }
 
@@ -2282,7 +2282,7 @@ function exportSalesBuilder() {
     body: JSON.stringify({
       contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
       site:currentSite,
-      pricing: currentContract.pricing || {}
+      pricing: currentSite.pricing || {}
     })
   })
   .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
@@ -2927,7 +2927,7 @@ function exportSalesBuilder() {
     body: JSON.stringify({
       contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
       site:currentSite,
-      pricing: currentContract.pricing || {}
+      pricing: currentSite.pricing || {}
     })
   })
   .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
