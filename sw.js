@@ -1,7 +1,7 @@
 // RALCO Field Walkthrough — Service Worker
 // Caches the app shell for offline use
 
-const CACHE_NAME = 'ralco-walkthrough-v5';
+const CACHE_NAME = 'ralco-walkthrough-v6';
 const STATIC_ASSETS = [
   './ralco_walkthrough_v2.html',
   './manifest.json',
