@@ -171,6 +171,13 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 
 <!-- JOBS LIST -->
 <div id="screen-jobs" class="screen active">
+  <div id="device-setup-banner" style="display:none;background:var(--navy);border-bottom:2px solid var(--gold);padding:16px;margin-bottom:0">
+    <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px">👋 What should we call this device?</div>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="device-banner-input" placeholder="e.g. Josh Phone, Bert Laptop..." style="flex:1" onkeydown="if(event.key==='Enter')saveBannerDevice()">
+      <button class="btn btn-gold btn-sm" onclick="saveBannerDevice()">Save</button>
+    </div>
+  </div>
   <div class="jobs-header">
     <h2>Jobs</h2>
     <button class="btn btn-gold btn-sm" onclick="newJob()">+ New Job</button>
@@ -438,17 +445,50 @@ window.onload = () => {
 // DEVICE SETUP
 // ═══════════════════════════════════════════════════════
 function showDeviceSetup() {
-  document.getElementById('device-setup-modal').classList.add('open');
-  document.getElementById('device-name-input').focus();
+  // Show inline banner instead of modal
+  const banner = document.getElementById('device-setup-banner');
+  if (banner) {
+    banner.style.display = 'block';
+    setTimeout(() => {
+      const inp = document.getElementById('device-banner-input');
+      if (inp) inp.focus();
+    }, 100);
+  }
+  // Also try modal as fallback
+  const modal = document.getElementById('device-setup-modal');
+  if (modal) modal.classList.add('open');
+}
+
+function saveBannerDevice() {
+  const inp = document.getElementById('device-banner-input');
+  const name = inp ? inp.value.trim() : '';
+  deviceName = name || 'Unnamed Device';
+  lsSet('ralco_device_name', deviceName);
+  if (!deviceId) {
+    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    lsSet('ralco_device_id', deviceId);
+  }
+  document.getElementById('device-setup-banner').style.display = 'none';
+  document.getElementById('device-setup-modal').classList.remove('open');
+  document.getElementById('device-name-display').textContent = deviceName;
+  renderJobsList();
+  syncAllFromCloud();
+  toast('Device set to: ' + deviceName);
 }
 
 function saveDeviceName() {
   const inp = document.getElementById('device-name-input');
-  const name = inp.value.trim() || 'Unnamed Device';
+  const name = (inp ? inp.value.trim() : '') || 'Unnamed Device';
   deviceName = name;
   lsSet('ralco_device_name', name);
+  if (!deviceId) {
+    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    lsSet('ralco_device_id', deviceId);
+  }
   document.getElementById('device-name-display').textContent = name;
   document.getElementById('device-setup-modal').classList.remove('open');
+  const banner = document.getElementById('device-setup-banner');
+  if (banner) banner.style.display = 'none';
   renderJobsList();
   syncAllFromCloud();
 }
@@ -1918,26 +1958,4 @@ function renderAssetEditorContent() {
 
   else if (assetEditorTab === 'energized') {
     const e = a.energized || {};
-    const phaseOpts = EPM_PHASE_TYPES.map(p => `<option ${e.phase===p?'selected':''}>${p}</option>`).join('');
-    const wireOpts = EPM_WIRE_TYPES.map(w => `<option ${e.wire===w?'selected':''}>${w}</option>`).join('');
-    el.innerHTML = `
-      <div class="row"><div class="ae-field"><label>Phase</label>
-        <select onchange="updateAssetSubField('energized','phase',this.value)">
-          <option value="">--</option>${phaseOpts}
-        </select>
-      </div><div class="ae-field"><label>Wire</label>
-        <select onchange="updateAssetSubField('energized','wire',this.value)">
-          <option value="">--</option>${wireOpts}
-        </select>
-      </div></div>
-      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Voltage (V)</div>
-      <div class="row">
-        <div class="ae-field"><label>V-AB</label><input type="text" value="${e.vab||''}" onchange="updateAssetSubField('energized','vab',this.value)"></div>
-        <div class="ae-field"><label>V-BC</label><input type="text" value="${e.vbc||''}" onchange="updateAssetSubField('energized','vbc',this.value)"></div>
-        <div class="ae-field"><label>V-CA</label><input type="text" value="${e.vca||''}" onchange="updateAssetSubField('energized','vca',this.value)"></div>
-      </div>
-      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
-      <div class="row">
-        <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
-        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
-        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" on
+    const phaseOpts = EPM_PHASE_TYPES.map(p => `<option ${e.phase===p?'selected':''
