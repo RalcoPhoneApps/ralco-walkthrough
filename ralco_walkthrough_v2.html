@@ -146,7 +146,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 </header>
 
 <!-- DEVICE SETUP MODAL (first launch only) -->
-<div class="modal-overlay" id="device-setup-modal" style="align-items:center;justify-content:center">
+<div class="modal-overlay center" id="device-setup-modal">
   <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
     <h2 style="font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;text-align:center">Welcome to RALCO</h2>
     <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5">What should we call this device?</p>
@@ -157,13 +157,13 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
 </div>
 
 <!-- DEVICE RENAME INLINE MODAL -->
-<div class="modal-overlay" id="device-rename-modal" style="align-items:center;justify-content:center;display:none">
+<div class="modal-overlay center" id="device-rename-modal">
   <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:28px 20px;width:calc(100% - 40px);max-width:400px">
     <h2 style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:16px;text-align:center">Rename Device</h2>
     <label>Device Name</label>
     <input type="text" id="device-rename-input" placeholder="e.g. Josh Phone" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')saveDeviceRename()">
     <div style="display:flex;gap:10px">
-      <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('device-rename-modal').style.display='none'">Cancel</button>
+      <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('device-rename-modal').classList.remove('open')">Cancel</button>
       <button class="btn btn-gold" style="flex:1" onclick="saveDeviceRename()">Save</button>
     </div>
   </div>
@@ -457,7 +457,7 @@ function renameDevice() {
   const inp = document.getElementById('device-rename-input');
   if (inp) inp.value = deviceName || '';
   const modal = document.getElementById('device-rename-modal');
-  if (modal) { modal.style.display = 'flex'; setTimeout(()=>inp&&inp.focus(),100); }
+  if (modal) { modal.classList.add('open'); setTimeout(()=>inp&&inp.focus(),100); }
 }
 
 function saveDeviceRename() {
@@ -470,7 +470,7 @@ function saveDeviceRename() {
     lsSet('ralco_device_id', deviceId);
   }
   document.getElementById('device-name-display').textContent = deviceName;
-  document.getElementById('device-rename-modal').style.display = 'none';
+  document.getElementById('device-rename-modal').classList.remove('open');
   toast('Device set to: ' + deviceName);
   syncAllFromCloud();
 }
@@ -1939,4 +1939,5 @@ function renderAssetEditorContent() {
       <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
       <div class="row">
         <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
-        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></
+        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
+        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" on
