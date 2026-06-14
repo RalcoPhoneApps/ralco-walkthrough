@@ -167,7 +167,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <button class="btn btn-outline btn-sm" onclick="syncAllFromCloud()" style="flex:1">🔄 Sync</button>
     <button class="btn btn-outline btn-sm" onclick="backupJobs()" style="flex:1">💾 Backup</button>
     <button class="btn btn-outline btn-sm" onclick="restoreJobs()" style="flex:1">📂 Restore</button>
-    <button class="btn btn-outline btn-sm" onclick="renameDevice()" style="flex:1">✏️ <span id="device-name-display">Device</span></button>
+    <button class="btn btn-outline btn-sm" onclick="renameDevice()" style="flex:1">✏️ <span id="device-name-display">Set Device Name</span></button>
   </div>
   <input type="file" id="restore-input" accept=".json" style="display:none" onchange="doRestore(event)">
 </div>
@@ -416,6 +416,9 @@ window.onload = () => {
     renderJobsList();
     syncAllFromCloud();
   }
+  // Always update device button label
+  const dnd = document.getElementById('device-name-display');
+  if (dnd && deviceName) dnd.textContent = deviceName;
 };
 
 // ═══════════════════════════════════════════════════════
@@ -438,12 +441,19 @@ function saveDeviceName() {
 }
 
 function renameDevice() {
-  const name = prompt('Rename this device:', deviceName || '');
-  if (!name) return;
+  const current = deviceName || '';
+  const name = prompt(current ? 'Rename this device:' : 'What should we call this device?', current);
+  if (name === null) return;
   deviceName = name.trim() || 'Unnamed Device';
   lsSet('ralco_device_name', deviceName);
   document.getElementById('device-name-display').textContent = deviceName;
-  toast('Device renamed to: ' + deviceName);
+  // Also make sure deviceId exists
+  if (!deviceId) {
+    deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    lsSet('ralco_device_id', deviceId);
+  }
+  toast('Device set to: ' + deviceName);
+  syncAllFromCloud();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1934,8 +1944,4 @@ function renderAssetEditorContent() {
       <div class="row">
         <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateAssetSubField('insulation','testV',this.value)"></div>
         <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateAssetSubField('insulation','temp',this.value)"></div>
-      </div>
-      <div class="row">
-        <div class="ae-field"><label>Ph-Ph (MΩ)</label><input type="text" value="${ins.phPh||''}" onchange="updateAssetSubField('insulation','phPh',this.value)"></div>
-        <div class="ae-field"><label>Ph-G (MΩ)</label><input type="text" value="${ins.phG||''}" onchange="updateAssetSubField('insulation','phG',this.value)"></div>
-        <div class="ae-field"><label>PI</label><input type="text" value="${ins.pi||''
+      </d
