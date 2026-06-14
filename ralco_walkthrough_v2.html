@@ -1959,4 +1959,240 @@ function renderAssetEditorContent() {
 
   else if (assetEditorTab === 'energized') {
     const e = a.energized || {};
-    const phaseOpts = EPM_
+    const phaseOpts = EPM_PHASE_TYPES.map(p => `<option ${e.phase===p?'selected':''}>${p}</option>`).join('');
+    const wireOpts = EPM_WIRE_TYPES.map(w => `<option ${e.wire===w?'selected':''}>${w}</option>`).join('');
+    el.innerHTML = `
+      <div class="row"><div class="ae-field"><label>Phase</label>
+        <select onchange="updateAssetSubField('energized','phase',this.value)">
+          <option value="">--</option>${phaseOpts}
+        </select>
+      </div><div class="ae-field"><label>Wire</label>
+        <select onchange="updateAssetSubField('energized','wire',this.value)">
+          <option value="">--</option>${wireOpts}
+        </select>
+      </div></div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Voltage (V)</div>
+      <div class="row">
+        <div class="ae-field"><label>V-AB</label><input type="text" value="${e.vab||''}" onchange="updateAssetSubField('energized','vab',this.value)"></div>
+        <div class="ae-field"><label>V-BC</label><input type="text" value="${e.vbc||''}" onchange="updateAssetSubField('energized','vbc',this.value)"></div>
+        <div class="ae-field"><label>V-CA</label><input type="text" value="${e.vca||''}" onchange="updateAssetSubField('energized','vca',this.value)"></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Amperage (A)</div>
+      <div class="row">
+        <div class="ae-field"><label>A-A</label><input type="text" value="${e.aa||''}" onchange="updateAssetSubField('energized','aa',this.value)"></div>
+        <div class="ae-field"><label>A-B</label><input type="text" value="${e.ab||''}" onchange="updateAssetSubField('energized','ab',this.value)"></div>
+        <div class="ae-field"><label>A-C</label><input type="text" value="${e.ac||''}" onchange="updateAssetSubField('energized','ac',this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Rated Amps</label><input type="text" value="${e.ratedAmps||''}" onchange="updateAssetSubField('energized','ratedAmps',this.value)"></div>
+        <div class="ae-field"><label>OCPD</label><input type="text" value="${e.ocpd||''}" onchange="updateAssetSubField('energized','ocpd',this.value)"></div>
+      </div>
+      <div class="ae-field"><label>Analysis</label>
+        <input type="text" value="${e.analysis||'N/A'}" onchange="updateAssetSubField('energized','analysis',this.value)">
+      </div>
+      <div class="ae-field"><label>Summary</label>
+        <select onchange="updateAssetSubField('energized','summary',this.value)">
+          ${EPM_RESULTS.map(r => `<option ${(e.summary||'PASS')===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'insulation') {
+    const ins = a.insulation || {};
+    el.innerHTML = `
+      <div class="row">
+        <div class="ae-field"><label>Test Voltage</label><input type="text" value="${ins.testV||''}" onchange="updateAssetSubField('insulation','testV',this.value)"></div>
+        <div class="ae-field"><label>Temperature</label><input type="text" value="${ins.temp||''}" onchange="updateAssetSubField('insulation','temp',this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Ph-Ph (MΩ)</label><input type="text" value="${ins.phPh||''}" onchange="updateAssetSubField('insulation','phPh',this.value)"></div>
+        <div class="ae-field"><label>Ph-G (MΩ)</label><input type="text" value="${ins.phG||''}" onchange="updateAssetSubField('insulation','phG',this.value)"></div>
+        <div class="ae-field"><label>PI</label><input type="text" value="${ins.pi||''}" onchange="updateAssetSubField('insulation','pi',this.value)"></div>
+      </div>
+      <div class="ae-field"><label>Result</label>
+        <select onchange="updateAssetSubField('insulation','result',this.value)">
+          ${EPM_RESULTS.map(r => `<option ${(ins.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+      </div>
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('insulation','notes',this.value)">${ins.notes||''}</textarea>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'dlro') {
+    const d = a.dlro || {};
+    el.innerHTML = `
+      <div class="row">
+        <div class="ae-field"><label>Ph-A (mΩ)</label><input type="text" value="${d.phA||''}" onchange="updateAssetSubField('dlro','phA',this.value)"></div>
+        <div class="ae-field"><label>Ph-B (mΩ)</label><input type="text" value="${d.phB||''}" onchange="updateAssetSubField('dlro','phB',this.value)"></div>
+        <div class="ae-field"><label>Ph-C (mΩ)</label><input type="text" value="${d.phC||''}" onchange="updateAssetSubField('dlro','phC',this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Dev%</label><input type="text" value="${d.dev||''}" onchange="updateAssetSubField('dlro','dev',this.value)"></div>
+        <div class="ae-field"><label>Result</label>
+          <select onchange="updateAssetSubField('dlro','result',this.value)">
+            ${EPM_RESULTS.map(r => `<option ${(d.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('dlro','notes',this.value)">${d.notes||''}</textarea>
+      </div>
+    `;
+  }
+
+  else if (assetEditorTab === 'torque') {
+    const t = a.torque || {};
+    el.innerHTML = `
+      <div class="ae-field"><label>Phase</label>
+        <select onchange="updateAssetSubField('torque','phase',this.value)">
+          <option value="">--</option>
+          ${EPM_PHASES.map(p => `<option ${t.phase===p?'selected':''}>${p}</option>`).join('')}
+        </select>
+      </div>
+      <div class="ae-field"><label>Connection Type</label>
+        <input type="text" value="${t.connType||''}" onchange="updateAssetSubField('torque','connType',this.value)" placeholder="e.g. Lug, Bus Bar">
+      </div>
+      <div class="row">
+        <div class="ae-field"><label>Spec (ft-lb)</label><input type="text" value="${t.spec||''}" onchange="updateAssetSubField('torque','spec',this.value)"></div>
+        <div class="ae-field"><label>Verified?</label>
+          <select onchange="updateAssetSubField('torque','verified',this.value)">
+            <option value="">--</option>
+            <option ${t.verified==='Yes'?'selected':''}>Yes</option>
+            <option ${t.verified==='No'?'selected':''}>No</option>
+          </select>
+        </div>
+      </div>
+      <div class="ae-field"><label>Result</label>
+        <select onchange="updateAssetSubField('torque','result',this.value)">
+          ${EPM_RESULTS.map(r => `<option ${(t.result||'N/A')===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+      </div>
+      <div class="ae-field"><label>Notes</label>
+        <textarea rows="2" style="resize:none" onchange="updateAssetSubField('torque','notes',this.value)">${t.notes||''}</textarea>
+      </div>
+    `;
+  }
+}
+
+function updateAssetField(field, value) {
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  a[field] = value;
+  if (field === 'name') document.getElementById('asset-editor-title').textContent = value || 'New Asset';
+  saveAssets(assets);
+}
+
+function updateAssetSubField(section, field, value) {
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  if (!a[section]) a[section] = {};
+  a[section][field] = value;
+  saveAssets(assets);
+}
+
+function updateViolation(idx, field, value) {
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  if (!a.codeViolations) a.codeViolations = [];
+  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
+  a.codeViolations[idx][field] = value;
+  saveAssets(assets);
+}
+
+function updateViolationSev(idx, selectEl) {
+  const selected = selectEl.options[selectEl.selectedIndex];
+  const sev = selected ? selected.getAttribute('data-sev') : '';
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  if (!a.codeViolations) a.codeViolations = [];
+  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
+  a.codeViolations[idx].sev = sev || '';
+  saveAssets(assets);
+  renderAssetEditorContent();
+}
+
+function updateViolationFromSelect(idx, selectEl) {
+  const selected = selectEl.options[selectEl.selectedIndex];
+  const article = selected ? selected.value : '';
+  const sev = selected ? selected.getAttribute('data-sev') : '';
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  if (!a.codeViolations) a.codeViolations = [];
+  while (a.codeViolations.length <= idx) a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
+  a.codeViolations[idx].article = article || '';
+  a.codeViolations[idx].sev = sev || '';
+  saveAssets(assets);
+  renderAssetEditorContent();
+}
+
+function addViolation() {
+  const assets = getAssets();
+  const a = assets.find(x => x.id === currentAssetId); if (!a) return;
+  if (!a.codeViolations) a.codeViolations = [];
+  if (a.codeViolations.length >= 5) { toast('Max 5 violations per asset'); return; }
+  a.codeViolations.push({article:'', sev:'', corrected:'No', notes:''});
+  saveAssets(assets);
+  renderAssetEditorContent();
+}
+
+function deleteAsset(id) {
+  if (!confirm('Delete this asset?')) return;
+  const j = getJob(); if (!j) return;
+  j.assets = (j.assets || []).filter(a => a.id !== id);
+  j.updatedAt = new Date().toISOString();
+  saveAll();
+  closeAssetEditor();
+}
+
+// EPM Export
+function exportEPM() {
+  const j = getJob(); if (!j) return;
+  const assets = j.assets || [];
+  if (!assets.length) { toast('No assets to export'); return; }
+  toast('Generating EPM Master...');
+  fetch(API + '/export/epm', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({job: j, assets})
+  })
+  .then(r => {
+    if (!r.ok) return r.json().then(e => { throw new Error(e.error || 'Export failed'); });
+    return r.blob();
+  })
+  .then(blob => {
+    const filename = (j.customer||'Job').replace(/[^a-zA-Z0-9 _-]/g,'_') + '_EPM_Master.xlsx';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('Downloaded: ' + filename);
+  })
+  .catch(err => toast('Export failed: ' + err.message));
+}
+
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+</script>
+<script>
+// Unregister any existing service workers to prevent caching issues
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(reg => reg.unregister());
+  });
+}
+</script>
+</body>
+</html>
