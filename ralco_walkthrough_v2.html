@@ -967,6 +967,7 @@ function loadSites() {
 }
 
 function renderSiteList(list) {
+  console.log('renderSiteList called:', list === null ? 'null' : list?.length, 'sites array len:', sites.length);
   const el = document.getElementById('sites-list');
   if (list === null) {
     el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted)">Loading...</div>';
