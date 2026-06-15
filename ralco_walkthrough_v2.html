@@ -1014,16 +1014,33 @@ function normalizeSite(site) {
 }
 
 function showSite(siteId) {
-  // Check if we already have this site cached
+  // Check if already loaded
   if (currentSite && currentSite.id === siteId) {
     showSiteScreen();
     showSiteTab('contracts');
     return;
   }
+
+  // Check localStorage first for instant load
+  try {
+    const cached = lsGet('ralco_site_' + siteId);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      currentSite = normalizeSite(parsed);
+      siteAssets = [];
+      _siteLoadedFromCloud = false; // mark as from cache, not cloud
+      showSiteScreen();
+      showSiteTab('contracts');
+    }
+  } catch(e) {}
+
+  // Always fetch from cloud to get latest
   fetch(API + '/sites/' + siteId)
   .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
   .then(site => {
     currentSite = normalizeSite(site);
+    // Cache to localStorage
+    try { lsSet('ralco_site_' + siteId, JSON.stringify(site)); } catch(e) {}
     return fetch(API + '/sites/' + siteId + '/assets').then(r => r.json()).catch(()=>[]);
   })
   .then(assets => {
@@ -1033,16 +1050,19 @@ function showSite(siteId) {
     showSiteTab('contracts');
   })
   .catch(err => {
-    const local = sites.find(s => s.id === siteId);
-    if (local) {
-      currentSite = normalizeSite({...local, contracts:[]});
-      siteAssets = [];
-      showSiteScreen();
-      showSiteTab('contracts');
-      toast('Loaded from cache — sync when online');
-    } else {
-      toast('Failed to load site: ' + err.message);
+    // Already showing from localStorage cache if we got there
+    if (!currentSite) {
+      const local = sites.find(s => s.id === siteId);
+      if (local) {
+        currentSite = normalizeSite({...local, contracts:[]});
+        siteAssets = [];
+        showSiteScreen();
+        showSiteTab('contracts');
+      } else {
+        toast('Failed to load site');
+      }
     }
+    _siteLoadedFromCloud = true; // allow saves even if cloud failed
   });
 }
 
@@ -1106,19 +1126,26 @@ function debounceSaveSite() {
   clearTimeout(_saveSiteTimer);
   if (!currentSite) return;
 
-  // SAFETY: never overwrite cloud data with empty rooms unless user explicitly cleared them
-  // If we loaded from cloud and rooms are empty but cloud had rooms, skip save
-  if (!_siteLoadedFromCloud && currentSite.id) {
-    // Not yet confirmed loaded from cloud — skip auto-save
-    return;
-  }
-
   // Recalculate walkthrough total
   let total = 0;
   (currentSite.rooms||[]).forEach(r => {
     Object.values(r.equipment||{}).forEach(qty => { total += qty; });
   });
   currentSite.walkthroughTotal = total;
+
+  // Always save to localStorage immediately for offline use
+  try {
+    lsSet('ralco_site_' + currentSite.id, JSON.stringify(currentSite));
+    // Update sites cache too
+    const idx = sites.findIndex(s => s.id === currentSite.id);
+    if (idx >= 0) {
+      sites[idx] = {...sites[idx], walkthroughTotal: total};
+      lsSet('ralco_sites_cache', JSON.stringify(sites));
+    }
+  } catch(e) {}
+
+  // Only save to cloud if loaded from cloud (safety guard)
+  if (!_siteLoadedFromCloud && currentSite.id) return;
 
   _saveSiteTimer = setTimeout(() => {
     fetch(API + '/sites/save', {
