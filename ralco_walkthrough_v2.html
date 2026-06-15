@@ -907,20 +907,38 @@ function showSiteList() {
 }
 
 function loadSites() {
+  // ALWAYS read from localStorage first for instant display
+  try {
+    const cached = lsGet('ralco_sites_cache');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed && parsed.length) {
+        sites = parsed;
+        parsed.forEach(s => syncStatus[s.id] = syncStatus[s.id] || 'synced');
+        renderSiteList(sites);
+      }
+    }
+  } catch(e) {}
+
+  // Then fetch from cloud and update
   fetch(API + '/sites')
   .then(r => r.json())
   .then(data => {
-    // Merge — keep any local sites not yet on cloud
     const cloudIds = new Set(data.map(s => s.id));
     const localOnly = sites.filter(s => !cloudIds.has(s.id));
     sites = [...data, ...localOnly];
-    // Mark cloud sites as synced
     data.forEach(s => syncStatus[s.id] = 'synced');
+    // Write to localStorage cache
+    try { lsSet('ralco_sites_cache', JSON.stringify(sites)); } catch(e) {}
     renderSiteList(sites);
   })
   .catch(() => {
-    // Cloud unavailable — just show local
-    if (!sites.length) renderSiteList([]);
+    // Cloud unavailable — already showing from cache
+    if (sites.length) {
+      try { lsSet('ralco_sites_cache', JSON.stringify(sites)); } catch(e) {}
+    } else {
+      renderSiteList([]);
+    }
   });
 }
 
