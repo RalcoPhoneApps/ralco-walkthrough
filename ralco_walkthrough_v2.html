@@ -926,8 +926,8 @@ function showSiteList() {
       }
     }
   } catch(e) {}
-  // Render whatever we have (cached or empty)
-  renderSiteList(sites.length ? sites : null);
+  // Render whatever we have (cached or empty state)
+  renderSiteList(sites.length ? sites : []);
   // Then sync from cloud in background
   loadSites();
 }
@@ -959,12 +959,13 @@ function loadSites() {
     renderSiteList(sites);
   })
   .catch(() => {
-    // Cloud unavailable — already showing from cache
+    // Cloud unavailable — keep showing whatever is cached, never show empty
     if (sites.length) {
       try { lsSet('ralco_sites_cache', JSON.stringify(sites)); } catch(e) {}
-    } else {
-      renderSiteList([]);
+      renderSiteList(sites);
     }
+    // If truly nothing — show empty state
+    // But don't call renderSiteList([]) if sites has data
   });
 }
 
