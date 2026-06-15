@@ -860,6 +860,8 @@ window.onload = () => {
 
   if (!deviceName) {
     showDeviceSetup();
+    // Still show cached sites even if device not named
+    if (sites.length) renderSiteList(sites);
   } else {
     document.getElementById('device-name-display').textContent = deviceName;
     showSiteList();
@@ -872,7 +874,7 @@ window.onload = () => {
 function showDeviceSetup() {
   document.getElementById('device-setup-banner').style.display = 'block';
   showScreen('sites');
-  renderSiteList([]);
+  // Don't clear sites list — show whatever is cached
 }
 
 function saveDeviceName() {
