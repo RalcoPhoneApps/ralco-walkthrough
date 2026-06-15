@@ -2505,27 +2505,6 @@ function renderSiteAssets() {
 // ═══════════════════════════════════════════════════════
 // EXPORTS
 // ═══════════════════════════════════════════════════════
-function exportSalesBuilder() {
-  if (!currentContract || !currentSite) return;
-  if (!(currentContract.rooms||[]).length) { toast('No rooms in walkthrough'); return; }
-  toast('Generating Sales Builder...');
-  fetch(API + '/export/sales', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
-      site:currentSite,
-      pricing: currentSite.pricing || {}
-    })
-  })
-  .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
-  .then(blob=>{
-    const fname = sanitizeFilename(currentSite.customer) + `_C${currentContract.contractNumber}_EMA_Sales_Builder.xlsx`;
-    downloadBlob(blob, fname);
-    toast('Downloaded: '+fname);
-  })
-  .catch(err=>toast('Export failed: '+err.message));
-}
-
 function exportEPMMaster() {
   if (!currentYear || !currentSite) return;
   const assets = siteAssets.filter(a=>{
@@ -3255,20 +3234,20 @@ function renderSiteAssets() {
 // EXPORTS
 // ═══════════════════════════════════════════════════════
 function exportSalesBuilder() {
-  if (!currentContract || !currentSite) return;
-  if (!(currentContract.rooms||[]).length) { toast('No rooms in walkthrough'); return; }
+  if (!currentSite) return;
+  if (!(currentSite.rooms||[]).length) { toast('No rooms in walkthrough yet'); return; }
   toast('Generating Sales Builder...');
   fetch(API + '/export/sales', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      contract:{...currentContract, rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic'},
+      contract:{rooms:currentSite.rooms||[], buildings:currentSite.buildings||[], tier:currentSite.walkthroughTier||'basic', contractNumber:1},
       site:currentSite,
       pricing: currentSite.pricing || {}
     })
   })
   .then(r=>{ if(!r.ok) return r.json().then(e=>{throw new Error(e.error||'Failed');}); return r.blob(); })
   .then(blob=>{
-    const fname = sanitizeFilename(currentSite.customer) + `_C${currentContract.contractNumber}_EMA_Sales_Builder.xlsx`;
+    const fname = sanitizeFilename(currentSite.customer) + '_EMA_Sales_Builder.xlsx';
     downloadBlob(blob, fname);
     toast('Downloaded: '+fname);
   })
