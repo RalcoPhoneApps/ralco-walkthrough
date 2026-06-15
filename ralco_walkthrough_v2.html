@@ -980,6 +980,7 @@ function newSite() {
   // Add to local list
   sites.unshift(site);
   syncStatus[site.id] = 'local';
+  try { lsSet('ralco_sites_cache', JSON.stringify(sites)); } catch(e) {}
   showSiteScreen();
   showSiteTab('info');
   setTimeout(() => document.getElementById('f-site-customer')?.focus(), 100);
