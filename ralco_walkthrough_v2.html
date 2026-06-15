@@ -898,12 +898,11 @@ function saveDeviceRename() {
 // SITES LIST
 // ═══════════════════════════════════════════════════════
 function showSiteList() {
+  _siteLoadedFromCloud = false; // reset when leaving site
   showScreen('sites');
   document.getElementById('site-search-input').value = '';
-  // Render local data immediately so user sees their sites right away
   if (sites.length) renderSiteList(sites);
   else renderSiteList(null);
-  // Then sync from cloud in background
   loadSites();
 }
 
@@ -971,6 +970,7 @@ function newSite() {
   };
   currentSite = site;
   siteAssets = [];
+  _siteLoadedFromCloud = true; // new site starts empty intentionally
   // Save to cloud in background
   fetch(API + '/sites/save', {
     method:'POST',
@@ -1027,6 +1027,7 @@ function showSite(siteId) {
   })
   .then(assets => {
     siteAssets = assets || [];
+    _siteLoadedFromCloud = true;
     showSiteScreen();
     showSiteTab('contracts');
   })
@@ -1093,20 +1094,31 @@ function saveSiteField(key, val) {
   if (!currentSite) return;
   currentSite[key] = val;
   if (key === 'customer') updateHeader();
+  _siteLoadedFromCloud = true; // user is actively editing — safe to save
   debounceSaveSite();
 }
 
 let _saveSiteTimer = null;
+let _siteLoadedFromCloud = false; // track if site was loaded from cloud
+
 function debounceSaveSite() {
   clearTimeout(_saveSiteTimer);
-  // Recalculate walkthrough total before saving
-  if (currentSite) {
-    let total = 0;
-    (currentSite.rooms||[]).forEach(r => {
-      Object.values(r.equipment||{}).forEach(qty => { total += qty; });
-    });
-    currentSite.walkthroughTotal = total;
+  if (!currentSite) return;
+
+  // SAFETY: never overwrite cloud data with empty rooms unless user explicitly cleared them
+  // If we loaded from cloud and rooms are empty but cloud had rooms, skip save
+  if (!_siteLoadedFromCloud && currentSite.id) {
+    // Not yet confirmed loaded from cloud — skip auto-save
+    return;
   }
+
+  // Recalculate walkthrough total
+  let total = 0;
+  (currentSite.rooms||[]).forEach(r => {
+    Object.values(r.equipment||{}).forEach(qty => { total += qty; });
+  });
+  currentSite.walkthroughTotal = total;
+
   _saveSiteTimer = setTimeout(() => {
     fetch(API + '/sites/save', {
       method:'POST',
@@ -1114,6 +1126,21 @@ function debounceSaveSite() {
       body: JSON.stringify({site: currentSite, deviceId, deviceName: deviceName||'Unnamed Device'})
     }).catch(()=>{});
   }, 800);
+}
+
+function forceSaveSite() {
+  // Explicit save — always goes through regardless of load state
+  if (!currentSite) return;
+  let total = 0;
+  (currentSite.rooms||[]).forEach(r => {
+    Object.values(r.equipment||{}).forEach(qty => { total += qty; });
+  });
+  currentSite.walkthroughTotal = total;
+  fetch(API + '/sites/save', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({site: currentSite, deviceId, deviceName: deviceName||'Unnamed Device'})
+  }).catch(()=>{});
 }
 
 // ═══════════════════════════════════════════════════════
