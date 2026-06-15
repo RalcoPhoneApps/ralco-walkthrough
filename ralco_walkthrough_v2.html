@@ -846,6 +846,18 @@ window.onload = () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
   }
+  // Pre-load sites from localStorage before any rendering
+  try {
+    const cached = lsGet('ralco_sites_cache');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed && parsed.length) {
+        sites = parsed;
+        parsed.forEach(s => syncStatus[s.id] = 'synced');
+      }
+    }
+  } catch(e) {}
+
   if (!deviceName) {
     showDeviceSetup();
   } else {
@@ -898,11 +910,23 @@ function saveDeviceRename() {
 // SITES LIST
 // ═══════════════════════════════════════════════════════
 function showSiteList() {
-  _siteLoadedFromCloud = false; // reset when leaving site
+  _siteLoadedFromCloud = false;
   showScreen('sites');
   document.getElementById('site-search-input').value = '';
-  if (sites.length) renderSiteList(sites);
-  else renderSiteList(null);
+  // Read localStorage cache FIRST before anything else
+  try {
+    const cached = lsGet('ralco_sites_cache');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed && parsed.length) {
+        sites = parsed;
+        parsed.forEach(s => syncStatus[s.id] = syncStatus[s.id] || 'synced');
+      }
+    }
+  } catch(e) {}
+  // Render whatever we have (cached or empty)
+  renderSiteList(sites.length ? sites : null);
+  // Then sync from cloud in background
   loadSites();
 }
 
