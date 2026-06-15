@@ -190,6 +190,7 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showSiteTab('info')">Info</button>
     <button class="nav-tab" onclick="showSiteTab('walkthrough')">Walkthrough</button>
+    <button class="nav-tab" onclick="showSiteTab('summary')">Summary</button>
     <button class="nav-tab" onclick="showSiteTab('contracts')">Contracts</button>
     <button class="nav-tab" onclick="showSiteTab('field')">Field</button>
     <button class="nav-tab" onclick="showSiteTab('assets')">Assets</button>
@@ -285,6 +286,22 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       </div>
     </div>
     <button class="btn btn-green btn-full" onclick="exportSalesBuilder()" style="margin-top:12px">📥 Export Sales Builder</button>
+  </div>
+
+  <div id="site-tab-summary" class="tab-view">
+    <div class="card">
+      <div class="card-title">Equipment Summary</div>
+      <div id="wt-summary-counts"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Field Notes</div>
+      <textarea id="f-site-fieldnotes" rows="4" style="resize:none" placeholder="General site notes, access requirements, contacts on site..." oninput="saveSiteField('fieldNotes',this.value)"></textarea>
+    </div>
+    <div class="card">
+      <div class="card-title">Observations</div>
+      <textarea id="f-site-observations" rows="4" style="resize:none" placeholder="Equipment observations, safety concerns, items flagged during walkthrough..." oninput="saveSiteField('observations',this.value)"></textarea>
+    </div>
+    <button class="btn btn-outline btn-full" onclick="copySummaryText()" style="margin-top:4px">📋 Copy as Text</button>
   </div>
 
   <div id="site-tab-contracts" class="tab-view">
@@ -936,7 +953,7 @@ function renderSiteList(list) {
         <div class="site-customer" style="flex:1">${s.customer || 'Unnamed Site'}</div>
         <span style="font-size:14px;margin-left:8px">${syncIcon}</span>
       </div>
-      <div class="site-meta">${[s.address, contracts+' contract'+(contracts!==1?'s':''), assets+' asset'+(assets!==1?'s':'')].filter(Boolean).join(' · ')}</div>
+      <div class="site-meta">${[s.address, s.walkthroughTotal?(s.walkthroughTotal+' equipment'):null, contracts+' contract'+(contracts!==1?'s':''), assets+' asset'+(assets!==1?'s':'')].filter(Boolean).join(' · ')}</div>
       <div class="site-actions">
         <button class="btn btn-gold btn-sm" style="flex:2" onclick="event.stopPropagation();showSite('${s.id}')">Open</button>
         <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteSite('${s.id}','${(s.customer||'').replace(/'/g,"\\'")}')">✕</button>
@@ -973,6 +990,8 @@ function normalizeSite(site) {
   if (!site.buildings) site.buildings = [];
   if (!site.rooms) site.rooms = [];
   if (!site.walkthroughDate) site.walkthroughDate = '';
+  if (!site.fieldNotes) site.fieldNotes = '';
+  if (!site.observations) site.observations = '';
   if (!site.walkthroughRep) site.walkthroughRep = '';
   // Normalize rooms
   site.rooms.forEach(r => {
@@ -1047,7 +1066,8 @@ function showSiteTab(tab) {
   document.querySelectorAll('#screen-site .tab-view').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('#screen-site .nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('site-tab-' + tab)?.classList.add('active');
-  const tabs = ['info','walkthrough','contracts','field','assets'];
+  const tabs = ['info','walkthrough','summary','contracts','field','assets'];
+  if (tab === 'summary') renderWalkthroughSummary();
   if (tab === 'field') { renderFieldTab(); }
   document.querySelectorAll('#screen-site .nav-tab')[tabs.indexOf(tab)]?.classList.add('active');
   if (tab === 'walkthrough') renderWalkthrough();
@@ -1079,6 +1099,14 @@ function saveSiteField(key, val) {
 let _saveSiteTimer = null;
 function debounceSaveSite() {
   clearTimeout(_saveSiteTimer);
+  // Recalculate walkthrough total before saving
+  if (currentSite) {
+    let total = 0;
+    (currentSite.rooms||[]).forEach(r => {
+      Object.values(r.equipment||{}).forEach(qty => { total += qty; });
+    });
+    currentSite.walkthroughTotal = total;
+  }
   _saveSiteTimer = setTimeout(() => {
     fetch(API + '/sites/save', {
       method:'POST',
@@ -2246,6 +2274,110 @@ function renderAssetEditorBody() {
 // ═══════════════════════════════════════════════════════
 // SITE ASSETS (master list view)
 // ═══════════════════════════════════════════════════════
+function renderWalkthroughSummary() {
+  if (!currentSite) return;
+  setValue('f-site-fieldnotes', currentSite.fieldNotes || '');
+  setValue('f-site-observations', currentSite.observations || '');
+
+  const el = document.getElementById('wt-summary-counts');
+  if (!el) return;
+
+  const rooms = currentSite.rooms || [];
+  if (!rooms.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">No rooms in walkthrough yet.</div>';
+    return;
+  }
+
+  // Tally equipment across all rooms
+  const totals = {};
+  let grandTotal = 0;
+  rooms.forEach(room => {
+    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
+      if (!qty) return;
+      const eq = EQUIPMENT.find(e => e.id === eqId);
+      const label = eq ? eq.label.trim() : eqId;
+      totals[label] = (totals[label] || 0) + qty;
+      grandTotal += qty;
+    });
+  });
+
+  if (!Object.keys(totals).length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">No equipment counted yet.</div>';
+    return;
+  }
+
+  // Group by equipment group
+  const grouped = {};
+  EQUIPMENT.forEach(eq => {
+    const qty = totals[eq.label.trim()];
+    if (!qty) return;
+    if (!grouped[eq.group]) grouped[eq.group] = [];
+    grouped[eq.group].push({label: eq.label.trim(), qty});
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([group, items]) => {
+    html += `<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;border-top:1px solid var(--border);padding-top:10px">${group}</div>`;
+    items.forEach(item => {
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:13px">${item.label}</div>
+        <div style="font-size:15px;font-weight:800;color:var(--gold)">${item.qty}</div>
+      </div>`;
+    });
+  });
+
+  html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 4px;margin-top:8px">
+    <div style="font-size:14px;font-weight:700;color:var(--text)">TOTAL</div>
+    <div style="font-size:20px;font-weight:800;color:var(--gold)">${grandTotal}</div>
+  </div>`;
+
+  el.innerHTML = html;
+}
+
+function copySummaryText() {
+  if (!currentSite) return;
+  const rooms = currentSite.rooms || [];
+  const pricing = currentSite.pricing || {};
+  const tier = SVC_TYPES.find(s => s.id === (currentSite.walkthroughTier || 'basic'));
+
+  let text = 'RALCO MAINTENANCE & TESTING+\n';
+  text += '========================\n';
+  text += `Customer: ${currentSite.customer || ''}\n`;
+  if (currentSite.address) text += `Location: ${currentSite.address}\n`;
+  if (currentSite.walkthroughDate) text += `Date: ${currentSite.walkthroughDate}\n`;
+  if (currentSite.walkthroughRep) text += `Rep: ${currentSite.walkthroughRep}\n`;
+  text += `Tier: ${tier ? tier.name : ''}\n`;
+
+  text += '\nEQUIPMENT COUNT\n';
+  text += '---------------\n';
+
+  const totals = {};
+  let grandTotal = 0;
+  rooms.forEach(room => {
+    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
+      if (!qty) return;
+      const eq = EQUIPMENT.find(e => e.id === eqId);
+      const label = eq ? eq.label.trim() : eqId;
+      totals[label] = (totals[label] || 0) + qty;
+      grandTotal += qty;
+    });
+  });
+
+  Object.entries(totals).forEach(([label, qty]) => {
+    text += `${label}: ${qty}\n`;
+  });
+  text += `TOTAL: ${grandTotal}\n`;
+
+  if (currentSite.fieldNotes) {
+    text += `\nFIELD NOTES\n-----------\n${currentSite.fieldNotes}\n`;
+  }
+  if (currentSite.observations) {
+    text += `\nOBSERVATIONS\n------------\n${currentSite.observations}\n`;
+  }
+
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+}
+
 function renderSiteAssets() {
   const el = document.getElementById('site-asset-list');
   if (!el) return;
@@ -2891,6 +3023,110 @@ function renderAssetEditorBody() {
 // ═══════════════════════════════════════════════════════
 // SITE ASSETS (master list view)
 // ═══════════════════════════════════════════════════════
+function renderWalkthroughSummary() {
+  if (!currentSite) return;
+  setValue('f-site-fieldnotes', currentSite.fieldNotes || '');
+  setValue('f-site-observations', currentSite.observations || '');
+
+  const el = document.getElementById('wt-summary-counts');
+  if (!el) return;
+
+  const rooms = currentSite.rooms || [];
+  if (!rooms.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">No rooms in walkthrough yet.</div>';
+    return;
+  }
+
+  // Tally equipment across all rooms
+  const totals = {};
+  let grandTotal = 0;
+  rooms.forEach(room => {
+    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
+      if (!qty) return;
+      const eq = EQUIPMENT.find(e => e.id === eqId);
+      const label = eq ? eq.label.trim() : eqId;
+      totals[label] = (totals[label] || 0) + qty;
+      grandTotal += qty;
+    });
+  });
+
+  if (!Object.keys(totals).length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">No equipment counted yet.</div>';
+    return;
+  }
+
+  // Group by equipment group
+  const grouped = {};
+  EQUIPMENT.forEach(eq => {
+    const qty = totals[eq.label.trim()];
+    if (!qty) return;
+    if (!grouped[eq.group]) grouped[eq.group] = [];
+    grouped[eq.group].push({label: eq.label.trim(), qty});
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([group, items]) => {
+    html += `<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;border-top:1px solid var(--border);padding-top:10px">${group}</div>`;
+    items.forEach(item => {
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:13px">${item.label}</div>
+        <div style="font-size:15px;font-weight:800;color:var(--gold)">${item.qty}</div>
+      </div>`;
+    });
+  });
+
+  html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 4px;margin-top:8px">
+    <div style="font-size:14px;font-weight:700;color:var(--text)">TOTAL</div>
+    <div style="font-size:20px;font-weight:800;color:var(--gold)">${grandTotal}</div>
+  </div>`;
+
+  el.innerHTML = html;
+}
+
+function copySummaryText() {
+  if (!currentSite) return;
+  const rooms = currentSite.rooms || [];
+  const pricing = currentSite.pricing || {};
+  const tier = SVC_TYPES.find(s => s.id === (currentSite.walkthroughTier || 'basic'));
+
+  let text = 'RALCO MAINTENANCE & TESTING+\n';
+  text += '========================\n';
+  text += `Customer: ${currentSite.customer || ''}\n`;
+  if (currentSite.address) text += `Location: ${currentSite.address}\n`;
+  if (currentSite.walkthroughDate) text += `Date: ${currentSite.walkthroughDate}\n`;
+  if (currentSite.walkthroughRep) text += `Rep: ${currentSite.walkthroughRep}\n`;
+  text += `Tier: ${tier ? tier.name : ''}\n`;
+
+  text += '\nEQUIPMENT COUNT\n';
+  text += '---------------\n';
+
+  const totals = {};
+  let grandTotal = 0;
+  rooms.forEach(room => {
+    Object.entries(room.equipment || {}).forEach(([eqId, qty]) => {
+      if (!qty) return;
+      const eq = EQUIPMENT.find(e => e.id === eqId);
+      const label = eq ? eq.label.trim() : eqId;
+      totals[label] = (totals[label] || 0) + qty;
+      grandTotal += qty;
+    });
+  });
+
+  Object.entries(totals).forEach(([label, qty]) => {
+    text += `${label}: ${qty}\n`;
+  });
+  text += `TOTAL: ${grandTotal}\n`;
+
+  if (currentSite.fieldNotes) {
+    text += `\nFIELD NOTES\n-----------\n${currentSite.fieldNotes}\n`;
+  }
+  if (currentSite.observations) {
+    text += `\nOBSERVATIONS\n------------\n${currentSite.observations}\n`;
+  }
+
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+}
+
 function renderSiteAssets() {
   const el = document.getElementById('site-asset-list');
   if (!el) return;
