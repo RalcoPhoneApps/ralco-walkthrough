@@ -27,7 +27,7 @@ header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 1
 .screen.active{display:block}
 /* NAV TABS */
 .nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:63px;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}.nav-tabs::-webkit-scrollbar{display:none}
-.nav-tab{flex-shrink:0;padding:10px 12px;text-align:center;font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;-webkit-user-select:none;user-select:none}
+.nav-tab{flex-shrink:0 !important;min-width:fit-content;padding:10px 12px;text-align:center;font-size:10px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap !important;-webkit-user-select:none;user-select:none}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .tab-view{display:none;padding:16px;padding-bottom:80px}
 .tab-view.active{display:block}
