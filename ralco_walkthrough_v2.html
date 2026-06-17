@@ -202,7 +202,10 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <label>Customer / Facility Name</label>
       <input type="text" id="f-site-customer" placeholder="e.g. Dighton Power" oninput="saveSiteField('customer',this.value)">
       <div class="mt"><label>Address</label>
-      <input type="text" id="f-site-address" placeholder="e.g. 1450 Somerset Ave, Dighton MA" oninput="saveSiteField('address',this.value)"></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="text" id="f-site-address" placeholder="e.g. 1450 Somerset Ave, Dighton MA" oninput="saveSiteField('address',this.value)" style="flex:1">
+        <a id="maps-link" href="#" target="_blank" style="color:var(--gold);font-size:20px;text-decoration:none;flex-shrink:0" title="Open in Maps">📍</a>
+      </div></div>
       <div class="mt">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <label style="margin:0">Site Contacts</label>
@@ -1032,7 +1035,12 @@ function renderSiteList(list) {
         <div class="site-customer" style="flex:1">${s.customer || 'Unnamed Site'}</div>
         <span style="font-size:14px;margin-left:8px">${syncIcon}</span>
       </div>
-      <div class="site-meta">${[s.address, s.walkthroughTotal?(s.walkthroughTotal+' equipment'):null, contracts+' contract'+(contracts!==1?'s':''), assets+' asset'+(assets!==1?'s':'')].filter(Boolean).join(' · ')}</div>
+      <div class="site-meta">
+        ${s.address ? `<a href="https://maps.google.com/?q=${encodeURIComponent(s.address)}" target="_blank" style="color:var(--muted);text-decoration:none" onclick="event.stopPropagation()">📍 ${s.address}</a>` : ''}
+        ${s.address ? '<br>' : ''}
+        ${[s.walkthroughTotal?(s.walkthroughTotal+' equipment'):null, contracts+' contract'+(contracts!==1?'s':''), assets+' asset'+(assets!==1?'s':'')].filter(Boolean).join(' · ')}
+      </div>
+      ${(s.contacts||[]).find(c=>c.phone) ? `<div style="margin:6px 0 2px"><a href="tel:${((s.contacts||[]).find(c=>c.phone)||{}).phone.replace(/[^0-9+]/g,'')}" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:none" onclick="event.stopPropagation()">📞 ${((s.contacts||[]).find(c=>c.phone)||{}).phone}</a></div>` : ''}
       <div class="site-actions">
         <button class="btn btn-gold btn-sm" style="flex:2" onclick="event.stopPropagation();showSite('${s.id}')">Open</button>
         <button class="btn btn-red btn-sm" onclick="event.stopPropagation();deleteSite('${s.id}','${(s.customer||'').replace(/'/g,"\\'")}')">✕</button>
@@ -1270,6 +1278,8 @@ function renderSiteInfo() {
   setValue('f-site-notes', s.notes);
   setSelectValue('f-site-status', s.status || '');
   renderContacts();
+  const mapsLink = document.getElementById('maps-link');
+  if (mapsLink) mapsLink.href = s.address ? 'https://maps.google.com/?q=' + encodeURIComponent(s.address) : '#';
 }
 
 function renderWalkthroughFields() {
@@ -1282,7 +1292,11 @@ function saveSiteField(key, val) {
   if (!currentSite) return;
   currentSite[key] = val;
   if (key === 'customer') updateHeader();
-  _siteLoadedFromCloud = true; // user is actively editing — safe to save
+  if (key === 'address') {
+    const mapsLink = document.getElementById('maps-link');
+    if (mapsLink) mapsLink.href = val ? 'https://maps.google.com/?q=' + encodeURIComponent(val) : '#';
+  }
+  _siteLoadedFromCloud = true;
   debounceSaveSite();
 }
 
@@ -1362,7 +1376,11 @@ function renderContractList() {
       </div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${c.tier ? (TIERS.find(t=>t.id===c.tier)||{name:c.tier}).name : 'No tier set'}</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        ${years.map(y => `<span style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer" onclick="event.stopPropagation();openYear('${y.id}')">${y.label}</span>`).join('')}
+        ${years.map(y => {
+          const yColor = {Complete:'var(--green)','In Progress':'var(--gold)',Scheduled:'var(--muted)'}[y.status||'Scheduled']||'var(--muted)';
+          const yBg = {Complete:'rgba(46,204,113,0.12)','In Progress':'rgba(255,170,0,0.12)',Scheduled:'rgba(255,255,255,0.05)'}[y.status||'Scheduled']||'rgba(255,255,255,0.05)';
+          return `<span style="background:${yBg};border:1px solid ${yColor};border-radius:4px;padding:3px 8px;font-size:11px;font-weight:700;cursor:pointer;color:${yColor}" onclick="event.stopPropagation();openYear('${y.id}')">${y.label}</span>`;
+        }).join('')}
         ${years.length < 3 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();addYear('${c.id}')" style="padding:3px 8px;font-size:11px">+ Year</button>` : ''}
       </div>
     </div>`;
