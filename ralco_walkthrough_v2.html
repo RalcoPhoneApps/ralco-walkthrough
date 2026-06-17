@@ -26,7 +26,7 @@ header{background:var(--navy);border-bottom:3px solid var(--gold);padding:12px 1
 .screen{display:none;min-height:calc(100vh - 63px)}
 .screen.active{display:block}
 /* NAV TABS */
-.nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:63px;z-index:100}
+.nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:63px;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}.nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{flex:1;min-width:0;padding:11px 4px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .tab-view{display:none;padding:16px;padding-bottom:80px}
@@ -203,9 +203,12 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
       <input type="text" id="f-site-customer" placeholder="e.g. Dighton Power" oninput="saveSiteField('customer',this.value)">
       <div class="mt"><label>Address</label>
       <input type="text" id="f-site-address" placeholder="e.g. 1450 Somerset Ave, Dighton MA" oninput="saveSiteField('address',this.value)"></div>
-      <div class="row mt">
-        <div><label>Contact Name</label><input type="text" id="f-site-contact" placeholder="Optional" oninput="saveSiteField('contact',this.value)"></div>
-        <div><label>Phone</label><input type="text" id="f-site-phone" placeholder="Optional" oninput="saveSiteField('phone',this.value)"></div>
+      <div class="mt">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="margin:0">Site Contacts</label>
+          <button class="btn btn-gold btn-sm" onclick="showAddContact()">+ Add</button>
+        </div>
+        <div id="site-contacts-list"></div>
       </div>
       <div class="mt"><label>Job Status</label>
       <select id="f-site-status" onchange="saveSiteField('status',this.value)">
@@ -432,6 +435,28 @@ label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
     <p style="font-size:12px;color:var(--muted)">Sites are permanently deleted after 30 days.</p>
   </div>
   <div id="deleted-list" style="padding:0 16px"></div>
+</div>
+
+<!-- CONTACT EDITOR MODAL -->
+<div class="modal-overlay center" id="contact-modal">
+  <div style="background:var(--surface);border:1px solid var(--gold);border-radius:16px;padding:24px 20px;width:calc(100% - 40px);max-width:400px">
+    <h2 style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:16px" id="contact-modal-title">Add Contact</h2>
+    <input type="hidden" id="contact-edit-idx" value="-1">
+    <div class="ae-field"><label>Name</label>
+      <input type="text" id="f-contact-name" placeholder="e.g. John Smith"></div>
+    <div class="ae-field"><label>Title / Role</label>
+      <input type="text" id="f-contact-title" placeholder="e.g. Plant Manager"></div>
+    <div class="ae-field"><label>Phone</label>
+      <input type="tel" id="f-contact-phone" placeholder="e.g. 508-555-1234"></div>
+    <div class="ae-field"><label>Email</label>
+      <input type="email" id="f-contact-email" placeholder="e.g. john@company.com"></div>
+    <div class="ae-field"><label>Notes</label>
+      <input type="text" id="f-contact-notes" placeholder="e.g. Call before arriving"></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-outline" style="flex:1" onclick="closeContactModal()">Cancel</button>
+      <button class="btn btn-gold" style="flex:1" onclick="saveContact()">Save</button>
+    </div>
+  </div>
 </div>
 
 <!-- ASSET EDITOR MODAL -->
@@ -1150,6 +1175,91 @@ function showSiteTab(tab) {
   if (tab === 'walkthrough') renderWalkthrough();
 }
 
+// ── Contacts ──────────────────────────────────────────────────
+function renderContacts() {
+  const el = document.getElementById('site-contacts-list');
+  if (!el || !currentSite) return;
+  const contacts = currentSite.contacts || [];
+  if (!contacts.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px 0">No contacts yet — tap + Add to add one.</div>';
+    return;
+  }
+  el.innerHTML = contacts.map((c, idx) => `
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <div style="font-size:14px;font-weight:700">${c.name||'Unnamed'}</div>
+          ${c.title?`<div style="font-size:11px;color:var(--muted)">${c.title}</div>`:''}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-outline btn-sm" onclick="editContact(${idx})" style="padding:4px 8px;font-size:11px">✏️</button>
+          <button class="btn btn-red btn-sm" onclick="deleteContact(${idx})" style="padding:4px 8px;font-size:11px">✕</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        ${c.phone?`<a href="tel:${c.phone.replace(/[^0-9+]/g,'')}" style="color:var(--gold);font-size:13px;font-weight:600;text-decoration:none">📞 ${c.phone}</a>`:''}
+        ${c.email?`<a href="mailto:${c.email}" style="color:#7ec8ff;font-size:13px;text-decoration:none">✉ ${c.email}</a>`:''}
+        ${c.notes?`<div style="font-size:11px;color:var(--muted);margin-top:2px">💬 ${c.notes}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function showAddContact() {
+  document.getElementById('contact-modal-title').textContent = 'Add Contact';
+  document.getElementById('contact-edit-idx').value = '-1';
+  document.getElementById('f-contact-name').value = '';
+  document.getElementById('f-contact-title').value = '';
+  document.getElementById('f-contact-phone').value = '';
+  document.getElementById('f-contact-email').value = '';
+  document.getElementById('f-contact-notes').value = '';
+  document.getElementById('contact-modal').classList.add('open');
+  setTimeout(() => document.getElementById('f-contact-name').focus(), 100);
+}
+
+function editContact(idx) {
+  const c = (currentSite.contacts||[])[idx]; if (!c) return;
+  document.getElementById('contact-modal-title').textContent = 'Edit Contact';
+  document.getElementById('contact-edit-idx').value = idx;
+  document.getElementById('f-contact-name').value = c.name || '';
+  document.getElementById('f-contact-title').value = c.title || '';
+  document.getElementById('f-contact-phone').value = c.phone || '';
+  document.getElementById('f-contact-email').value = c.email || '';
+  document.getElementById('f-contact-notes').value = c.notes || '';
+  document.getElementById('contact-modal').classList.add('open');
+}
+
+function saveContact() {
+  const idx = parseInt(document.getElementById('contact-edit-idx').value);
+  const contact = {
+    name:  document.getElementById('f-contact-name').value.trim(),
+    title: document.getElementById('f-contact-title').value.trim(),
+    phone: document.getElementById('f-contact-phone').value.trim(),
+    email: document.getElementById('f-contact-email').value.trim(),
+    notes: document.getElementById('f-contact-notes').value.trim(),
+  };
+  if (!contact.name && !contact.phone) { toast('Enter at least a name or phone'); return; }
+  if (!currentSite.contacts) currentSite.contacts = [];
+  if (idx >= 0) currentSite.contacts[idx] = contact;
+  else currentSite.contacts.push(contact);
+  closeContactModal();
+  _siteLoadedFromCloud = true;
+  debounceSaveSite();
+  renderContacts();
+}
+
+function deleteContact(idx) {
+  if (!confirm('Remove this contact?')) return;
+  if (!currentSite.contacts) return;
+  currentSite.contacts.splice(idx, 1);
+  _siteLoadedFromCloud = true;
+  debounceSaveSite();
+  renderContacts();
+}
+
+function closeContactModal() {
+  document.getElementById('contact-modal').classList.remove('open');
+}
+
 function renderSiteInfo() {
   if (!currentSite) return;
   const s = currentSite;
@@ -1159,6 +1269,7 @@ function renderSiteInfo() {
   setValue('f-site-phone', s.phone);
   setValue('f-site-notes', s.notes);
   setSelectValue('f-site-status', s.status || '');
+  renderContacts();
 }
 
 function renderWalkthroughFields() {
